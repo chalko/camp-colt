@@ -1,12 +1,30 @@
-# Gas City
+# Child Rigs (each is an independent git repo)
+rigs/
+rigs/*
+
+# Gas City runtime & sessions
 .gc/
+.claude/
+.codex/
+agent-keys/
+bin/
+.config/
+
+# Beads & Dolt databases
 .beads/*
 !.beads/identity.toml
+!.beads/config.yaml
+!.beads/metadata.json
+!.beads/.gitignore
+!.beads/README.md
 hooks/
-
-# Beads / Dolt files (added by bd init)
 .dolt/
 *.db
 .beads-credential-key
 .beads/proxieddb/
-*.gate.lock*
+config.env
+.worktrees/
+.logs/
+build/
+gascity
+*.lock
