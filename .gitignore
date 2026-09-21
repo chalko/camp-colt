@@ -19,6 +19,7 @@ bin/
 !.beads/README.md
 hooks/
 .dolt/
+.dolt-backup/
 *.db
 .beads-credential-key
 .beads/proxieddb/
