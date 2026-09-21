@@ -26,5 +26,5 @@ config.env
 .worktrees/
 .logs/
 build/
-gascity
+/gascity
 *.lock
