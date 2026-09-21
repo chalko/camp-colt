@@ -1,0 +1,7 @@
+scope = "rig"
+dir = "rigs/suitcase-ai"
+provider = "antigravity"
+
+[env]
+VAULT_ADDR = "https://10.82.0.5:8200"
+VAULT_SKIP_VERIFY = "true"

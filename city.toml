@@ -19,6 +19,12 @@ version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
 # "7d" is not a valid Go duration.
 # retention_ttl = "0"
 
+[[named_session]]
+name = "colt-sysadmin"
+template = "colt-sysadmin"
+dir = "rigs/suitcase-ai"
+mode = "always"
+
 [[rigs]]
 name = "suitcase-ai"
 prefix = "sa"
