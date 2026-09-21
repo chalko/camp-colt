@@ -3,5 +3,6 @@ dir = "rigs/suitcase-ai"
 provider = "antigravity"
 
 [env]
+GIT_SSH_COMMAND = "ssh -p 30222 -o IdentitiesOnly=yes -i /home/camp-colt-mayor-agent/.ssh/agents/id_ed25519_colt_sysadmin"
 VAULT_ADDR = "https://10.82.0.5:8200"
 VAULT_SKIP_VERIFY = "true"
