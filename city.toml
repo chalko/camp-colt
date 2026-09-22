@@ -1,6 +1,9 @@
 [workspace]
 provider = "antigravity"
 
+[session]
+provider = "herdr"
+
 [providers]
 [providers.antigravity]
 base = "builtin:antigravity"
