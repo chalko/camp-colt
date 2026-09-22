@@ -117,19 +117,33 @@ Establish an empirical, verifiable performance profile of the active local model
      - Needle-in-a-haystack: Retrieval of critical operational tokens embedded within large codebase contexts.
      - Metric: Token degradation threshold (identifying the effective working context ceiling before hallucination occurs).
 
-4. **Step 1.4 — Sparkleader Dossier Authoring:**
-   - Synthesize benchmark data into an authoritative dossier located at `docs/models/sparkleader-nemotron-49b.md`.
-   - The dossier must contain:
-     - Model Name, Architecture, Weights, and Quantization.
-     - Optimal System Prompt Templates (system prompt framing, temperature recommendations, top_p, presence penalty).
-     - Demonstrated Strengths (e.g., exceptional architectural reasoning, clean Go code generation).
-     - Known Operational Weaknesses (e.g., verbosity tendencies under broad prompts, degradation past 24k tokens).
-     - Gas City Tooling Best Practices (how to format tool calls to guarantee 100% schema parse success).
+4. **Step 1.4 — Sparkleader Dossier Authoring & Scoring Architecture:**
+   - **Internal Sovereign Framework:** Sparkleader serves as Camp Colt's authoritative internal benchmark standard and capability dossier for qualifying sovereign local LLMs for autonomous agent billets.
+   - **Composite Scoring Rubric:**
+     $$\text{Composite Score} = (0.25 \times \text{Battery A}) + (0.30 \times \text{Battery B}) + (0.25 \times \text{Battery C}) + (0.20 \times \text{Battery D})$$
+     - *Battery A (Instruction & Negative Constraints):* Binary pass rate on negative rule violations and adversarial boundaries.
+     - *Battery B (Code Generation):* Syntactic correctness and idiomatic completion across Go, Python, and Bash.
+     - *Battery C (Tool Calling & Schema Compliance):* Schema compliance percentage ($1.0 - \text{Parse Error Rate}$) $\times$ Restraint Score. (Autonomous deployment gate: schema parse failure rate $<1.0\%$).
+     - *Battery D (Context Limits & Needle Degradation):* Needle retrieval accuracy across 4k, 16k, and 32k tokens.
+   - **Operational Qualification Tiers:**
+     - **Tier 1 (90.0% – 100%): Full Sovereign Autonomous Worker.** Qualified for autonomous sling (`gc sling`) across rigs (`colt-utils`, etc.), multi-turn coding, and self-directed bead closure.
+     - **Tier 2 (80.0% – 89.9%): Supervised Tactical Worker.** Qualified for bounded single-turn tasks and utility scripts; requires LiteLLM schema validation proxies or prompt guards.
+     - **Tier 3 (70.0% – 79.9%): Auxiliary / Read-Only Agent.** Restricted to classification, telemetry summarization, or documentation indexing; disallowed from write/mutate tools.
+     - **Tier 4 (< 70.0%): Disqualified / Non-Compliant.** Fails security boundaries or exhibits high schema corruption; prohibited from live agent dispatch.
+   - **Authoritative 7-Section Dossier Specification (`docs/models/sparkleader-nemotron-49b.md`):**
+     1. *Metadata Block:* Model ID, Target Node (`colt-gpu-01`), Quantization, Context Allocation (`max_model_len = 32768`), Effective Window, Evaluator, Composite Score & Tier.
+     2. *Executive Summary & Sovereign Billet Fit:* High-level capability summary and authorized operational roles.
+     3. *Hardware & Runtime Telemetry:* Fast-cache footprint, PCIe NVMe hydration latency, page cache hygiene (`drop_caches`), and concurrency ceilings.
+     4. *Empirical Benchmark Battery Scorecard:* Tabular breakdown of scores and pass/fail states across Batteries A–D.
+     5. *Demonstrated Strengths & Known Failure Modes:* Architectural strengths vs. failure symptoms (e.g. verbosity triggers, degradation past 24k tokens).
+     6. *Optimal Prompting & Hyperparameter Profile:* Temperature, top_p, penalty settings, and system prompt framing templates.
+     7. *Tool-Calling Guidelines & Rig Binding:* Gas City schema formatting recommendations, LiteLLM sanitization patterns, and per-rig allocation rules.
 
 #### 1.3 Verification Gates & Exit Criteria
 - [ ] Telemetry confirmed by `colt-sysadmin`.
 - [ ] All 4 benchmark batteries executed with reproducible output logs stored in `rigs/colt-results/benchmarks/`.
-- [ ] Sparkleader dossier authored, formatted, and committed to git.
+- [ ] Sparkleader dossier authored, formatted to the 7-section specification, and committed to git.
+- [ ] Quality gate inspection conducted with `s6-signal`.
 - [ ] S-3 review brief transmitted to `cos`.
 
 ---
