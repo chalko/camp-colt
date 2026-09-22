@@ -19,10 +19,29 @@ version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
 # "7d" is not a valid Go duration.
 # retention_ttl = "0"
 
+# Battalion Executive Officer / Operational Command
+[[named_session]]
+name = "cos"
+template = "cos"
+mode = "always"
+
+# Platform Chief / Warrant Officer (Infra Specialist)
 [[named_session]]
 name = "colt-sysadmin"
 template = "colt-sysadmin"
 dir = "rigs/suitcase-ai"
+mode = "always"
+
+# S-3 Operations / Combat Operations Center Lead
+[[named_session]]
+name = "s3-operations"
+template = "s3-operations"
+mode = "always"
+
+# S-6 Signal / Communications, Routing & PR Verification
+[[named_session]]
+name = "s6-signal"
+template = "s6-signal"
 mode = "always"
 
 [[rigs]]
@@ -36,6 +55,31 @@ version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
 
 [[rigs]]
 name = "go_template_rule"
+default_branch = "main"
+[rigs.imports]
+[rigs.imports.gc]
+source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
+version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
+
+[dolt]
+read_timeout_millis = 300000
+
+[beads.policies.order_tracking]
+delete_after_close = "1h"
+
+
+[[rigs]]
+name = "colt-utils"
+prefix = "cu"
+default_branch = "main"
+[rigs.imports]
+[rigs.imports.gc]
+source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
+version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
+
+[[rigs]]
+name = "colt-results"
+prefix = "cr"
 default_branch = "main"
 [rigs.imports]
 [rigs.imports.gc]
