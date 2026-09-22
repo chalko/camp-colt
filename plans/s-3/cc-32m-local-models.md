@@ -1,0 +1,261 @@
+# Operational Plan 2026-09-01: Local Model Capabilities, Rig Pilot & Sovereign Deployment Architecture
+
+**Plan Identifier:** `OPLAN-COLT-2026-09-01-LOCAL-MODELS`  
+**Tracking Epic:** `cc-32m` (P1)  
+**Lead Action Officer:** S-3 Operations (`s3-operations`), Camp Colt  
+**Reviewing Authority:** Chief of Staff (`cos`), Camp Colt  
+**Coordinating Officers:** Platform Chief (`colt-sysadmin`), S-6 Signal (`s6-signal`), S-4 Logistics (`s4-logistics`), Mayor (`ike`)  
+**Target Environment:** Camp Colt Sovereign AI Cluster (`10.82.0.0/16`)  
+**Status:** DRAFT (Submitted for Staff Review)  
+**Doctrine Standard:** Completed Staff Work (MCTP 3-30A)  
+
+---
+
+## 1. Executive Summary & Operational Context
+
+Camp Colt operates as the sovereign command post, AI agent factory, and offline-first computing enclave for Suitcase AI. To preserve computational sovereignty, minimize external token egress, and ensure mission survivability during network partitions or degraded communications, Camp Colt maintains dedicated on-premise neural inference infrastructure centered on hardware accelerators (specifically the ASUS Ascent GX10 GB10 node, `colt-gpu-01`).
+
+While underlying infrastructure (Kubernetes, container runtimes, GPU drivers, and baseline model cache deployments) has been stood up by Platform Engineering (`colt-sysadmin`), operationalizing these local models into reliable, autonomous agent execution workflows requires a rigorous, phased operational framework.
+
+This Operational Plan outlines the execution strategy for **Epic `cc-32m`**, decomposed across four distinct phases:
+1. **Phase 1 (`cc-32m.1`): Local Model Specification Audit & Capability Dossier (Sparkleader)**
+2. **Phase 2 (`cc-32m.2`): LiteLLM Translation Gateway & Proxy Architecture**
+3. **Phase 3 (`cc-32m.3`): Tactical Worker Pilot on `rigs/colt-utils`**
+4. **Phase 4 (`cc-32m.4`): Per-Rig Standard Operating Procedure (SOP) & Offline Compliance**
+
+---
+
+## 2. Task Organization & Command Billets
+
+```
+                     ┌──────────────────────────────┐
+                     │   Mayor / Executive Officer  │
+                     │          (ike/mayor)         │
+                     └──────────────┬───────────────┘
+                                    │
+                     ┌──────────────┴───────────────┐
+                     │        Chief of Staff        │
+                     │            (cos)             │
+                     └──────┬───────────────┬───────┘
+                            │               │
+       ┌────────────────────┴─────┐   ┌─────┴────────────────────┐
+       │      S-3 Operations      │   │      Platform Chief      │
+       │     (s3-operations)      │   │     (colt-sysadmin)      │
+       │   • Operational Plan     │   │   • Host vLLM/NIM Engine │
+       │   • Bead Decomp/Tracking │   │   • Hardware Telemetry   │
+       │   • Worker Coordination  │   │   • K8s Ingress/Network  │
+       └────────────┬─────────────┘   └──────────────────────────┘
+                    │
+       ┌────────────┴─────────────┐
+       │   Coordinating Sections  │
+       │   • S-6 Signal (Quality) │
+       │   • S-4 Logistics (Cost) │
+       └──────────────────────────┘
+```
+
+| Billet | Designation | Core Role in Operation cc-32m |
+|---|---|---|
+| **`cos`** | Chief of Staff | Approving authority; sets strategic priorities; validates completed staff work before operator submission. |
+| **`s3-operations`** | Operations Officer | Author of operational plan; bead decomposition (`gc bd`); Combat Operations Center (COC) tracking; test harness execution. |
+| **`colt-sysadmin`** | Platform Chief (SRE) | Host-level execution; vLLM/NIM container maintenance; GPU allocation and telemetry reporting; cluster network ingress. |
+| **`s6-signal`** | Signal Officer | Gateway routing verification; prompt/response sanitization audit; SITREP publication; PR quality gate reviews. |
+| **`s4-logistics`** | Logistics Officer | GPU power draw monitoring; inference token accounting; NVMe fast-cache utilization tracking. |
+
+---
+
+## 3. Phased Execution Matrix
+
+```mermaid
+flowchart LR
+    P1["Phase 1 (cc-32m.1)<br/>Model Audit & Sparkleader Dossier"] --> P2["Phase 2 (cc-32m.2)<br/>LiteLLM Proxy & Gateway Architecture"]
+    P2 --> P3["Phase 3 (cc-32m.3)<br/>Live Worker Pilot on colt-utils"]
+    P3 --> P4["Phase 4 (cc-32m.4)<br/>Per-Rig SOP & Air-Gap Compliance"]
+```
+
+---
+
+### Phase 1: Local Model Specification Audit & Capabilities Benchmarking (`cc-32m.1`)
+
+#### 1.1 Objective
+Establish an empirical, verifiable performance profile of the active local models serving Camp Colt (specifically `nvidia/llama-3.3-nemotron-super-49b-v1.5` and auxiliary models such as `North-Mini-Code-NVFP4` or Ollama targets). Produce the authoritative **Sparkleader Dossier** documenting operational limits, failure modes, and prompting parameters.
+
+#### 1.2 Step-by-Step Execution Procedure
+
+```
+[ Step 1.1: Platform Coordination RFI ] ───► Transmit RFI to colt-sysadmin for engine telemetry
+                    │
+[ Step 1.2: Model Endpoint Audit ]     ───► Query /v1/models & /health endpoints via HTTP
+                    │
+[ Step 1.3: Benchmark Battery Execution ] ─► Run 4-Stage Test Battery (Instruction, Code, Schema, Context)
+                    │
+[ Step 1.4: Dossier Compilation ]       ───► Author docs/models/SPARKLEADER_NEMOTRON_49B.md
+                    │
+[ Step 1.5: Verification & Gate ]       ───► Submit to cos and close cc-32m.1
+```
+
+1. **Step 1.1 — Platform Coordination & Telemetry Acquisition:**
+   - Coordinate with `colt-sysadmin` via `gc mail` to confirm active endpoints, quantization method (e.g. FP8 / NVFP4 / SafeTensors), context allocation (`max_model_len = 32768`), and GPU memory reservation (`0.75`).
+   - Log all confirmed runtime parameters in the planning ledger.
+
+2. **Step 1.2 — Endpoint & Readiness Audit:**
+   - Validate HTTP accessibility of the local OpenAI-compatible inference endpoint (e.g. `http://litellm.colt.internal:4000/v1` or internal service mesh URL).
+   - Verify model discovery via `GET /v1/models` and measure cold/warm latency on `/health`.
+
+3. **Step 1.3 — Raw Capabilities Benchmark Battery:**
+   S-3 will execute a four-part standardized evaluation battery:
+   - **Battery A: Instruction Following & Negative Constraint Adherence**
+     - Multi-constraint prompt: System prompts demanding strict POSIX compliance, no markdown fluff, and adherence to specific tool parameters.
+     - Metric: Binary pass/fail on negative rule violations (e.g., did the model execute forbidden root commands or hallucinate external dependencies?).
+   - **Battery B: Code Generation & Syntactic Accuracy**
+     - Target languages: Go (for Gas City core and rig tooling), Bash (for operational automation), and Python (for utility scripts).
+     - Metric: Syntax validity, absence of deprecated idioms, and execution success in isolated scratch sandboxes.
+   - **Battery C: Tool-Calling & Structured Schema Compliance**
+     - Function calling: Evaluate strict JSON/schema parsing against Gas City and Antigravity tool definitions (`tool_calls` format, nested parameter schemas).
+     - Metric: Schema parse failure rate (<1% required for autonomous worker deployment).
+   - **Battery D: Context Window & Multi-Turn Degradation Limits**
+     - Token saturation test: Stepwise expansion from 4k -> 8k -> 16k -> 32k tokens.
+     - Needle-in-a-haystack: Retrieval of critical operational tokens embedded within large codebase contexts.
+     - Metric: Token degradation threshold (identifying the effective working context ceiling before hallucination occurs).
+
+4. **Step 1.4 — Sparkleader Dossier Authoring:**
+   - Synthesize benchmark data into an authoritative dossier located at `docs/models/sparkleader-nemotron-49b.md`.
+   - The dossier must contain:
+     - Model Name, Architecture, Weights, and Quantization.
+     - Optimal System Prompt Templates (system prompt framing, temperature recommendations, top_p, presence penalty).
+     - Demonstrated Strengths (e.g., exceptional architectural reasoning, clean Go code generation).
+     - Known Operational Weaknesses (e.g., verbosity tendencies under broad prompts, degradation past 24k tokens).
+     - Gas City Tooling Best Practices (how to format tool calls to guarantee 100% schema parse success).
+
+#### 1.3 Verification Gates & Exit Criteria
+- [ ] Telemetry confirmed by `colt-sysadmin`.
+- [ ] All 4 benchmark batteries executed with reproducible output logs stored in `rigs/colt-results/benchmarks/`.
+- [ ] Sparkleader dossier authored, formatted, and committed to git.
+- [ ] S-3 review brief transmitted to `cos`.
+
+---
+
+### Phase 2: LiteLLM Translation Gateway & Proxy Architecture (`cc-32m.2`)
+
+#### 2.1 Objective
+Evaluate and standardize the LiteLLM routing layer as an OpenAI-compatible proxy interface between Gas City agent providers (`provider = "antigravity"`, `provider = "openai"`, or direct local workers) and host inference engines (`vLLM`, `NIM`, `Ollama`).
+
+#### 2.2 Operational Tasks
+1. **Routing & Mapping Protocol:**
+   - Map standard Gas City provider model calls (`local-model`, `sparkleader-default`, `nemotron-super-49b-v1.5`) to backend instances.
+   - Ensure header passthrough (`X-Agent-ID`, `X-Rig-Target`, `X-Session-ID`) for auditability.
+2. **Logistics & Telemetry Hooks (S-4 Alignment):**
+   - Configure LiteLLM Prometheus metrics exporter (`require_auth_for_metrics_endpoint: false`) to expose token draw, prompt tokens, completion tokens, and latency percentiles.
+   - Align metric labels with S-4 logistics accounting for local resource utilization.
+3. **Resilience & Fallback Policies:**
+   - Define retry budgets (`num_retries: 2`, `timeout: 120s`).
+   - Define fallback routing rules (e.g., redirecting lightweight classification or metadata tasks to secondary models when the primary engine experiences queue saturation).
+4. **Configuration Artifacts:**
+   - Deliver draft configuration specs for `city.toml` and `.gc/site.toml` governing local proxy integration.
+
+#### 2.3 Verification Gates
+- [ ] LiteLLM routing matrix validated against test completions.
+- [ ] Prometheus metrics confirmed scrapeable by Prometheus / Grafana.
+- [ ] Gas City config snippet validated via `gc doctor`.
+
+---
+
+### Phase 3: Tactical Worker Pilot on `rigs/colt-utils` (`cc-32m.3`)
+
+#### 3.1 Objective
+Execute a live, end-to-end operational pilot deploying an autonomous worker agent against real task beads in `rigs/colt-utils`, driven entirely by the local inference backend.
+
+#### 3.2 Operational Tasks
+1. **Rig & Agent Preparation:**
+   - Verify `rigs/colt-utils` repository state and beads store (`cu` prefix).
+   - Define an agent worker template in `agents/colt-utils-worker/` configured to communicate exclusively with the local LiteLLM / NIM endpoint.
+2. **Task Bead Authoring & Seeding:**
+   - Author 2–3 self-contained utility tasks in the `cu` store:
+     - Task 1: dolt backup health checker script.
+     - Task 2: git remote sanity audit utility.
+     - Task 3: JSONL log analyzer for swarm session telemetry.
+3. **Dispatch & Execution Monitoring:**
+   - Sling the pilot worker using `gc sling` / `gc bd claim`.
+   - Monitor live worker execution in the Combat Operations Center (COC):
+     - Iteration speed and response latency.
+     - Tool invocation accuracy (file reading, editing, test execution).
+     - Session continuation behavior and git commit generation.
+4. **Post-Mission Analysis & Harvesting:**
+   - Validate deliverable code against acceptance criteria.
+   - Document failure modes, retry counts, and total token expenditure.
+
+#### 3.3 Verification Gates
+- [ ] Pilot worker successfully executes, verifies, and closes at least 2 task beads in `cu`.
+- [ ] Code committed and passes all rig unit tests.
+- [ ] COC mission harvest report filed with `cos`.
+
+---
+
+### Phase 4: Standard Operating Procedure (SOP) & Air-Gap Compliance (`cc-32m.4`)
+
+#### 4.1 Objective
+Codify operational guidelines into comprehensive, permanent documentation enabling any Camp Colt rig to configure, bind, and operate local models autonomously in air-gapped or zero-egress environments.
+
+#### 4.2 Operational Tasks
+1. **Author `docs/LOCAL_MODELS.md`:**
+   - Step-by-step instructions for declaring local model providers in `city.toml` and per-rig configs.
+   - Named session wiring and environment variable declarations (`OPENAI_API_BASE`, `OPENAI_API_KEY`).
+2. **Offline & Air-Gap Compliance Rules:**
+   - Verification procedures ensuring zero outbound DNS or WAN calls during agent execution.
+   - Host credential handling (reaffirming in-memory `/dev/shm` access, no plaintext keys on disk).
+3. **Diagnostic & Triage Playbook:**
+   - Integration of local model health checks into `gc doctor`.
+   - Triage runbook for handling backend engine hangs, queue overflows, and UMA host buffer flushes.
+
+#### 4.3 Verification Gates
+- [ ] `docs/LOCAL_MODELS.md` completed and peer-reviewed by `colt-sysadmin` and `s6-signal`.
+- [ ] Air-gap compliance validated under network isolation test.
+- [ ] Final sign-off from Chief of Staff (`cos`).
+
+---
+
+## 4. Risk Assessment & Mitigation Matrix
+
+| Risk ID | Description | Severity | Likelihood | Mitigation Strategy |
+|---|---|---|---|---|
+| **R-01** | **UMA Memory Contention / Page Cache Hazard**<br/>Grace Blackwell GB10 shared memory pool exhausted by simultaneous host page cache and CUDA tensor allocations. | HIGH | MEDIUM | Coordinate with `colt-sysadmin` to enforce post-hydration cache flushing (`sync && echo 3 > /proc/sys/vm/drop_caches`) and maintain `0.75` GPU memory reservation watermark. |
+| **R-02** | **Tool-Calling Schema Divergence**<br/>Local model emits non-standard JSON or conversational markers inside tool call payloads. | HIGH | HIGH | Implement strict regex and JSON schema sanitization filters in LiteLLM / agent pre-prompts; benchmark rigorously in Phase 1 Battery C before Phase 3 worker dispatch. |
+| **R-03** | **Context Window Saturation**<br/>Worker loads large file diffs or logs exceeding effective reasoning context, causing infinite repetition loops. | MEDIUM | HIGH | Enforce token limits in agent configuration (`max_tokens: 4096`, conversation truncation at 24k tokens); instruct workers to read targeted file slices via line ranges. |
+| **R-04** | **Concurrent Worker Overload**<br/>Multiple swarmed workers hit local inference backend simultaneously, causing timeout cascades. | MEDIUM | MEDIUM | Configure LiteLLM queue management and concurrency limits; throttle worker dispatch in S-3 COC to match server concurrency capacity (e.g. `NIM_MAX_NUM_SEQS = 64`). |
+| **R-05** | **Doctrinal Boundary Breach**<br/>Operations personnel execute low-level cluster mutations instead of coordinating via Platform Chief. | LOW | LOW | Enforce strict rule: S-3 interfaces via `gc mail` and application-level APIs only; zero direct `kubectl` or host mutations by S-3. |
+
+---
+
+## 5. Resource Dependencies & Inter-Rig Allocation
+
+- **Compute & Acceleration:** Single-node NVIDIA Grace Blackwell GB10 (`colt-gpu-01`, `10.82.0.3`).
+- **Storage:**
+  - Local Fast Tier: `/workspace/models/fast-cache` (~1TB NVMe, managed by `ready-locker-sweeper`).
+  - Remote Depot Tier: `/mnt/model-depot` (persistent NFS pool).
+- **Target Rig Repositories:**
+  - `rigs/colt-utils` (`cu`): Designated primary pilot testbed for Phase 3.
+  - `rigs/colt-results` (`cr`): Benchmark artifact repository and performance telemetry storage.
+  - `rigs/suitcase-ai` (`sa`): Core appliance manifests and platform configurations.
+
+---
+
+## 6. Milestone Schedule & Reporting Cadence
+
+| Milestone | Target Completion | Responsible Agent | Deliverable Artifact |
+|---|---|---|---|
+| **M1: RFI Response Ingested** | T+2 hours | `s3-operations` / `colt-sysadmin` | Telemetry confirmation in mail thread |
+| **M2: Phase 1 Benchmarks Complete** | T+6 hours | `s3-operations` | Benchmark raw logs in `colt-results` |
+| **M3: Sparkleader Dossier Published** | T+8 hours | `s3-operations` | `docs/models/sparkleader-nemotron-49b.md` |
+| **M4: Phase 2 LiteLLM Review** | T+16 hours | `s3-operations` / `colt-sysadmin` | LiteLLM routing architecture spec |
+| **M5: Phase 3 colt-utils Pilot Complete** | T+24 hours | `s3-operations` | Closed beads in `cu`, harvest brief |
+| **M6: Phase 4 SOP Published & Epic Closed** | T+32 hours | `s3-operations` / `s6-signal` | `docs/LOCAL_MODELS.md`, Epic `cc-32m` closed |
+
+---
+
+## 7. Submission & Approval Block
+
+**Submitted By:**  
+*S-3 Operations Officer (`s3-operations`)*  
+Camp Colt Combat Operations Center  
+Date: 2026-09-22  
+
+**Action Required:** Chief of Staff (`cos`) staff inspection and endorsement.
