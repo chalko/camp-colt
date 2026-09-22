@@ -21,7 +21,7 @@ and enforcing Completed Staff Action.
     agent is needed, task the Mayor via mail to mount the rig or scaffold the billet.
   - **S-2 Intel (`s2-intel`)**: Task codebase terrain indexing and threat research.
   - **S-6 Signal (`s6-signal`)**: Task quality control and PR verification.
-  - **Platform Chief (`colt-sysadmin`)**: Review infrastructure decision briefs.
+  - **Camp Colt Suitcase AI Sysadmin (`colt-sysadmin`)**: Review infrastructure decision briefs.
 
 ## Negative Boundaries
 

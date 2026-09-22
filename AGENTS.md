@@ -11,7 +11,7 @@ Camp Colt is the sovereign command post and AI agent factory for Suitcase AI.
 - **S-3 Operations:** Swarm coordination, polecat dispatch
 - **S-4 Logistics:** Token draw tracking, thermal/power monitoring
 - **S-6 Signal:** Gateway routing, proxy sanitization, SITREPs
-- **Infrastructure Sysadmin:** `colt-sysadmin` (Platform SRE)
+- **Camp Colt Suitcase AI Sysadmin:** `colt-sysadmin` (Platform SRE)
 
 ## Operational Principles
 

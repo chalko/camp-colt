@@ -25,7 +25,7 @@ name = "cos"
 template = "cos"
 mode = "always"
 
-# Platform Chief / Warrant Officer (Infra Specialist)
+# Camp Colt Suitcase AI Sysadmin
 [[named_session]]
 name = "colt-sysadmin"
 template = "colt-sysadmin"
