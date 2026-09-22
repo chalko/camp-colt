@@ -74,54 +74,78 @@ flowchart LR
 
 ---
 
-### Phase 1: Local Model Specification Audit & Capabilities Benchmarking (`cc-32m.1`)
+#### 1.2 Doctrinal Baseline & Historical Precedent (PLN-0.1-BENCH-HIST)
+In accordance with theater guidance established by Strategic Theater Director Margaret "Peggy" Carter in `PLN-0.1-BENCH-HIST` (*Pre-Camp Colt Local LLM Benchmarking History*), Camp Colt enforces a strict three-tier evaluation doctrine:
 
-#### 1.1 Objective
-Establish an empirical, verifiable performance profile of the active local models serving Camp Colt (specifically `nvidia/llama-3.3-nemotron-super-49b-v1.5` and auxiliary models such as `North-Mini-Code-NVFP4` or Ollama targets). Produce the authoritative **Sparkleader Dossier** documenting operational limits, failure modes, and prompting parameters.
+```mermaid
+flowchart TD
+    subgraph Tier1["Tier 1: Serving Performance Baseline ('Spark Leader')"]
+        RECIPE["SparkRecipe Manifest<br/>(nemotron-49b-fp8.yaml)"] --> BENCH["llama-benchy In-Cluster Job<br/>(colt-gpu-01 GB10)"]
+        BENCH --> TELEM["Low-Level Telemetry<br/>(TTFT < 500ms, ITL, tok/s, KV Cache)"]
+    end
+    subgraph Tier2["Tier 2: Autonomous Agentic Qualification ('Chrissy' Protocol)"]
+        PURGE["Mandatory Context Purge<br/>(Zero Token Drift)"] --> GATES["4-Gate Doctrinal Pipeline"]
+        GATES --> WORKOUT["5-Exercise Workout Battery<br/>(Echo, Math, Beads, Bugfix, Mail)"]
+        WORKOUT --> OPENCODE["OpenCode AST Tool Calling<br/>(provider = 'opencode')"]
+    end
+    subgraph Tier3["Tier 3: Multi-Convoy Load Testing"]
+        CB["city-benchmark Load Suite"] --> CONVOY["Parallel Rig Convoys<br/>(91.5% Prefix Cache Target)"]
+    end
+    Tier1 -->|Hardware & Throughput Certified| Tier2
+    Tier2 -->|Agentic & Schema Certified| Tier3
+    Tier3 --> DOSSIER["Authoritative Sparkleader Dossier<br/>(docs/models/sparkleader-nemotron-49b.md)"]
+```
 
-#### 1.2 Step-by-Step Execution Procedure
+- **Cardinal Rule: Never Conflate Serving Benchmarks with Agentic Evaluations.**
+  - Always execute **Tier 1 (Serving Baseline)** first to verify hardware thermal stability, TTFT, and UMA memory boundaries.
+  - Execute **Tier 2 (Agentic Qualification)** only after Tier 1 demonstrates sustained throughput and valid tool calling.
+- **Hardware Constraints & UMA Memory Clamping (ASUS Ascent GX10 GB10):**
+  - In all manifests, `gpuMemoryUtilization` must remain clamped at $\le 0.75$ (maximum 96GB allocated to weights and KV cache), ensuring a mandatory 32GB system RAM buffer for the Linux kernel and network stack.
+  - Enforce Phase 1C `cache-flusher` execution (`sync && echo 3 > /proc/sys/vm/drop_caches`) post-hydration from `/mnt/model-depot` to `/workspace/models/fast-cache` to eliminate UMA page cache collisions.
+- **Execution Scoping & Technical Debt Acknowledgment:**
+  - Acknowledge that pre-Colt Luna benchmarks executed uncontained directly on host/VM filesystems within git worktrees. Establishing true container/gVisor isolation (`RuntimeClass: gvisor`) remains future technical debt coordinated with S-6. Present tactical tests execute under dedicated git worktrees and scratch directories with mandatory pre-run context purges.
+
+#### 1.3 Step-by-Step Execution Procedure
 
 ```
 [ Step 1.1: Platform Coordination RFI ] ───► Transmit RFI to colt-sysadmin for engine telemetry
                     │
-[ Step 1.2: Model Endpoint Audit ]     ───► Query /v1/models & /health endpoints via HTTP
+[ Step 1.2: Tier 1 Serving Baseline ]   ───► Validate /health, /v1/models & llama-benchy metrics
                     │
-[ Step 1.3: Benchmark Battery Execution ] ─► Run 4-Stage Test Battery (Instruction, Code, Schema, Context)
+[ Step 1.3: Tier 2 Chrissy Workout ]    ───► Execute 5-Exercise Battery & 4-Gate Pipeline
                     │
-[ Step 1.4: Dossier Compilation ]       ───► Author docs/models/SPARKLEADER_NEMOTRON_49B.md
+[ Step 1.4: Sparkleader Dossier ]       ───► Author docs/models/sparkleader-nemotron-49b.md
                     │
-[ Step 1.5: Verification & Gate ]       ───► Submit to cos and close cc-32m.1
+[ Step 1.5: S-6 Quality Assurance ]     ───► Independent QA Gate with s6-signal
 ```
 
 1. **Step 1.1 — Platform Coordination & Telemetry Acquisition:**
    - Coordinate with `colt-sysadmin` via `gc mail` to confirm active endpoints, quantization method (e.g. FP8 / NVFP4 / SafeTensors), context allocation (`max_model_len = 32768`), and GPU memory reservation (`0.75`).
    - Log all confirmed runtime parameters in the planning ledger.
 
-2. **Step 1.2 — Endpoint & Readiness Audit:**
-   - Validate HTTP accessibility of the local OpenAI-compatible inference endpoint (e.g. `http://litellm.colt.internal:4000/v1` or internal service mesh URL).
-   - Verify model discovery via `GET /v1/models` and measure cold/warm latency on `/health`.
+2. **Step 1.2 — Tier 1 Serving Baseline & Readiness Audit:**
+   - Validate HTTP accessibility of the local OpenAI-compatible inference endpoint (`GET /v1/models`, `/health`).
+   - Audit cold and warm Time-to-First-Token (target: warm TTFT $< 500$ ms) and generation throughput (target: $> 80$ tok/s).
+   - Ingest `llama-benchy` in-cluster metrics (`results.csv` and `recipe.yaml`).
 
-3. **Step 1.3 — Raw Capabilities Benchmark Battery:**
-   S-3 will execute a four-part standardized evaluation battery:
-   - **Battery A: Instruction Following & Negative Constraint Adherence**
-     - Multi-constraint prompt: System prompts demanding strict POSIX compliance, no markdown fluff, and adherence to specific tool parameters.
-     - Metric: Binary pass/fail on negative rule violations (e.g., did the model execute forbidden root commands or hallucinate external dependencies?).
-   - **Battery B: Code Generation & Syntactic Accuracy**
-     - Target languages: Go (for Gas City core and rig tooling), Bash (for operational automation), and Python (for utility scripts).
-     - Metric: Syntax validity, absence of deprecated idioms, and execution success in isolated scratch sandboxes.
-   - **Battery C: Tool-Calling & Structured Schema Compliance**
-     - Function calling: Evaluate strict JSON/schema parsing against Gas City and Antigravity tool definitions (`tool_calls` format, nested parameter schemas).
-     - Metric: Schema parse failure rate (<1% required for autonomous worker deployment).
-   - **Battery D: Context Window & Multi-Turn Degradation Limits**
-     - Token saturation test: Stepwise expansion from 4k -> 8k -> 16k -> 32k tokens.
-     - Needle-in-a-haystack: Retrieval of critical operational tokens embedded within large codebase contexts.
-     - Metric: Token degradation threshold (identifying the effective working context ceiling before hallucination occurs).
+3. **Step 1.3 — Tier 2 Autonomous Agentic Qualification ("Chrissy" Protocol):**
+   Execute the **4-Gate Doctrinal Qualification Pipeline**:
+   - **Gate 1 (Service Telemetry):** Endpoint responsiveness and TTFT stability.
+   - **Gate 2 (Persona Adherence & Zero Secrets):** 100% persona consistency; strict Zero-Plaintext compliance (zero echoing of simulated credentials, tokens, or environment keys).
+   - **Gate 3 (Autonomous Tool Chaining — The 5-Exercise Workout Battery):**
+     - *Exercise 1 (Echo & String Manipulation):* Script creation and text transformation (`fibonacci.py`).
+     - *Exercise 2 (Math & Algorithmic Logic):* Self-contained computational problem solving.
+     - *Exercise 3 (Bead Lifecycle Management):* Autonomous task claiming, status updating, and closing via `gc bd`.
+     - *Exercise 4 (Bugfix & Test Suite Execution):* Identifying code defects, mutating files, and running unit tests (`pytest` / Go test runner) until green.
+     - *Exercise 5 (Inter-Agent Mail Communication):* Formatting and transmitting structured completion notices via `gc mail send`.
+   - **Gate 4 (Throughput & Hardware Stability):** UMA memory usage strictly $\le 0.75$; zero CUDA OOM errors under 32k context saturation.
+   - **Tool-Calling Harness:** Enforce OpenCode AST tool calling (`provider = "opencode"`). Do not permit text-simulated markdown diff parsing.
 
 4. **Step 1.4 — Sparkleader Dossier Authoring & Scoring Architecture:**
    - **Internal Sovereign Framework:** Sparkleader serves as Camp Colt's authoritative internal benchmark standard and capability dossier for qualifying sovereign local LLMs for autonomous agent billets.
    - **Composite Scoring Rubric:**
      $$\text{Composite Score} = (0.25 \times \text{Battery A}) + (0.30 \times \text{Battery B}) + (0.25 \times \text{Battery C}) + (0.20 \times \text{Battery D})$$
-     - *Battery A (Instruction & Negative Constraints):* Binary pass rate on negative rule violations and adversarial boundaries.
+     - *Battery A (Instruction & Negative Constraints):* Binary pass rate on negative rule violations, zero-secrets hygiene, and adversarial boundaries.
      - *Battery B (Code Generation):* Syntactic correctness and idiomatic completion across Go, Python, and Bash.
      - *Battery C (Tool Calling & Schema Compliance):* Schema compliance percentage ($1.0 - \text{Parse Error Rate}$) $\times$ Restraint Score. (Autonomous deployment gate: schema parse failure rate $<1.0\%$).
      - *Battery D (Context Limits & Needle Degradation):* Needle retrieval accuracy across 4k, 16k, and 32k tokens.
@@ -139,12 +163,13 @@ Establish an empirical, verifiable performance profile of the active local model
      6. *Optimal Prompting & Hyperparameter Profile:* Temperature, top_p, penalty settings, and system prompt framing templates.
      7. *Tool-Calling Guidelines & Rig Binding:* Gas City schema formatting recommendations, LiteLLM sanitization patterns, and per-rig allocation rules.
 
-#### 1.3 Verification Gates & Exit Criteria
-- [ ] Telemetry confirmed by `colt-sysadmin`.
-- [ ] All 4 benchmark batteries executed with reproducible output logs stored in `rigs/colt-results/benchmarks/`.
-- [ ] Sparkleader dossier authored, formatted to the 7-section specification, and committed to git.
-- [ ] Quality gate inspection conducted with `s6-signal`.
-- [ ] S-3 review brief transmitted to `cos`.
+#### 1.4 Verification Gates & Exit Criteria
+- [ ] Platform telemetry confirmed by `colt-sysadmin`.
+- [ ] Tier 1 Serving Baseline benchmarks validated (TTFT $<500$ ms, UMA memory $\le 0.75$).
+- [ ] Tier 2 Chrissy 5-Exercise Workout Battery executed with reproducible logs stored in `rigs/colt-results/benchmarks/`.
+- [ ] Sparkleader dossier authored to the 7-section specification and committed to git.
+- [ ] Independent quality gate review completed with `s6-signal`.
+- [ ] S-3 completion brief submitted to `cos`.
 
 ---
 
