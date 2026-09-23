@@ -119,3 +119,23 @@ To maintain operational tempo while respecting agent context boundaries, all sta
      * Future planning notes (`Next week: ...`, `FYI: ...`)
      * Routine telemetry dumps or background logs
    * **Rationale:** Prevents unnecessary context interruption for receiving agents who are actively executing tactical tasks. Informational messages will be read naturally during the agent's next idle check or handoff.
+
+---
+
+## 6. Garrison Battle Rhythm & Operational Reviews
+
+To ensure predictive synchronization, eliminate manual worker polling, and maintain command tempo, Camp Colt operates on a strict doctrinal battle rhythm:
+
+### A. Daily Morning Standup / Commander's Update Brief (CUB) — 0600 PDT
+* **Doctrinal Authority:** MCTP 3-30A & MCRP 3-10A.1.
+* **Staff Data Call (05:15 PDT):** Automated via Gas City order (`orders/morning-cub.toml`). All staff sections compile their 24-hour progress, metrics, and blockers *before 06:00 AM*.
+* **Executive Review (06:00 PDT):** Chief of Staff consolidates the CUB so the Commander and staff can review the operational situation and immediately transition into daily decisive actions.
+
+### B. Weekly Task Retrospective & Process Review (AAR) — Fridays NLT 1400 PDT
+* **Cadence:** Conducted weekly on Friday afternoons following the lunch window.
+* **Delivery Gate:** Staff analysis and watchdog tuning must be completed and presented to Command **No Later Than 14:00 PDT on Fridays**.
+* **Analysis Scope:**
+  1. **Bead Bottleneck & Dwell-Time Audit:** Systemic review of all closed, stalled, deferred, or remediated beads across rigs (`cc-*`, `cr-*`, `sa-*`, `cu-*`, `as-*`, `gtr-*`) to diagnose worker hold-ups.
+  2. **Platform & Tooling Hardening:** Identify and resolve environmental friction (SSHFS behaviors, Gitea credentials, networking, schema parse slips).
+  3. **Gas City Watchdog Calibration:** Tune native watchdog timeouts, auto-reclaim rules, and patrol configurations so stuck sessions are automatically recovered without human or supervisor polling.
+  4. **Battlebook Codification:** Direct incorporation of hard-learned lessons and runbooks into `rigs/a-staff/battlebook/` and SOPs.
