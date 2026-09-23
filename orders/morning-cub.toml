@@ -1,0 +1,9 @@
+# Order: Generate Commander's Update Brief (CUB)
+# Fires at 05:15 PDT (45 minutes prior to the 0600 Command Standup,
+# satisfying the constraint of completing no earlier than 1 hour before the meeting).
+
+[order]
+description = "Compile 0600 Commander's Update Brief (CUB) within 1-hour pre-meeting window"
+exec = "scripts/generate_morning_cub.sh"
+trigger = "cron"
+schedule = "15 5 * * *"

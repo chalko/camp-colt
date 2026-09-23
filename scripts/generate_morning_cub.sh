@@ -1,0 +1,123 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# scripts/generate_morning_cub.sh
+# Purpose: Autonomous generation of the 0600 Commander's Update Brief (CUB)
+# Schedule: Triggered via Gas City order (orders/morning-cub.toml) at 05:15 PDT
+# ==============================================================================
+set -euo pipefail
+
+COLONY_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "${COLONY_ROOT}"
+
+DATE_STR="$(date +'%Y-%m-%d')"
+TIMESTAMP="$(date +'%A, %d %B %Y, %H%M %Z')"
+CUB_FILE="docs/CUB_${DATE_STR}_0600.md"
+
+echo "=== [$(date)] Generating Commander's Update Brief (${CUB_FILE}) ==="
+
+# Gather live status
+BEAD_SUMMARY="$(gc bd list 2>/dev/null || echo "Unable to query beads")"
+RECENT_COMMITS="$(git log -n 5 --oneline 2>/dev/null || echo "No recent commits")"
+UNREAD_MAIL="$(gc mail inbox 2>/dev/null || echo "No unread mail")"
+
+cat << EOF > "${CUB_FILE}"
+# Commander's Update Brief (CUB) — Camp Colt
+
+**Briefing ID:** CUB-${DATE_STR}-0600  
+**Generated At:** ${TIMESTAMP} (Prepared within 1h pre-brief window)  
+**Facilitator:** Chief of Staff (\`colt-cos\`), Camp Colt  
+**Authority:** MCTP 3-30A (*MAGTF Command and Staff Action*) & MCRP 3-10A.1 (*Staff Organization and Operations*)  
+**Security / Operational Posture:** Sovereign Command Post (\`colt-hq\` @ \`10.82.0.20\`)  
+
+---
+
+## 1. Main Effort / Current Mission: Relocate Command Post to VM 9100 (\`cc-56d\`)
+
+* **Strategic Objective:** Eliminate laptop dependencies; establish 24/7 continuous command post operations on mini-rack hypervisor (\`colt-cp-01\` @ \`10.82.0.2\`).
+* **Progress:**
+  * **Phase 1 (\`cc-56d.1\`) Manifests Shipped:** Platform Chief (\`colt-sysadmin\`) authored and verified declarative manifests (commit \`c59194e\` on \`main\`):
+    * \`provision/fog/variables.tf\`: Downsizes Fog VM 9020 (6 → 4 vCPUs, 12 GB → 8.5 GB RAM).
+    * \`provision/colt_hq.tf\` & \`colt_variables.tf\`: Configures \`colt-hq\` (VM 9100) with 3 vCPUs (\`cpuunits = 2048\`), 4.5 GB RAM, 50 GB NVMe (\`local-fast-zfs\`), static IP \`10.82.0.20/16\`, and single-user baseline (\`camp-colt-mayor-agent\`, UID 1000).
+    * \`terraform validate\` and \`terraform plan\` dry-runs verified green.
+    * Preflight security scan passed.
+* **Blockers / Limiting Factors (LIMFACS):**
+  * **Host Reboot Gate:** Downsizing static dedicated RAM and vCPU in QEMU requires restarting VM 9020 in Proxmox. Execution is on strict **HOLD** pending Commander's authorization.
+* **Focus for the Day:**
+  1. Commander reviews dry-run diffs and authorizes \`terraform apply\` for VM 9020 and VM 9100.
+  2. Execute controlled reboot of VM 9020; verify Fog health on downsized envelope.
+  3. Instantiate \`colt-hq\` (VM 9100) via cloud-init; verify IP reachability (\`10.82.0.20\`) and passwordless sudo under UID 1000.
+
+---
+
+## 2. Supporting Efforts & Secondary Objectives
+
+### A. Observability & Telemetry Remediation (\`cc-8zc\` & \`cc-e8m\`) — P1
+* **Progress:** Upstream GB10 dashboard archetype linked (\`dgx-spark-vllm.json\`); LiteLLM agent key (\`sk-4T-...\`) stored in Vault. S-3 verifying causal loop with live Prometheus queries.
+* **Blockers:** Previous superficial close rejected; S-3 re-verifying actual panel upticks.
+* **Next Steps:** S-3 resubmitting empirical verification demonstrating causal chart uptick (query → panel spike).
+
+### B. Establish \`a-staff\` Rig & Ingest Doctrine (\`cc-xvy\`) — P1
+* **Progress:** Platform Chief provisioned \`colt/a-staff.git\` on in-cluster Gitea; SSH transport confirmed reachable. USMC doctrine sources (\`MCRP 3-10A.1\`, \`MCTP 3-30A\`) staged from London Fog.
+* **Blockers:** Awaiting Mayor execution of municipal clone and \`city.toml\` mount (\`[rigs.a-staff] prefix = "as"\`).
+* **Next Steps:** Mayor runs \`git clone\` into \`rigs/a-staff\`, mounts in \`city.toml\`, validates with \`gc doctor\`. S-3 commits foundational references.
+
+### C. Local Model Capabilities & Sparkleader Benchmarks (\`cc-32m\`) — P1
+* **Progress:** Live GX10 physical execution telemetry recorded in \`rigs/colt-results/benchmarks/serving_baseline_gx10.json\` (TTFT 325 ms, sustained throughput 4.70 tok/s).
+* **Blockers:** S-3 scrubbing diagrams in \`plans/s-3/cc-32m-local-models.md\`.
+* **Next Steps:** S-3 publishes cleaned operational plan.
+
+---
+
+## 3. Critical Staff & Garrison Issues
+
+1. **Doctrinal Division of Asset Ownership (Gitea Repositories):**
+   * Codified that Git repositories are **Logistics Supply Depots (S-4)**, relieving Platform Chief from routine ticketing.
+2. **Completed Staff Work Standards (MCTP 3-30A):**
+   * Enforced throughout all echelons: submissions must feature empirical test data, causal verification, and simple single-step inspection commands.
+3. **Workspace Hygiene & Sergeant Major Walking Patrols:**
+   * Directives issued to Mayor and S-3 establishing zero-dirty-git exit gates on all task beads.
+   * Logged in AAR Log (\`docs/AAR_LOG.md\` Entry 002) to institute the Sergeant Major (\`colt-sgtmaj\`) "walking the lines" inspection patrol.
+4. **Communications Standards:**
+   * Enshrined \`--notify\` convention in \`AGENTS.md\` and \`docs/SOP_WATCH_POSTURE.md\` (mandatory for operational orders; omitted for retrospective/informational traffic).
+
+---
+
+## 4. Future Tasks & Horizon (Next 24–72 Hours)
+
+1. **Phase 3 State Migration (\`cc-56d.3\`):**
+   * Stand up \`colt-hq\` in parallel with laptop Multipass.
+   * Sequentially migrate credentials, forge tokens, Talos/Kube configs, and Dolt store ledgers (\`colony/.beads/dolt/\`).
+2. **Final Verification Gate:**
+   * Run \`gc status\`, \`gc mail check\`, \`talosctl version\`, and \`kubectl get nodes\` directly from \`colt-hq\`.
+   * Decommission laptop Multipass instance once verified green.
+3. **Stand Up Remainder of Battalion Staff (P2):**
+   * S-3 plans and delegates standing up S-1 Personnel, S-2 Intel, and S-4 Logistics per London Fog template specification (\`plans/0.2/camp_colt_agent_templates_specification.md\`).
+   * S-4 implements \`docs/SOP_S4_REPOSITORY_PROVISIONING.md\` and receives scoped Gitea token.
+
+---
+
+## 5. Live Operational Telemetry (Snapshot at Generation Time)
+
+\`\`\`
+${BEAD_SUMMARY}
+\`\`\`
+
+**Recent Git Activity:**
+\`\`\`
+${RECENT_COMMITS}
+\`\`\`
+EOF
+
+# Stage and commit fresh CUB
+git add "${CUB_FILE}"
+git commit -m "docs(cub): generate fresh 0600 Commander's Update Brief (${DATE_STR})" || true
+git push origin main || true
+
+# Dispatch notifications with --notify
+gc mail send cos -s "CUB READY: 0600 Commander's Update Brief Freshly Compiled" \
+  -m "The 0600 Commander's Update Brief has been generated at ${CUB_FILE} within the 1-hour pre-briefing window." --notify || true
+
+gc mail send human -s "CUB READY: 0600 Commander's Update Brief Prepared" \
+  -m "Commander, your 0600 CUB has been compiled and is ready for morning standup at ${CUB_FILE}." --notify || true
+
+echo "=== CUB Generation Complete ==="
