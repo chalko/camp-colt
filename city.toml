@@ -1,9 +1,6 @@
 [workspace]
 provider = "antigravity"
 
-[session]
-provider = "herdr"
-
 [providers]
 [providers.antigravity]
 base = "builtin:antigravity"
@@ -16,32 +13,22 @@ ready_delay_ms = 0
 source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
 version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
 
-# [mail]
-# retention_ttl controls how long read messages are retained before purge.
-# 0 disables retention; use "168h" for 7 days.
-# "7d" is not a valid Go duration.
-# retention_ttl = "0"
-
-# Battalion Executive Officer / Operational Command
 [[named_session]]
 name = "cos"
 template = "cos"
 mode = "always"
 
-# Camp Colt Suitcase AI Sysadmin
 [[named_session]]
 name = "colt-sysadmin"
 template = "colt-sysadmin"
 dir = "rigs/suitcase-ai"
 mode = "always"
 
-# S-3 Operations / Combat Operations Center Lead
 [[named_session]]
 name = "s3-operations"
 template = "s3-operations"
 mode = "always"
 
-# S-6 Signal / Communications, Routing & PR Verification
 [[named_session]]
 name = "s6-signal"
 template = "s6-signal"
@@ -64,13 +51,6 @@ default_branch = "main"
 source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
 version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
 
-[dolt]
-read_timeout_millis = 300000
-
-[beads.policies.order_tracking]
-delete_after_close = "1h"
-
-
 [[rigs]]
 name = "colt-utils"
 prefix = "cu"
@@ -88,3 +68,26 @@ default_branch = "main"
 [rigs.imports.gc]
 source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
 version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
+
+[[rigs]]
+name = "a-staff"
+prefix = "as"
+default_branch = "main"
+[rigs.imports]
+[rigs.imports.gc]
+source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
+version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
+
+[beads]
+[beads.policies]
+[beads.policies.order_tracking]
+delete_after_close = "1h"
+
+[session]
+provider = "herdr"
+
+[dolt]
+port = 0
+max_connections = 0
+read_timeout_millis = 300000
+write_timeout_millis = 0
