@@ -82,7 +82,11 @@ In accordance with theater doctrine established in `PLN-0.1-BENCH-HIST`, the mod
 | **TOTAL** | **Sparkleader Composite Evaluation** | **1.00** | — | **94.5%** | **TIER 1 (QUALIFIED)** |
 
 ### Key Empirical Findings
-- **Serving Baseline (Tier 1):** Warm Time-to-First-Token (TTFT) maintained at $180\text{--}320\text{ ms}$; sustained generation throughput reached $84.2\text{ tok/s}$.
+- **Serving Baseline (Tier 1 — Live GX10 Physical Execution):** Tested against `svc/nemotron-49b` on Grace Blackwell GB10 (`colt-gpu-01`, `10.82.0.3`):
+  - **TTFT (Time To First Token):** **0.325 s** (325 ms, meeting $\le 500$ ms operational SLA).
+  - **ITL (Average Inter-Token Latency):** **0.2145 s**.
+  - **Single-Stream Sustained Throughput:** **4.70 tok/s** (128 completion tokens generated under complex chain-of-thought reasoning).
+  - **Telemetry Source:** Committed to [`rigs/colt-results/benchmarks/serving_baseline_gx10.json`](file:///home/camp-colt-mayor-agent/colony/rigs/colt-results/benchmarks/serving_baseline_gx10.json) (commit `f568080`).
 - **Tool Schema Parse Error Rate:** $<0.8\%$ across structured function-call invocations, satisfying the $<1.0\%$ threshold required for autonomous worker dispatch.
 - **Radix KV Prefix Cache Hit Rate:** Achieved $91.5\%$ cache hit rate across multi-convoy shared system prompts.
 
