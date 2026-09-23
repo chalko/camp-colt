@@ -104,6 +104,12 @@ flowchart TD
   - Enforce Phase 1C `cache-flusher` execution (`sync && echo 3 > /proc/sys/vm/drop_caches`) post-hydration from `/mnt/model-depot` to `/workspace/models/fast-cache` to eliminate UMA page cache collisions.
 - **Execution Scoping & Technical Debt Acknowledgment:**
   - Acknowledge that pre-Colt Luna benchmarks executed uncontained directly on host/VM filesystems within git worktrees. Establishing true container/gVisor isolation (`RuntimeClass: gvisor`) remains future technical debt coordinated with S-6. Present tactical tests execute under dedicated git worktrees and scratch directories with mandatory pre-run context purges.
+- **Mandatory Grafana / Prometheus Raw Metric Integration (Operator Mandate):**
+  - All benchmark runs across all phases (Tier 1 Serving, Tier 2 Agentic Qualification, and Phase 3 Worker Pilots) must capture, document, and include the relevant raw metrics scraped from Grafana / Prometheus:
+    - *Hardware / DCGM Metrics:* Active VRAM utilization (`DCGM_FI_DEV_FB_USED`), peak GPU power draw (`DCGM_FI_DEV_POWER_USAGE`), GPU temperature, and SM tensor core load.
+    - *Inference & Gateway Metrics:* Time-to-First-Token (`litellm_deployment_time_to_first_token`), Inter-Token Latency (`litellm_deployment_latency_per_output_token`), generation throughput (tokens/sec), prompt vs. completion token counts, and Radix KV prefix cache hit rate ($91.5\%$ target).
+    - *Telemetry Storage:* Raw snapshot CSV/JSON artifacts must be archived alongside test results in `rigs/colt-results/benchmarks/`.
+
 
 #### 1.3 Step-by-Step Execution Procedure
 
