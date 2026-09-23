@@ -100,4 +100,22 @@ To avoid friction between platform administration and municipal operations:
 All staff officers and specialists must submit completed work meeting the following three criteria:
 1. **Empirical Evidence:** Submission must include verifiable test metrics (latencies, exit codes, throughput, or telemetry files) proving the solution works under physical execution—not merely that a configuration file was written.
 2. **Immediate Verification Instruction:** Submission must provide an unambiguous, simple command (e.g. `curl -f http://...` or specific CLI check) that Command can execute immediately to observe results.
-3. **Escalation & Stop Threshold:** If immediate results cannot be verified or a blocker arises, the task must be kicked back to S-3 with an explanation rather than dragging the command element into deep low-level debugging.
+3. **Escalation & Stop Threshold:** If immediate results cannot be verified or a blocker arises, the task must be kicked back to S-3 with an explanation rather than dragging the command element into deep low-level debugging. 
+---
+
+## 5. Communications & Notification Standards (`gc mail`)
+
+To maintain operational tempo while respecting agent context boundaries, all staff members must adhere to the following dispatch standards when sending messages:
+
+1. **Active Operational Mail (Default to `--notify`):**
+   * **Rule:** All task orders, directives, urgent queries, blocker escalations, handoffs, and verification requests MUST be sent with `--notify`.
+   * **Rationale:** `--notify` actively nudges the recipient session immediately, ensuring the recipient does not stall waiting for a background polling cycle.
+   * **Example:** `gc mail send s3-operations -s "ORDER: Deploy VM 9100" -m "..." --notify`
+
+2. **Informational & Deferred Mail (Omit `--notify`):**
+   * **Rule:** Non-urgent, retrospective, or future-horizon communications MUST omit `--notify`.
+   * **Scope:**
+     * After Action Report submissions (`AAR item: ...`)
+     * Future planning notes (`Next week: ...`, `FYI: ...`)
+     * Routine telemetry dumps or background logs
+   * **Rationale:** Prevents unnecessary context interruption for receiving agents who are actively executing tactical tasks. Informational messages will be read naturally during the agent's next idle check or handoff.

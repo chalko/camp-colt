@@ -31,3 +31,4 @@ Camp Colt is the sovereign command post and AI agent factory for Suitcase AI.
 2. Zero plaintext secrets on disk; memory-backed `/dev/shm` credentials only.
 3. Offline-first resilience; local vLLM and local Dolt operation.
 4. Completed Staff Work (MCTP 3-30A): Staff submissions must include empirical test verification evidence and simple, reproducible instructions (e.g. curl command or direct verification link) for Command to immediately inspect results.
+5. Communications Hygiene: Use `gc mail ... --notify` for all active operational orders, directives, and blocker escalations to immediately wake the recipient. Omit `--notify` for informational, future-planning, or retrospective traffic (e.g. `AAR item: ...`, `Next week: ...`).
