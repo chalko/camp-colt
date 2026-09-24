@@ -37,3 +37,17 @@
      - Inspect `.gc/`, `scratch/`, and temporary directories for uncollected garbage.
      - Issue immediate corrective notifications ("squawk tickets" / mail) to the responsible agent or S-3.
   3. **Stop Condition Gate:** S-3 must enforce a zero-dirty-git exit gate (`git status --porcelain == 0`) on all tactical worker FRAGOs before merging PRs.
+
+---
+
+### Entry 003: Billet Division — Workspace Compiler & Toolchain Installation (Mayor vs. Platform SRE)
+- **Date:** September 24, 2026
+- **Originator:** Commander / Chief of Staff (`colt-cos`)
+- **Context:** Installing and verifying developer toolchains (Go compiler, OpenCode binary) on `colt-hq`.
+- **Observation:** When developer tooling or compilers are required inside the command post workspace (`colt-hq`), tasks have alternated between the Mayor (Headquarters Commandant) and Platform Chief (`colt-sysadmin`).
+- **Analysis:** 
+  - Under MAGTF doctrine (MCTP 3-30A), the Headquarters Commandant manages camp domestic plumbing, bivouac layout, workspace hygiene, and garrison order. 
+  - The Platform SRE manages hypervisors, K8s metal, OS declarations, and core system daemons.
+  - On a single-user virtual workstation (`colt-hq`), unprivileged user-space packages poured via Homebrew (UID 1000) sit on the borderline between municipal camp furnishings and platform software engineering.
+- **AAR Action Item / Friday Agenda:**
+  - Codify the definitive boundary: Does unprivileged CLI toolchain installation belong to the Mayor (as municipal camp equipment) or Platform SRE (as systems administration)? Table for Friday 1400 AAR discussion.
