@@ -31,68 +31,54 @@ cat << EOF > "${CUB_FILE}"
 
 ---
 
-## 1. Main Effort / Current Mission: Relocate Command Post to VM 9100 (\`cc-56d\`)
+## 1. Main Effort / Operational Status: Command Post Relocation to VM 9100 (\`cc-56d\`) — COMPLETE
 
-* **Strategic Objective:** Eliminate laptop dependencies; establish 24/7 continuous command post operations on mini-rack hypervisor (\`colt-cp-01\` @ \`10.82.0.2\`).
+* **Strategic Objective:** Eliminate laptop dependencies; establish 24/7 continuous command post operations on dedicated hypervisor VM (\`colt-hq\` @ \`10.82.0.20\`, VM 9100 on \`colt-cp-01\`).
+* **Operational Milestones Achieved:**
+  * **Relocation & State Cutover Complete (\`cc-56d.3\`):** Verified active execution on \`colt-hq\` (8 AMD Zen 4 vCPUs, 10 GB dedicated RAM with \`balloon = 0\`, host CPU passthrough). Supervisor (PID 604), Dolt store (:38052), and session hygiene validated. Chief of Staff concurrence granted and bead closed.
+  * **Platform Convergence Shipped:**
+    * \`cc-56d.6\` (P2): DNS records configured for \`colt-hq.colt.chalko.com\` and \`hq.colt.chalko.com\`.
+    * \`cc-56d.7\` (P2): Trusted TLS certificate issued and active for \`pve.colt.chalko.com\`.
+    * \`cc-dcd\` (P2): Google OAuth SSO for Grafana staged with ExternalSecrets via HashiCorp Vault.
+  * **Automated Runbook Archived:** \`rigs/suitcase-ai/plans/hq_migration_runbook.md\` updated to COMPLETED & ARCHIVED; reconciled via Git and Flux.
+* **Remaining Relocation Item:**
+  * \`cc-56d.8\` (P2): Provision administrator account for Nick on Proxmox VE (\`pve.colt.chalko.com\`).
+
+---
+
+## 2. Active Operations & Main Effort: Local Model Capabilities (\`cc-32m\`) — P0
+
+* **Strategic Objective:** Preserve computational sovereignty and offline resilience via on-premise neural inference on Grace Blackwell GB10 (\`colt-gpu-01\` @ \`10.82.0.3:8000\`).
 * **Progress:**
-  * **Phase 1 (\`cc-56d.1\`) Manifests Shipped:** Platform Chief (\`colt-sysadmin\`) authored and verified declarative manifests (commit \`c59194e\` on \`main\`):
-    * \`provision/fog/variables.tf\`: Downsizes Fog VM 9020 (6 → 4 vCPUs, 12 GB → 8.5 GB RAM).
-    * \`provision/colt_hq.tf\` & \`colt_variables.tf\`: Configures \`colt-hq\` (VM 9100) with 3 vCPUs (\`cpuunits = 2048\`), 4.5 GB RAM, 50 GB NVMe (\`local-fast-zfs\`), static IP \`10.82.0.20/16\`, and single-user baseline (\`camp-colt-mayor-agent\`, UID 1000).
-    * \`terraform validate\` and \`terraform plan\` dry-runs verified green.
-    * Preflight security scan passed.
-* **Blockers / Limiting Factors (LIMFACS):**
-  * **Host Reboot Gate:** Downsizing static dedicated RAM and vCPU in QEMU requires restarting VM 9020 in Proxmox. Execution is on strict **HOLD** pending Commander's authorization.
-* **Focus for the Day:**
-  1. Commander reviews dry-run diffs and authorizes \`terraform apply\` for VM 9020 and VM 9100.
-  2. Execute controlled reboot of VM 9020; verify Fog health on downsized envelope.
-  3. Instantiate \`colt-hq\` (VM 9100) via cloud-init; verify IP reachability (\`10.82.0.20\`) and passwordless sudo under UID 1000.
+  * **Phase 4 SOP Complete (\`cc-32m.4\`):** S-3 authored and published comprehensive Standard Operating Procedure in \`docs/LOCAL_MODELS.md\` (commit \`ac6dbac\`). Covers \`city.toml\` provider overrides, LiteLLM gateway topology (\`10.82.50.10:80\`), memory-backed \`/dev/shm\` zero-plaintext credential hygiene, \`gc doctor\` integration, and failover runbooks. Bead closed.
+  * **Gateway Performance Validated:** Direct-to-proxy overhead empirically benchmarked at nominal +9.5 ms with Radix cache nonces; cold/warm testing doctrine codified.
+* **Next Steps:**
+  * De-quarantine / pilot tactical worker on \`rigs/colt-utils\` (\`cc-32m.3\`) under local inference provider once local endpoint warming is complete.
+  * Publish Sparkleader evaluation dossier into \`battlebook/models/\`.
 
 ---
 
-## 2. Supporting Efforts & Secondary Objectives
+## 3. Municipal Hygiene & Code Validation Backlog
 
-### A. Observability & Telemetry Remediation (\`cc-8zc\` & \`cc-e8m\`) — P1
-* **Progress:** Upstream GB10 dashboard archetype linked (\`dgx-spark-vllm.json\`); LiteLLM agent key (\`sk-4T-...\`) stored in Vault. S-3 verifying causal loop with live Prometheus queries.
-* **Blockers:** Previous superficial close rejected; S-3 re-verifying actual panel upticks.
-* **Next Steps:** S-3 resubmitting empirical verification demonstrating causal chart uptick (query → panel spike).
-
-### B. Establish \`a-staff\` Rig & Ingest Doctrine (\`cc-xvy\`) — P1
-* **Progress:** Platform Chief provisioned \`colt/a-staff.git\` on in-cluster Gitea; SSH transport confirmed reachable. USMC doctrine sources (\`MCRP 3-10A.1\`, \`MCTP 3-30A\`) staged from London Fog.
-* **Blockers:** Awaiting Mayor execution of municipal clone and \`city.toml\` mount (\`[rigs.a-staff] prefix = "as"\`).
-* **Next Steps:** Mayor runs \`git clone\` into \`rigs/a-staff\`, mounts in \`city.toml\`, validates with \`gc doctor\`. S-3 commits foundational references.
-
-### C. Local Model Capabilities & Sparkleader Benchmarks (\`cc-32m\`) — P1
-* **Progress:** Live GX10 physical execution telemetry recorded in \`rigs/colt-results/benchmarks/serving_baseline_gx10.json\` (TTFT 325 ms, sustained throughput 4.70 tok/s).
-* **Blockers:** S-3 scrubbing diagrams in \`plans/s-3/cc-32m-local-models.md\`.
-* **Next Steps:** S-3 publishes cleaned operational plan.
+1. **Municipal Diagnostics (\`gc doctor\`):**
+   * 129 passed, 0 failures, 4 accounted-for warnings (upstream formula contract deprecation, local-only JSONL archive on new VM, advisory fork rate).
+2. **Git Working Tree Hygiene:**
+   * Working trees clean across colony root and all mounted rigs (\`suitcase-ai\`, \`go_template_rule\`, \`colt-utils\`, \`colt-results\`, \`a-staff\`).
+   * Mayor reconciled untracked/modified beads metadata in \`rigs/go_template_rule\` (commit \`12fe473\`, \`cc-kw0\`).
+3. **S-6 Signal Code Validation Backlog Shipped:**
+   * S-6 executed full Stan/Eval quality control, test coverage verification, and zero-secret hygiene audits across all 6 target backlog beads, closing \`cc-988\`, \`cc-pvc\`, \`cc-dci\`, \`cc-3u7\`, \`cc-5rs\`, and \`cc-bxx\`.
 
 ---
 
-## 3. Critical Staff & Garrison Issues
+## 4. Garrison Staffing & Horizon (Next 24–72 Hours)
 
-1. **Doctrinal Division of Asset Ownership (Gitea Repositories):**
-   * Codified that Git repositories are **Logistics Supply Depots (S-4)**, relieving Platform Chief from routine ticketing.
-2. **Completed Staff Work Standards (MCTP 3-30A):**
-   * Enforced throughout all echelons: submissions must feature empirical test data, causal verification, and simple single-step inspection commands.
-3. **Workspace Hygiene & Sergeant Major Walking Patrols:**
-   * Directives issued to Mayor and S-3 establishing zero-dirty-git exit gates on all task beads.
-   * Logged in AAR Log (\`docs/AAR_LOG.md\` Entry 002) to institute the Sergeant Major (\`colt-sgtmaj\`) "walking the lines" inspection patrol.
-4. **Communications Standards:**
-   * Enshrined \`--notify\` convention in \`AGENTS.md\` and \`docs/SOP_WATCH_POSTURE.md\` (mandatory for operational orders; omitted for retrospective/informational traffic).
-
----
-
-## 4. Future Tasks & Horizon (Next 24–72 Hours)
-
-1. **Phase 3 State Migration (\`cc-56d.3\`):**
-   * Stand up \`colt-hq\` in parallel with laptop Multipass.
-   * Sequentially migrate credentials, forge tokens, Talos/Kube configs, and Dolt store ledgers (\`colony/.beads/dolt/\`).
-2. **Final Verification Gate:**
-   * Run \`gc status\`, \`gc mail check\`, \`talosctl version\`, and \`kubectl get nodes\` directly from \`colt-hq\`.
-   * Decommission laptop Multipass instance once verified green.
-3. **Stand Up Remainder of Battalion Staff (P2):**
-   * S-3 plans and delegates standing up S-1 Personnel, S-2 Intel, and S-4 Logistics per London Fog template specification (\`plans/0.2/camp_colt_agent_templates_specification.md\`).
-   * S-4 implements \`docs/SOP_S4_REPOSITORY_PROVISIONING.md\` and receives scoped Gitea token.
+1. **Establish On-Demand Staff Sections:**
+   * Activate and template S-1 Personnel and S-4 Logistics per London Fog specification (\`rigs/a-staff/\`).
+   * S-4 Logistics to assume repository supply depot management (\`docs/SOP_S4_REPOSITORY_PROVISIONING.md\`).
+2. **Complete Remaining Epic cc-56d Tasks:**
+   * Execute \`cc-56d.8\` (Proxmox admin account provisioning for Nick) and formally close Epic \`cc-56d\`.
+3. **Conduct Staff After-Action Review (\`cc-3eq\` / \`cc-0s6\`):**
+   * Finalize AAR incorporating Proxmox memory ballooning (\`balloon = 0\`), CPU instruction set requirements (\`pclmulqdq\`), and graceful workspace cutover sequences.
 
 ---
 
