@@ -1,7 +1,7 @@
 # After Action Report (AAR) Log — Camp Colt
 
-**Document ID:** `AAR-CAMP-COLT-LOG`  
-**Authority:** Chief of Staff (`colt-cos`), Camp Colt  
+**Document ID:** `AAR-CAMP-COLT-LOG`
+**Authority:** Chief of Staff (`colt-cos`), Camp Colt
 **Purpose:** Formal repository for operational observations, friction points, doctrine evolution, and institutional lessons learned across Camp Colt campaigns.
 
 ---
@@ -9,6 +9,7 @@
 ## Log Entries
 
 ### Entry 001: Billet Boundary Friction — Gitea Repo Provisioning vs. City Rig Mounting
+
 - **Date:** September 22, 2026
 - **Originator:** Mayor (`mayor`) via memo `cc-wisp-rpwn`
 - **Context:** Bead `cc-xvy` (Establishing `rigs/a-staff`)
@@ -24,6 +25,7 @@
 ---
 
 ### Entry 002: Repository Cleanliness & Sergeant Major (SgtMaj) Walking Patrols ("Police Call")
+
 - **Date:** September 22, 2026
 - **Originator:** Command / Chief of Staff (`colt-cos`)
 - **Context:** Post-operational drift in working directories (untracked plan drafts, test output, scratch files left in repo trees).
@@ -41,12 +43,13 @@
 ---
 
 ### Entry 003: Billet Division — Workspace Compiler & Toolchain Installation (Mayor vs. Platform SRE)
+
 - **Date:** September 24, 2026
 - **Originator:** Commander / Chief of Staff (`colt-cos`)
 - **Context:** Installing and verifying developer toolchains (Go compiler, OpenCode binary) on `colt-hq`.
 - **Observation:** When developer tooling or compilers are required inside the command post workspace (`colt-hq`), tasks have alternated between the Mayor (Headquarters Commandant) and Platform Chief (`colt-sysadmin`).
-- **Analysis:** 
-  - Under MAGTF doctrine (MCTP 3-30A), the Headquarters Commandant manages camp domestic plumbing, bivouac layout, workspace hygiene, and garrison order. 
+- **Analysis:**
+  - Under MAGTF doctrine (MCTP 3-30A), the Headquarters Commandant manages camp domestic plumbing, bivouac layout, workspace hygiene, and garrison order.
   - The Platform SRE manages hypervisors, K8s metal, OS declarations, and core system daemons.
   - On a single-user virtual workstation (`colt-hq`), unprivileged user-space packages poured via Homebrew (UID 1000) sit on the borderline between municipal camp furnishings and platform software engineering.
 - **AAR Action Item / Friday Agenda:**
@@ -55,6 +58,7 @@
 ---
 
 ### Entry 004: YAGNI Governance — Delaying Formal SOPs until the Rule of Three
+
 - **Date:** September 24, 2026
 - **Originator:** Commander
 - **Context:** Establishing model qualification pipelines, FRAGOs, and operational workflows.
@@ -63,3 +67,16 @@
   1. **Immediate Lessons Learned:** Always log observations, friction points, and technical discoveries immediately in the AAR log to preserve institutional memory.
   2. **Tactical Agility via FRAGOs:** Iterate and adapt workflows rapidly using lightweight taskers, FRAGOs, and direct command directives during early iterations.
   3. **The Rule of Three Gate:** Do NOT draft, formalize, or publish a binding SOP until the procedure has been executed successfully and consistently at least **three times**.
+
+---
+
+### Entry 005: External Credential Lifecycle & Token Expiration Governance (S-1 Personnel Billet)
+
+- **Date:** September 24, 2026
+- **Originator:** Commander
+- **Context:** GitHub Fine-Grained Personal Access Token (PAT) provisioned for `chalko/colt-results` outbound mirror with a 90-day maximum lifetime.
+- **Observation:** External service tokens and fine-grained PATs increasingly enforce mandatory maximum lifespans (e.g., GitHub 90-day cap). Without automated tracking, outbound mirroring, CI/CD pipelines, and external integrations fail silently upon token expiration.
+- **Doctrinal Decision & Remedy:**
+  - Assign external credential lifecycle monitoring, access policy audits, and renewal schedules to the **S-1 Personnel (Permissions, RBAC, access policies)** billet.
+  - S-1 will maintain a ledger of external tokens, scopes, and expiration dates, issuing renewal notifications to Command 14 days before expiration.
+  - Set an operational reminder bead (`+75d`) for Command to renew the `colt-results` GitHub mirror PAT prior to the 90-day cutoff.
