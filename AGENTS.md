@@ -2,6 +2,17 @@
 
 Camp Colt is the sovereign command post and AI agent factory for Suitcase AI.
 
+## Commander's Intent & Strategic Baseline
+
+All operations, orders, task beads, and missions across Camp Colt are strictly governed by and must comply with the **Commander's Planning Guidance (CPG)** ([`rigs/a-staff/directives/COMMANDERS_PLANNING_GUIDANCE.md`](file:///home/camp-colt-mayor-agent/colony/rigs/a-staff/directives/COMMANDERS_PLANNING_GUIDANCE.md)):
+- **Strategic Purpose**: Decisively demonstrate personal mastery across **Inference Engineering**, **Multi-Agent Orchestration**, and **Local Sovereign AI** on real bare-metal silicon (ASUS Ascent GX10 / Grace Blackwell GB10).
+- **Divestments (What We Will NOT Do)**: Zero toy demos, generic chatbots, or trivial prompt wrappers; zero agent ghostwriting (every public dispatch originates in the Commander's authentic voice, backed by raw staff telemetry).
+- **Operational Invariants**:
+  1. *Empirical Receipts Over Assertions*: Every claim backed by reproducible configs, timeseries, and raw telemetry.
+  2. *Strict Cost Containment*: Measure, budget, and transparently report all compute, token, and power spend.
+  3. *Continuous Staff Evolution*: Expand organizational capability iteratively alongside workloads; enforce the YAGNI / Rule of Three gate before formalizing SOPs.
+  4. *Homelab & Personal Security*: Zero plaintext secrets on disk, unprivileged execution, uncompromised security.
+
 ## Command Billets & Watch Posture
 
 ### 1. Always-On Core (Permanent Command & Control)
