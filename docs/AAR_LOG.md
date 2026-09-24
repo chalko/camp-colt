@@ -51,3 +51,15 @@
   - On a single-user virtual workstation (`colt-hq`), unprivileged user-space packages poured via Homebrew (UID 1000) sit on the borderline between municipal camp furnishings and platform software engineering.
 - **AAR Action Item / Friday Agenda:**
   - Codify the definitive boundary: Does unprivileged CLI toolchain installation belong to the Mayor (as municipal camp equipment) or Platform SRE (as systems administration)? Table for Friday 1400 AAR discussion.
+
+---
+
+### Entry 004: YAGNI Governance — Delaying Formal SOPs until the Rule of Three
+- **Date:** September 24, 2026
+- **Originator:** Commander
+- **Context:** Establishing model qualification pipelines, FRAGOs, and operational workflows.
+- **Observation:** Tendency to draft formal, rigid Standard Operating Procedures (SOPs) prematurely after a single occurrence or during the initial learning curve, creating unnecessary administrative overhead.
+- **Doctrinal Principle Adopted (Rule of Three / YAGNI for SOPs):**
+  1. **Immediate Lessons Learned:** Always log observations, friction points, and technical discoveries immediately in the AAR log to preserve institutional memory.
+  2. **Tactical Agility via FRAGOs:** Iterate and adapt workflows rapidly using lightweight taskers, FRAGOs, and direct command directives during early iterations.
+  3. **The Rule of Three Gate:** Do NOT draft, formalize, or publish a binding SOP until the procedure has been executed successfully and consistently at least **three times**.
