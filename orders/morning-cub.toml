@@ -4,6 +4,6 @@
 
 [order]
 description = "Compile 0600 Commander's Update Brief (CUB) within 1-hour pre-meeting window"
-exec = "scripts/generate_morning_cub.sh"
+exec = "commands/generate_morning_cub.sh"
 trigger = "cron"
 schedule = "15 5 * * *"
