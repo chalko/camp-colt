@@ -6,6 +6,22 @@ provider = "antigravity"
 base = "builtin:antigravity"
 ready_delay_ms = 0
 
+[providers.local-litellm]
+base = "builtin:opencode"
+ready_delay_ms = 100
+[providers.local-litellm.env]
+OPENAI_API_BASE = "http://10.82.0.3:8000/v1"
+OPENAI_MODEL = "nvidia/llama-3.3-nemotron-super-49b-v1.5"
+OPENAI_API_KEY = "none"
+
+[providers.local-nemotron]
+base = "builtin:opencode"
+ready_delay_ms = 100
+[providers.local-nemotron.env]
+OPENAI_API_BASE = "http://10.82.0.3:8000/v1"
+OPENAI_MODEL = "nvidia/llama-3.3-nemotron-super-49b-v1.5"
+OPENAI_API_KEY = "none"
+
 [defaults]
 [defaults.rig]
 [defaults.rig.imports]
@@ -55,6 +71,7 @@ version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
 name = "colt-utils"
 prefix = "cu"
 default_branch = "main"
+provider = "local-litellm"
 [rigs.imports]
 [rigs.imports.gc]
 source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
