@@ -50,6 +50,12 @@ name = "s6-signal"
 template = "s6-signal"
 mode = "always"
 
+[[named_session]]
+name = "colt-utils-worker"
+template = "colt-utils-worker"
+dir = "rigs/colt-utils"
+mode = "on_demand"
+
 [[rigs]]
 name = "suitcase-ai"
 prefix = "sa"
@@ -71,7 +77,6 @@ version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
 name = "colt-utils"
 prefix = "cu"
 default_branch = "main"
-provider = "local-litellm"
 [rigs.imports]
 [rigs.imports.gc]
 source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
