@@ -95,3 +95,20 @@
   4. **Tone Hygiene & Visual Report Layout:** Eliminate pseudo-military boilerplate in technical reports. Visual timeseries charts must be rendered full-width (24-column) with local Pacific Time (`tz=America/Los_Angeles`) and embedded directly alongside the corresponding metric tables with a direct interactive Grafana dashboard link.
   5. **Zero-Dirty-Git Exit Gate:** Mandate `git status --porcelain == 0` and 100% clean pre-commit passing across all repositories before closing operational beads.
 - **Reference:** [`rigs/a-staff/plans/AAR_FIRST_COMPLETED_STAFF_ACTION_CC32M.md`](file:///home/camp-colt-mayor-agent/colony/rigs/a-staff/plans/AAR_FIRST_COMPLETED_STAFF_ACTION_CC32M.md) (`AAR-ASTAFF-CC32M-001`).
+
+---
+
+### Entry 007: Git Worktree Cleanliness Doctrine & Municipal Audit Automation
+
+- **Date:** September 26, 2026
+- **Originator:** S-3 Operations (`s3-operations`) via bead `cc-nqpv`
+- **Context:** Codification of Git Worktree Cleanliness doctrine and municipal audit automation across Camp Colt.
+- **Observation:** As multi-agent swarms, ephemeral workers, and toolchain builds proliferate across mounted rigs, unmanaged working trees and abandoned git worktrees cause context pollution, merge conflicts, and supervisor thrashing.
+- **Doctrinal Standard Adopted (`SOP-0.3-WORKTREE-CLEANLINESS`):**
+  1. **Four-Tier Defense Architecture:**
+     - **Tier 1 (Tactical Worker Clean-Exit Gate):** Mandate `git status --porcelain == 0` and worktree pruning before closing any task bead.
+     - **Tier 2 (Scripted Lifecycle & Trap Discipline):** Automation scripts creating secondary worktrees must enforce deterministic POSIX EXIT/INT/TERM traps to remove worktree directories, prune worktrees, and delete temporary branches.
+     - **Tier 3 (Turnkey Municipal Audit Tooling):** Deploy [`scripts/audit_git_cleanliness.sh`](file:///home/camp-colt-mayor-agent/colony/scripts/audit_git_cleanliness.sh) to audit the colony root and all mounted rigs (`a-staff`, `colt-results`, `colt-utils`, `go_template_rule`, `suitcase-ai`), returning exit 0 on clean state or exit 1 on uncommitted/orphaned files.
+     - **Tier 4 (Watch Cadence & Shift Handoff Discipline):** Certify garrison git cleanliness in shift handoffs, 06:00 CUB documents, and weekly Friday retrospectives.
+  2. **Hard Stop Condition:** No task bead may be transitioned to `CLOSED` (`status=closed`) if `git status --porcelain` returns any output.
+- **References:** [`rigs/a-staff/battlebook/SOP_GIT_WORKTREE_CLEANLINESS.md`](file:///home/camp-colt-mayor-agent/colony/rigs/a-staff/battlebook/SOP_GIT_WORKTREE_CLEANLINESS.md), [`scripts/audit_git_cleanliness.sh`](file:///home/camp-colt-mayor-agent/colony/scripts/audit_git_cleanliness.sh), and [`rigs/a-staff/plans/AAR_FIRST_COMPLETED_STAFF_ACTION_CC32M.md`](file:///home/camp-colt-mayor-agent/colony/rigs/a-staff/plans/AAR_FIRST_COMPLETED_STAFF_ACTION_CC32M.md).
