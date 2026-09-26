@@ -1,3 +1,4 @@
 scope = "rig"
 dir = "rigs/colt-utils"
 provider = "local-litellm"
+session = "acp"
