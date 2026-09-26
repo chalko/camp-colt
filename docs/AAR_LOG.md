@@ -80,3 +80,18 @@
   - Assign external credential lifecycle monitoring, access policy audits, and renewal schedules to the **S-1 Personnel (Permissions, RBAC, access policies)** billet.
   - S-1 will maintain a ledger of external tokens, scopes, and expiration dates, issuing renewal notifications to Command 14 days before expiration.
   - Set an operational reminder bead (`+75d`) for Command to renew the `colt-results` GitHub mirror PAT prior to the 90-day cutoff.
+
+---
+
+### Entry 006: S-Staff Billet Disciplines & Completed Staff Work Standards (Operation cc-32m)
+
+- **Date:** September 26, 2026
+- **Originator:** S-3 Operations (`s3-operations`) via bead `cc-3eq`
+- **Context:** Operation `cc-32m` (First sovereign serving pilot and compiler tool migration on ASUS Ascent GX10 GB10)
+- **Observations & Lessons:**
+  1. **Strict Zero-`kubectl` Invariant:** Staff officers must never run `kubectl` or direct cluster mutations. Cluster infrastructure is strictly owned by Platform Chief (`colt-sysadmin`). Telemetry is queried via HTTP Grafana datasource proxy; visual charts are rendered via HTTP.
+  2. **Never Conflate Serving Benchmarks with Agentic Evaluations:** Baseline hardware throughput, thermal stability, and UMA memory clamping (Tier 1) must be verified before launching autonomous agentic workouts (Tier 2).
+  3. **Gateway Caching Bias:** Comparative proxy latency benchmarking requires randomized cold-cache UUID probe nonces, alternating query order, and trimmed mean sampling to prevent Radix prefix caching distortion.
+  4. **Tone Hygiene & Visual Report Layout:** Eliminate pseudo-military boilerplate in technical reports. Visual timeseries charts must be rendered full-width (24-column) with local Pacific Time (`tz=America/Los_Angeles`) and embedded directly alongside the corresponding metric tables with a direct interactive Grafana dashboard link.
+  5. **Zero-Dirty-Git Exit Gate:** Mandate `git status --porcelain == 0` and 100% clean pre-commit passing across all repositories before closing operational beads.
+- **Reference:** [`rigs/a-staff/plans/AAR_FIRST_COMPLETED_STAFF_ACTION_CC32M.md`](file:///home/camp-colt-mayor-agent/colony/rigs/a-staff/plans/AAR_FIRST_COMPLETED_STAFF_ACTION_CC32M.md) (`AAR-ASTAFF-CC32M-001`).
