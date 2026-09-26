@@ -51,7 +51,8 @@ flowchart TD
     T3 --> CPU
 ```
 
-### Core Benefits:
+### Core Benefits
+
 1. **Model Independence**: Swapping local weights (e.g. from `nemotron-49b` to `qwen2.5-coder-32b` or `deepseek-r1`) requires changing a single entry in LiteLLM's `model_list`. Zero agent configs, rig bindings, or worker prompt templates break.
 2. **Dynamic Parameter Clamping**: LiteLLM modulates parameters per tier (e.g. strict low temperature and extended token limits for coding; higher temperature and fast token ceilings for planning).
 3. **Operational Sovereignty & Cost Guardrails**: Expensive commercial APIs are restricted to executive command billets, while parallel worker swarms execute at zero marginal token cost on on-premise silicon.
@@ -60,12 +61,12 @@ flowchart TD
 
 ## 2. Standardized Capability Tiers
 
-| Capability Tier | Logical Model Name | Primary Backend | Parameters & Tuning | Operational Role & Billet Fit |
-| :--- | :--- | :--- | :--- | :--- |
-| **Tier 1 (Executive)** | `executive-tier` | Frontier Cloud (Gemini / Claude) or Local 70B | `effort: medium/high`<br>`temp: 0.2` | **High IQ + Low Latency**: Command Staff (`cos`, `mayor`, `s3-operations`, lead planners) for cross-rig coordination, architecture reviews, and high-level decision-making. |
-| **Tier 2C (Worker - Coder)** | `worker-coder` | ASUS Ascent GX10 (`colt-gpu-01`, Nemotron-49B FP8) | `temp: 0.1`<br>`max_tokens: 16384`<br>AST Tool Calling | **Smart + High Throughput Code Specialist**: Tactical workers (`gc.implementation-worker`) executing multi-turn file edits, unit test repairs, and refactors. |
-| **Tier 2G (Worker - General)** | `worker-general` | ASUS Ascent GX10 (`colt-gpu-01`, Nemotron-49B FP8) | `temp: 0.2`<br>`max_tokens: 4096`<br>Fast TTFT | **Smart + High Throughput General Purpose**: Planners, gap analysts, and decomposers (`gc.task-decomposer`, `gc.requirements-planner`) generating structured task beads. |
-| **Tier 3 (Utility - Fast)** | `utility-fast` | Local CPU Ollama (or low-cost cloud flash-lite) | `temp: 0.0`<br>`max_tokens: 1024` | **Lightweight Utility**: Garrison dog (`bd.dog`), automated health/git sweeps, simple classification, and exit-code reporting. |
+| Capability Tier                | Logical Model Name | Primary Backend                                    | Parameters & Tuning                                    | Operational Role & Billet Fit                                                                                                                                               |
+| :----------------------------- | :----------------- | :------------------------------------------------- | :----------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Tier 1 (Executive)**         | `executive-tier`   | Frontier Cloud (Gemini / Claude) or Local 70B      | `effort: medium/high`<br>`temp: 0.2`                   | **High IQ + Low Latency**: Command Staff (`cos`, `mayor`, `s3-operations`, lead planners) for cross-rig coordination, architecture reviews, and high-level decision-making. |
+| **Tier 2C (Worker - Coder)**   | `worker-coder`     | ASUS Ascent GX10 (`colt-gpu-01`, Nemotron-49B FP8) | `temp: 0.1`<br>`max_tokens: 16384`<br>AST Tool Calling | **Smart + High Throughput Code Specialist**: Tactical workers (`gc.implementation-worker`) executing multi-turn file edits, unit test repairs, and refactors.               |
+| **Tier 2G (Worker - General)** | `worker-general`   | ASUS Ascent GX10 (`colt-gpu-01`, Nemotron-49B FP8) | `temp: 0.2`<br>`max_tokens: 4096`<br>Fast TTFT         | **Smart + High Throughput General Purpose**: Planners, gap analysts, and decomposers (`gc.task-decomposer`, `gc.requirements-planner`) generating structured task beads.    |
+| **Tier 3 (Utility - Fast)**    | `utility-fast`     | Local CPU Ollama (or low-cost cloud flash-lite)    | `temp: 0.0`<br>`max_tokens: 1024`                      | **Lightweight Utility**: Garrison dog (`bd.dog`), automated health/git sweeps, simple classification, and exit-code reporting.                                              |
 
 ---
 
@@ -73,18 +74,18 @@ flowchart TD
 
 The standard roles imported across rigs from `gascity/roles` map to capability tiers as follows:
 
-| Gas City Agent Role | Cognitive Demands | Target Provider Tier | Session Engine |
-| :--- | :--- | :--- | :--- |
-| **`gc.implementation-worker`** | File system AST edits, code generation, test debugging | `worker-coder` | OpenCode (`acp`) |
-| **`gc.implementation-reviewer`** | Security audit, diff analysis, edge-case detection | `worker-coder` (or `cloud-heavy`) | OpenCode (`acp`) |
-| **`gc.review-synthesizer`** | Merging review comments into coherent guidance | `worker-general` | OpenCode (`acp`) |
-| **`gc.task-decomposer`** | Deterministic JSON/YAML task bead creation | `worker-general` | OpenCode (`acp`) |
-| **`gc.requirements-planner`** | Scope definition, acceptance criteria drafting | `worker-general` | OpenCode (`acp`) |
-| **`gc.design-author`** | Architecture design, mermaid diagrams, specifications | `worker-general` (or `executive`) | OpenCode (`acp`) |
-| **`gc.gap-analyst`** | State vs. requirement discrepancy analysis | `worker-general` | OpenCode (`acp`) |
-| **`gc.issue-triager`** | Inbound bead routing, label assignment | `utility-fast` | OpenCode (`acp`) |
-| **`gc.run-operator` / `publisher`** | Git branch pushes, PR creation, run logging | `utility-fast` | OpenCode (`acp`) |
-| **`bd.dog`** | Bivouac police calls, test suite execution | `utility-fast` | Builtin Harness |
+| Gas City Agent Role                 | Cognitive Demands                                      | Target Provider Tier              | Session Engine   |
+| :---------------------------------- | :----------------------------------------------------- | :-------------------------------- | :--------------- |
+| **`gc.implementation-worker`**      | File system AST edits, code generation, test debugging | `worker-coder`                    | OpenCode (`acp`) |
+| **`gc.implementation-reviewer`**    | Security audit, diff analysis, edge-case detection     | `worker-coder` (or `cloud-heavy`) | OpenCode (`acp`) |
+| **`gc.review-synthesizer`**         | Merging review comments into coherent guidance         | `worker-general`                  | OpenCode (`acp`) |
+| **`gc.task-decomposer`**            | Deterministic JSON/YAML task bead creation             | `worker-general`                  | OpenCode (`acp`) |
+| **`gc.requirements-planner`**       | Scope definition, acceptance criteria drafting         | `worker-general`                  | OpenCode (`acp`) |
+| **`gc.design-author`**              | Architecture design, mermaid diagrams, specifications  | `worker-general` (or `executive`) | OpenCode (`acp`) |
+| **`gc.gap-analyst`**                | State vs. requirement discrepancy analysis             | `worker-general`                  | OpenCode (`acp`) |
+| **`gc.issue-triager`**              | Inbound bead routing, label assignment                 | `utility-fast`                    | OpenCode (`acp`) |
+| **`gc.run-operator` / `publisher`** | Git branch pushes, PR creation, run logging            | `utility-fast`                    | OpenCode (`acp`) |
+| **`bd.dog`**                        | Bivouac police calls, test suite execution             | `utility-fast`                    | Builtin Harness  |
 
 ---
 
@@ -93,9 +94,11 @@ The standard roles imported across rigs from `gascity/roles` map to capability t
 Camp Colt operates across three distinct operational postures depending on hardware availability, campaign milestones, and cost constraints:
 
 ### State 1: All Cloud (Maintenance / Heavy Cloud Mode)
-* **Operational Purpose**: Used when the ASUS Ascent GX10 is offline, undergoing maintenance, or running isolated physical training/tuning workloads.
-* **Posture**: All workers across all rigs execute via cloud models.
-* **Configuration**:
+
+- **Operational Purpose**: Used when the ASUS Ascent GX10 is offline, undergoing maintenance, or running isolated physical training/tuning workloads.
+- **Posture**: All workers across all rigs execute via cloud models.
+- **Configuration**:
+
   ```toml
   # city.toml (State 1)
   [workspace]
@@ -107,9 +110,11 @@ Camp Colt operates across three distinct operational postures depending on hardw
   ```
 
 ### State 2: Full Sovereign (Primary Operational Posture)
-* **Operational Purpose**: Maximum computational sovereignty, zero cloud token expenditure, and complete offline resilience per CPG Invariant #2 and #4.
-* **Posture**: All tactical workers across all rigs default to the on-premise Grace Blackwell GB10 via LiteLLM.
-* **Configuration**:
+
+- **Operational Purpose**: Maximum computational sovereignty, zero cloud token expenditure, and complete offline resilience per CPG Invariant #2 and #4.
+- **Posture**: All tactical workers across all rigs default to the on-premise Grace Blackwell GB10 via LiteLLM.
+- **Configuration**:
+
   ```toml
   # city.toml (State 2)
   [defaults.agent]
@@ -122,9 +127,11 @@ Camp Colt operates across three distinct operational postures depending on hardw
   ```
 
 ### State 3: SUT Sandbox (System Under Test — Current Pilot Mode)
-* **Operational Purpose**: Controlled experimental pilot where only the designated System Under Test rig (`colt-utils`) runs on the local sovereign engine, while the rest of the colony (`suitcase-ai`, `go_template_rule`, `colt-results`, `a-staff`) remains on proven cloud providers.
-* **Posture**: Colony defaults stay cloud-backed; only `colt-utils` workers are patched to local providers.
-* **Configuration**:
+
+- **Operational Purpose**: Controlled experimental pilot where only the designated System Under Test rig (`colt-utils`) runs on the local sovereign engine, while the rest of the colony (`suitcase-ai`, `go_template_rule`, `colt-results`, `a-staff`) remains on proven cloud providers.
+- **Posture**: Colony defaults stay cloud-backed; only `colt-utils` workers are patched to local providers.
+- **Configuration**:
+
   ```toml
   # city.toml (State 3: SUT Pilot)
   [workspace]
@@ -199,6 +206,7 @@ base = "builtin:claude"
 ## 6. Verification & State Transition Protocol
 
 When transitioning the colony between operational states:
+
 1. **Config Validation**: Execute `gc config show` to confirm provider resolution and verify that no orphaned or unresolvable provider references exist.
 2. **Diagnostic Bill of Health**: Execute `gc doctor` to verify that workspace hygiene, named sessions, and session reconcilers pass 100% cleanly.
 3. **Smoke Probe**: Dispatch a single test bead to the affected rig's worker to confirm end-to-end token generation and tool calling before opening the rig for production workloads.

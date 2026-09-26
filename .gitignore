@@ -29,3 +29,9 @@ config.env
 build/
 /gascity
 *.lock
+*.sqlite
+data/
+runs/
+
+# OpenCode runtime
+.opencode/

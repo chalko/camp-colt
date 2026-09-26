@@ -51,13 +51,13 @@ flowchart TD
 
 ## 2. Ingress & Network Topology
 
-| Component | Network Endpoint | Scope | Protocol | Node / Host |
-| :--- | :--- | :--- | :--- | :--- |
-| **Ingress VIP** | `10.82.50.10:80` | Appliance VIP | HTTP/1.1 | Envoy Gateway |
-| **Virtual FQDN** | `http://litellm.colt.chalko.com` | Internal DNS | HTTP/1.1 | Route via Ingress VIP |
-| **Cluster Ingress** | `http://litellm.litellm.svc.cluster.local:4000/v1` | Cluster Internal | HTTP/1.1 | `talos-hwe-yok` (`10.82.0.14`) |
-| **Primary Backend** | `http://nemotron-49b.nim-system.svc.cluster.local:8000/v1` | Cluster Internal | HTTP/1.1 | `colt-gpu-01` (`10.82.0.3`) |
-| **Fallback Backend**| `http://ollama.ollama.svc.cluster.local:11434` | Cluster Internal | HTTP/1.1 | `talos-hwe-yok` (`10.82.0.14`) |
+| Component            | Network Endpoint                                           | Scope            | Protocol | Node / Host                    |
+| :------------------- | :--------------------------------------------------------- | :--------------- | :------- | :----------------------------- |
+| **Ingress VIP**      | `10.82.50.10:80`                                           | Appliance VIP    | HTTP/1.1 | Envoy Gateway                  |
+| **Virtual FQDN**     | `http://litellm.colt.chalko.com`                           | Internal DNS     | HTTP/1.1 | Route via Ingress VIP          |
+| **Cluster Ingress**  | `http://litellm.litellm.svc.cluster.local:4000/v1`         | Cluster Internal | HTTP/1.1 | `talos-hwe-yok` (`10.82.0.14`) |
+| **Primary Backend**  | `http://nemotron-49b.nim-system.svc.cluster.local:8000/v1` | Cluster Internal | HTTP/1.1 | `colt-gpu-01` (`10.82.0.3`)    |
+| **Fallback Backend** | `http://ollama.ollama.svc.cluster.local:11434`             | Cluster Internal | HTTP/1.1 | `talos-hwe-yok` (`10.82.0.14`) |
 
 ---
 
@@ -92,7 +92,9 @@ headers = { "X-Camp-Colt-Origin" = "local-agent-enclave" }
 ```
 
 ### 3.3 Audit & Telemetry Headers
+
 Every agent request routed through LiteLLM includes non-sensitive contextual headers for auditability:
+
 - `X-Agent-ID`: The calling session identity (e.g. `s3-operations`, `cu-worker-01`).
 - `X-Rig-Target`: Target rig repository (e.g. `colt-utils`, `go_template_rule`).
 - `X-Session-ID`: Gas City session UUID.
@@ -103,6 +105,7 @@ Every agent request routed through LiteLLM includes non-sensitive contextual hea
 ## 4. S-4 Logistics & Observability Architecture
 
 ### 4.1 Prometheus Metrics Pipeline
+
 LiteLLM exposes unauthenticated Prometheus metrics at `/metrics`, scraped by `kube-prometheus-stack` every 15 seconds:
 
 - `litellm_requests_metric_total`: Total request counter categorized by model, status code, and caller.
@@ -111,10 +114,12 @@ LiteLLM exposes unauthenticated Prometheus metrics at `/metrics`, scraped by `ku
 - `litellm_tokens_consumed_total`: Cumulative token accounting (prompt, completion, and cache-hit tokens).
 
 ### 4.2 S-4 Logistics Allocation & Accounting
+
 ```
 Daily GPU Compute Draw = Sum(Completion Tokens) * Hardware Efficiency Factor (W/tok)
 Prefix Cache Savings   = Prompt Tokens Hit * Avoided Compute Ratio
 ```
+
 With the Grace Blackwell GB10 Radix KV prefix cache hit rate empirically validated at **$91.5\%$**, shared system prompts across swarm workers yield an order-of-magnitude reduction in compute latency and power draw.
 
 ---
@@ -122,11 +127,13 @@ With the Grace Blackwell GB10 Radix KV prefix cache hit rate empirically validat
 ## 5. Resilience, Concurrency & Failover Routing
 
 ### 5.1 Concurrency & Queue Watermarks
+
 - **Hardware Capacity:** NVIDIA Grace Blackwell GB10 running NIM 49B supports up to 64 concurrent sequences (`NIM_MAX_NUM_SEQS = 64`).
 - **LiteLLM Concurrency Cap:** The router enforces a maximum concurrency ceiling of 48 active requests, holding the remaining 16 slots in reserve for interactive high-priority command sessions (`cos`, `s3-operations`).
 - **Queue Timeout:** LiteLLM router times out requests queued longer than 120 seconds (`timeout: 120`).
 
 ### 5.2 Automatic Retry & Failover Strategy
+
 - **Retry Budget:** `num_retries: 2` with exponential backoff ($500\text{ ms} \rightarrow 2000\text{ ms}$).
 - **Degraded Host Failover:**
   - If `colt-gpu-01` reports HTTP 503 or becomes unreachable during hardware maintenance, non-coding metadata and summarization tasks automatically fall back to CPU Ollama on `talos-hwe-yok`.
@@ -136,7 +143,7 @@ With the Grace Blackwell GB10 Radix KV prefix cache hit rate empirically validat
 
 ## 6. Zero-Secret Credentials & Security Posture
 
-1. **HashiCorp Vault Authority:** Master proxy credentials and backend access tokens are stored in Vault (`colt-vault` @ `10.82.0.5:8200`) under path `secret/data/colt/litellm/master_key`.
+1. **HashCorp Vault Authority:** Master proxy credentials and backend access tokens are stored in Vault (`colt-vault` @ `10.82.0.5:8200`) under path `secret/data/colt/litellm/master_key`.
 2. **Kubernetes Projection:** External Secrets Operator synchronizes the credential into Kubernetes Secret `litellm-secrets`.
 3. **Agent POSIX Boundary:** Agents operate under unprivileged POSIX identities with zero standing root access. Credentials are never written to disk in plain text; agents access ephemeral tokens via memory-backed `/dev/shm` mounts.
 4. **Header Sanitization:** LiteLLM sanitizes all request/response headers, dropping internal cluster topology markers and stripping debug tokens (`drop_params: true`).
@@ -152,21 +159,21 @@ With the Grace Blackwell GB10 Radix KV prefix cache hit rate empirically validat
 
 ## 8. Billet Review & Approval Block
 
-**Authored By:**  
-*S-3 Operations Officer (`s3-operations`)*  
-Camp Colt Combat Operations Center  
-Date: 2026-09-22  
+**Authored By:**
+_S-3 Operations Officer (`s3-operations`)_
+Camp Colt Combat Operations Center
+Date: 2026-09-22
 
-**Platform Architecture Concurrence:**  
-*Platform Chief (`colt-sysadmin`)*  
-Disposition: CONCUR (ref `cc-wisp-dgn0`)  
-Date: 2026-09-22  
+**Platform Architecture Concurrence:**
+_Platform Chief (`colt-sysadmin`)_
+Disposition: CONCUR (ref `cc-wisp-dgn0`)
+Date: 2026-09-22
 
-**Quality Assurance & Signal Concurrence:**  
-*S-6 Signal & Cyber Officer (`s6-signal`)*  
-Disposition: CONCUR (Phase 2 Gate Cleared)  
-Date: 2026-09-22  
+**Quality Assurance & Signal Concurrence:**
+_S-6 Signal & Cyber Officer (`s6-signal`)_
+Disposition: CONCUR (Phase 2 Gate Cleared)
+Date: 2026-09-22
 
-**Operational Endorsement:**  
-*Chief of Staff (`cos`)*  
+**Operational Endorsement:**
+_Chief of Staff (`cos`)_
 Camp Colt Battalion Headquarters

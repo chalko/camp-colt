@@ -44,4 +44,3 @@ and enforcing Completed Staff Action.
    `strategic-plans/peggy`.
 
 {{ template "staff-common" . }}
-

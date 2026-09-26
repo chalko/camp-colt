@@ -1,0 +1,7 @@
+[default.extend-words]
+STRAT = "STRAT"
+strat = "strat"
+
+[default.extend-identifiers]
+STRAT = "STRAT"
+strat = "strat"

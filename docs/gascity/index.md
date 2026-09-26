@@ -16,12 +16,13 @@ Supervisor started (PID <pid>)
 ```
 
 #### Cause
+
 The host environment does not maintain an active systemd user session bus (`systemctl --user`) for `camp-colt-mayor-agent`, as linger is not enabled and the session is not spawned through a PAM systemd login session.
 
 ### Decision: Detached Process Mode (Option 2)
 
-**Decision Date:** 2026-09-21  
-**Status:** Accepted  
+**Decision Date:** 2026-09-21
+**Status:** Accepted
 
 We intentionally run the Gas City supervisor in **detached process mode** (`gc supervisor start` without systemd service installation) rather than enabling systemd lingering (`sudo loginctl enable-linger`).
 
@@ -29,8 +30,9 @@ We intentionally run the Gas City supervisor in **detached process mode** (`gc s
 
 1. **Camp Colt Security Principles:**
    Camp Colt operates under strict security posture:
-   > *Zero standing root access; all agent tasks execute under unprivileged POSIX identities.*
-   
+
+   > _Zero standing root access; all agent tasks execute under unprivileged POSIX identities._
+
    Enabling lingering requires privileged (`sudo`) elevation on the host system. Operating in detached mode adheres to unprivileged execution boundaries.
 
 2. **Environment Portability:**
@@ -42,23 +44,28 @@ We intentionally run the Gas City supervisor in **detached process mode** (`gc s
 ### Operational Runbook
 
 #### Checking Status
+
 ```bash
 gc status
 gc supervisor status
 ```
 
 #### Starting Supervisor (Detached)
+
 ```bash
 gc supervisor start
 ```
 
 #### Stopping Supervisor
+
 ```bash
 gc supervisor stop
 ```
 
 #### Logs & Diagnostics
+
 Supervisor logs and runtime sockets reside in `.gc/`:
+
 ```bash
 ls -la .gc/
 ```
