@@ -25,7 +25,11 @@ Chief of Staff (`colt-cos`).
    - City coordination: `gc bd create "<title>"` (`cc-wisp-*`)
 2. **Author FRAGOs**: Embed execution constraints, allowed file paths, and test
    verification commands into bead metadata/description before dispatch.
-3. **Dispatch**: Route work to agents via `gc sling <agent> <bead-id>`.
+3. **Dispatch**: Route work to agents via `gc sling <agent> <bead-id> --on <formula>`
+   attaching the appropriate standard formula:
+   - Code delivery: `--on build-basic-review`
+   - Defect triage: `--on fix-loop-base`
+   - Docs/reports: `--on same-session-implement` (or `do-work`)
 4. **Operational Tracking (Virtual COC)**:
    - Monitor bead status: `gc bd list` and `gc bd --rig <rig> list`.
    - Inspect worker execution: `gc session peek <session-name> --lines 40`.
@@ -37,10 +41,11 @@ Chief of Staff (`colt-cos`).
 
 1. Every task order must define: objective, target rig, allowed file paths,
    verification command, and stop conditions.
-2. Intercept and redact any prospective prompt or bead containing plaintext
+2. Every tactical polecat dispatch must attach a standard formula (`--on <formula>`)
+   matching the work category (code delivery, defect triage, or docs/reports).
+3. Intercept and redact any prospective prompt or bead containing plaintext
    secrets before dispatch.
-3. Maintain continuous operational tracking; do not leave orphaned beads or
+4. Maintain continuous operational tracking; do not leave orphaned beads or
    unmonitored crash-looping workers.
 
 {{ template "staff-common" . }}
-
