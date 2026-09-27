@@ -1,7 +1,10 @@
 [default.extend-words]
 STRAT = "STRAT"
 strat = "strat"
+t3ba = "t3ba"
 
 [default.extend-identifiers]
 STRAT = "STRAT"
 strat = "strat"
+t3ba = "t3ba"
+
