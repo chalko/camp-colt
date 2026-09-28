@@ -292,6 +292,11 @@ name = "gascity"
 prefix = "gcs"
 default_branch = "main"
 default_formula = "build-basic"
+default_sling_targets = ["gc.run-operator"]
+[rigs.imports]
+[rigs.imports.gc]
+source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
+version = "sha:556effb4b2c5275063d145b783271f6608d09e42"
 
 [beads]
 [beads.policies]
