@@ -287,6 +287,11 @@ default_branch = "main"
 source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
 version = "sha:556effb4b2c5275063d145b783271f6608d09e42"
 
+[[rigs]]
+name = "gascity"
+prefix = "gcs"
+default_branch = "main"
+
 [beads]
 [beads.policies]
 [beads.policies.order_tracking]
