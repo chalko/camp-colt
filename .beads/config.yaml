@@ -1,5 +1,5 @@
-issue_prefix: gcs
-issue-prefix: gcs
+issue_prefix: cc
+issue-prefix: cc
 dolt.auto-start: false
 dolt:
   disable-event-flush: true
