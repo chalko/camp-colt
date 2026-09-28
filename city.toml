@@ -27,7 +27,7 @@ OPENAI_API_KEY = "none"
 [defaults.rig.imports]
 [defaults.rig.imports.gc]
 source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
-version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
+version = "sha:556effb4b2c5275063d145b783271f6608d09e42"
 
 [[named_session]]
 name = "cos"
@@ -63,7 +63,7 @@ default_branch = "main"
 [rigs.imports]
 [rigs.imports.gc]
 source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
-version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
+version = "sha:556effb4b2c5275063d145b783271f6608d09e42"
 
 [[rigs]]
 name = "go_template_rule"
@@ -73,7 +73,7 @@ default_sling_targets = ["gc.run-operator"]
 [rigs.imports]
 [rigs.imports.gc]
 source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
-version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
+version = "sha:556effb4b2c5275063d145b783271f6608d09e42"
 
 [[rigs.patches]]
 agent = "implementation-worker"
@@ -144,7 +144,7 @@ default_sling_targets = ["gc.run-operator"]
 [rigs.imports]
 [rigs.imports.gc]
 source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
-version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
+version = "sha:556effb4b2c5275063d145b783271f6608d09e42"
 
 [[rigs.patches]]
 agent = "implementation-worker"
@@ -215,7 +215,7 @@ default_sling_targets = ["gc.run-operator"]
 [rigs.imports]
 [rigs.imports.gc]
 source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
-version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
+version = "sha:556effb4b2c5275063d145b783271f6608d09e42"
 
 [[rigs.patches]]
 agent = "implementation-worker"
@@ -285,7 +285,7 @@ default_branch = "main"
 [rigs.imports]
 [rigs.imports.gc]
 source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
-version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
+version = "sha:556effb4b2c5275063d145b783271f6608d09e42"
 
 [beads]
 [beads.policies]

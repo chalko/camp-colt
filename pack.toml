@@ -11,7 +11,7 @@ source = "https://github.com/gastownhall/gascity/tree/main/internal/bootstrap/pa
 version = "sha:f895c0ff47d6ee9334ed282a416387eb5b084d24"
 [imports.gascity]
 source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity"
-version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
+version = "sha:556effb4b2c5275063d145b783271f6608d09e42"
 
 [[named_session]]
 template = "mayor"

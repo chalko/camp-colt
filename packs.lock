@@ -1,14 +1,14 @@
 schema = 1
 
 [packs."https://github.com/gastownhall/gascity-packs/tree/main/gascity"]
-version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
-commit = "3b3b89f2011e06d84459aa7bea1552382f13930a"
-fetched = "2026-09-20T06:21:37Z"
+version = "sha:556effb4b2c5275063d145b783271f6608d09e42"
+commit = "556effb4b2c5275063d145b783271f6608d09e42"
+fetched = "2026-09-28T02:10:24Z"
 
 [packs."https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"]
-version = "sha:3b3b89f2011e06d84459aa7bea1552382f13930a"
-commit = "3b3b89f2011e06d84459aa7bea1552382f13930a"
-fetched = "2026-09-20T06:21:37Z"
+version = "sha:556effb4b2c5275063d145b783271f6608d09e42"
+commit = "556effb4b2c5275063d145b783271f6608d09e42"
+fetched = "2026-09-28T02:09:59Z"
 
 [packs."https://github.com/gastownhall/gascity/tree/main/examples/bd"]
 version = "sha:f895c0ff47d6ee9334ed282a416387eb5b084d24"
