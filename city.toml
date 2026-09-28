@@ -1,6 +1,10 @@
 [workspace]
 provider = "antigravity"
 
+[workspace.env]
+TZ = "America/Los_Angeles"
+GC_OPERATOR_TZ = "America/Los_Angeles"
+
 [providers]
 [providers.antigravity]
 base = "builtin:antigravity"
