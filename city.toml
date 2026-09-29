@@ -6,6 +6,9 @@ max_active_sessions = 12
 TZ = "America/Los_Angeles"
 GC_OPERATOR_TZ = "America/Los_Angeles"
 
+[daemon]
+nudge_dispatcher = "supervisor"
+
 [providers]
 [providers.antigravity]
 base = "builtin:antigravity"
