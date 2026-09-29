@@ -11,12 +11,7 @@ echo "[$(date -Iseconds)] Running municipal hygiene patrol..."
 # 1. Prune dormant/asleep/drained sessions older than 5 minutes
 gc session prune --city "$CITY_DIR" --state asleep,suspended,drained --before 5m || true
 
-# 2. Reclaim stale leases across rigs (5m grace window per Command directive)
-for rig_dir in "$CITY_DIR"/rigs/*; do
-  if [ -d "$rig_dir/.beads" ]; then
-    bd --directory "$rig_dir" reclaim --older-than 5m || true
-  fi
-done
+# 2. Lease management deferred strictly to native Gas City Health Patrol per Command Directive (cc-wisp-gij3i)
 
 # 3. Targeted process reaper for detached/orphaned opencode ACP processes
 ACTIVE_IDS=$(gc session list --city "$CITY_DIR" --json 2>/dev/null | jq -r '[.sessions[]? | select(.state=="active") | .id] | .[]' 2>/dev/null || true)
