@@ -76,6 +76,7 @@ name = "go_template_rule"
 default_branch = "main"
 default_formula = "build-basic-review"
 default_sling_targets = ["gc.run-operator"]
+max_active_sessions = 4
 [rigs.imports]
 [rigs.imports.gc]
 source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
@@ -147,6 +148,7 @@ prefix = "cu"
 default_branch = "main"
 default_formula = "build-basic-review"
 default_sling_targets = ["gc.run-operator"]
+max_active_sessions = 4
 [rigs.imports]
 [rigs.imports.gc]
 source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
@@ -218,6 +220,7 @@ prefix = "cr"
 default_branch = "main"
 default_formula = "build-basic-review"
 default_sling_targets = ["gc.run-operator"]
+max_active_sessions = 4
 [rigs.imports]
 [rigs.imports.gc]
 source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
