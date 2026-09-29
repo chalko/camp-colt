@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # municipal_hygiene.sh - Automated Municipal Hygiene for Camp Colt
-# Reaps dormant sessions, clears stale worker leases, and maintains CGroup/process hygiene.
+# Reaps dormant sessions, clears stale worker leases, and reaps detached ACP processes.
 set -euo pipefail
 
 CITY_DIR="/home/camp-colt-mayor-agent/colony"
@@ -8,31 +8,47 @@ export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
 
 echo "[$(date -Iseconds)] Running municipal hygiene patrol..."
 
-# 1. Prune dormant/asleep/drained sessions older than 15 minutes
-gc session prune --city "$CITY_DIR" --state asleep,suspended,drained --before 15m || true
+# 1. Prune dormant/asleep/drained sessions older than 5 minutes
+gc session prune --city "$CITY_DIR" --state asleep,suspended,drained --before 5m || true
 
-# 2. Reclaim stale leases across rigs (older than 10m grace window)
+# 2. Reclaim stale leases across rigs (5m grace window per Command directive)
 for rig_dir in "$CITY_DIR"/rigs/*; do
   if [ -d "$rig_dir/.beads" ]; then
-    bd --directory "$rig_dir" reclaim --older-than 10m || true
+    bd --directory "$rig_dir" reclaim --older-than 5m || true
   fi
 done
 
-# 3. Reap orphaned ACP worker processes (opencode acp)
-# Count how many sessions are legitimately active with transport/command opencode acp
-ACTIVE_ACP=$(gc session list --city "$CITY_DIR" --json 2>/dev/null | jq -r '[.sessions[]? | select(.command=="opencode acp" and .state=="active")] | length' 2>/dev/null || echo "0")
+# 3. Targeted process reaper for detached/orphaned opencode ACP processes
+ACTIVE_IDS=$(gc session list --city "$CITY_DIR" --json 2>/dev/null | jq -r '[.sessions[]? | select(.state=="active") | .id] | .[]' 2>/dev/null || true)
 
-# Count actual running opencode binary instances (exact process name match)
-RUNNING_OPENCODE=$(pgrep -c -x opencode 2>/dev/null || echo "0")
+REAPED_COUNT=0
+for pid in $(pgrep -x opencode 2>/dev/null || true); do
+  if [ ! -r "/proc/$pid/environ" ]; then
+    continue
+  fi
 
-if [ "$ACTIVE_ACP" -eq 0 ] && [ "$RUNNING_OPENCODE" -gt 0 ]; then
-  echo "[$(date -Iseconds)] Found $RUNNING_OPENCODE orphaned opencode processes with 0 active ACP sessions. Reaping..."
-  pkill -x opencode || true
-  pkill -f "sh -c opencode acp" || true
-elif [ "$RUNNING_OPENCODE" -gt "$ACTIVE_ACP" ]; then
-  echo "[$(date -Iseconds)] Warning: Running opencode processes ($RUNNING_OPENCODE) exceed active sessions ($ACTIVE_ACP)."
+  sess_id=$(tr '\0' '\n' < "/proc/$pid/environ" 2>/dev/null | grep "^GC_SESSION_ID=" | cut -d= -f2 || true)
+  ppid=$(ps -p "$pid" -o ppid= 2>/dev/null | tr -d ' ' || true)
+
+  if [ -z "$sess_id" ] || ! echo "$ACTIVE_IDS" | grep -qw "$sess_id"; then
+    echo "[$(date -Iseconds)] Reaping detached opencode PID $pid (session: '${sess_id:-none}', parent: $ppid)..."
+    kill -TERM "$pid" 2>/dev/null || true
+    if [ -n "$ppid" ] && [ "$ppid" -gt 1 ]; then
+      kill -TERM "$ppid" 2>/dev/null || true
+    fi
+    sleep 0.2
+    kill -9 "$pid" 2>/dev/null || true
+    if [ -n "$ppid" ] && [ "$ppid" -gt 1 ]; then
+      kill -9 "$ppid" 2>/dev/null || true
+    fi
+    REAPED_COUNT=$((REAPED_COUNT + 1))
+  fi
+done
+
+if [ "$REAPED_COUNT" -gt 0 ]; then
+  echo "[$(date -Iseconds)] Reaped $REAPED_COUNT detached opencode process(es)."
 else
-  echo "[$(date -Iseconds)] Opencode process hygiene verified: $RUNNING_OPENCODE running matching $ACTIVE_ACP active sessions."
+  echo "[$(date -Iseconds)] Opencode process hygiene verified: zero detached orphans."
 fi
 
 echo "[$(date -Iseconds)] Municipal hygiene patrol completed."
