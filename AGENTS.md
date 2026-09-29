@@ -38,7 +38,7 @@ All operations, orders, task beads, and missions across Camp Colt are strictly g
 
 - **Repositories as Logistics (S-4):** Git repositories are supply depots (Class IX/VII digital material). S-4 Logistics manages repo creation, storage quotas, and inventory in Gitea.
 - **Platform Infrastructure (`colt-sysadmin`):** Platform SRE maintains the underlying Gitea K8s pod, database, and storage class.
-- **Municipal Plumbing (`mayor`):** Mayor clones repos provisioned by S-4 into town workspaces and mounts them in `city.toml`.
+- **Municipal Plumbing & Rig Lifecycle (`mayor`):** Mayor holds sole authority over Gas City-wide operations, city configuration (`city.toml`), workspace plumbing, and rig-level lifecycle changes (`gc rig suspend`, `gc rig resume`, `gc rig restart`, `gc reload`). Other staff billets (including CoS and S-3) must **NEVER directly invoke city or rig lifecycle commands (`gc stop`, `gc start`, `gc rig ...`)**; they must task the Mayor via `gc mail`.
 
 ## Operational Principles
 
