@@ -1,5 +1,6 @@
 [workspace]
 provider = "antigravity"
+max_active_sessions = 12
 
 [workspace.env]
 TZ = "America/Los_Angeles"
@@ -298,6 +299,7 @@ prefix = "gcs"
 default_branch = "main"
 default_formula = "build-basic"
 default_sling_targets = ["gc.run-operator"]
+max_active_sessions = 6
 [rigs.imports]
 [rigs.imports.gc]
 source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
@@ -307,6 +309,7 @@ version = "sha:556effb4b2c5275063d145b783271f6608d09e42"
 agent = "implementation-worker"
 provider = "local-litellm"
 session = "acp"
+max_active_sessions = 3
 
 [[rigs.patches]]
 agent = "implementation-reviewer"
@@ -327,6 +330,7 @@ session = "acp"
 agent = "run-operator"
 provider = "local-litellm"
 session = "acp"
+max_active_sessions = 2
 
 [[rigs.patches]]
 agent = "gap-analyst"
