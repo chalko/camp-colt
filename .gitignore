@@ -38,3 +38,4 @@ runs/
 
 # Beads / Dolt files (added by bd init)
 *.gate.lock*
+__pycache__/
