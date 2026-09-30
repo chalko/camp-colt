@@ -373,6 +373,78 @@ agent = "requirements-planner"
 provider = "local-litellm"
 session = "acp"
 
+[[rigs]]
+name = "ksk"
+prefix = "ksk"
+default_branch = "main"
+default_formula = "build-basic"
+default_sling_targets = ["gc.run-operator"]
+max_active_sessions = 4
+[rigs.imports]
+[rigs.imports.gc]
+source = "https://github.com/gastownhall/gascity-packs/tree/main/gascity/roles"
+version = "sha:556effb4b2c5275063d145b783271f6608d09e42"
+
+[[rigs.patches]]
+agent = "implementation-worker"
+provider = "local-litellm"
+session = "acp"
+
+[[rigs.patches]]
+agent = "implementation-reviewer"
+provider = "local-litellm"
+session = "acp"
+
+[[rigs.patches]]
+agent = "task-decomposer"
+provider = "local-litellm"
+session = "acp"
+
+[[rigs.patches]]
+agent = "review-synthesizer"
+provider = "local-litellm"
+session = "acp"
+
+[[rigs.patches]]
+agent = "run-operator"
+provider = "local-litellm"
+session = "acp"
+
+[[rigs.patches]]
+agent = "gap-analyst"
+provider = "local-litellm"
+session = "acp"
+
+[[rigs.patches]]
+agent = "design-author"
+provider = "local-litellm"
+session = "acp"
+
+[[rigs.patches]]
+agent = "design-implementation-reviewer"
+provider = "local-litellm"
+session = "acp"
+
+[[rigs.patches]]
+agent = "design-test-risk-reviewer"
+provider = "local-litellm"
+session = "acp"
+
+[[rigs.patches]]
+agent = "issue-triager"
+provider = "local-litellm"
+session = "acp"
+
+[[rigs.patches]]
+agent = "publisher"
+provider = "local-litellm"
+session = "acp"
+
+[[rigs.patches]]
+agent = "requirements-planner"
+provider = "local-litellm"
+session = "acp"
+
 [beads]
 [beads.policies]
 [beads.policies.order_tracking]
