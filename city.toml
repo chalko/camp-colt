@@ -31,6 +31,34 @@ OPENAI_API_BASE = "http://10.82.0.3:8000/v1"
 OPENAI_MODEL = "nvidia/llama-3.3-nemotron-super-49b-v1.5"
 OPENAI_API_KEY = "none"
 
+[providers.local-fast]
+base = "builtin:opencode"
+ready_delay_ms = 50
+[providers.local-fast.env]
+OPENAI_API_BASE = "http://10.82.0.3:8000/v1"
+OPENAI_MODEL = "nvidia/llama-3.3-nemotron-super-49b-v1.5"
+OPENAI_API_KEY = "none"
+OPENCODE_REASONING_EFFORT = "none"
+
+[providers.local-general]
+base = "builtin:opencode"
+ready_delay_ms = 100
+[providers.local-general.env]
+OPENAI_API_BASE = "http://10.82.0.3:8000/v1"
+OPENAI_MODEL = "nvidia/llama-3.3-nemotron-super-49b-v1.5"
+OPENAI_API_KEY = "none"
+OPENCODE_REASONING_EFFORT = "medium"
+
+[providers.local-coder]
+base = "builtin:opencode"
+ready_delay_ms = 100
+[providers.local-coder.env]
+OPENAI_API_BASE = "http://10.82.0.3:8000/v1"
+OPENAI_MODEL = "nvidia/llama-3.3-nemotron-super-49b-v1.5"
+OPENAI_API_KEY = "none"
+OPENCODE_REASONING_EFFORT = "high"
+
+
 [defaults]
 [defaults.rig]
 [defaults.rig.imports]
@@ -87,62 +115,62 @@ version = "sha:556effb4b2c5275063d145b783271f6608d09e42"
 
 [[rigs.patches]]
 agent = "implementation-worker"
-provider = "local-litellm"
+provider = "local-coder"
 session = "acp"
 
 [[rigs.patches]]
 agent = "implementation-reviewer"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "task-decomposer"
-provider = "local-litellm"
+provider = "local-fast"
 session = "acp"
 
 [[rigs.patches]]
 agent = "review-synthesizer"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "run-operator"
-provider = "local-litellm"
+provider = "local-fast"
 session = "acp"
 
 [[rigs.patches]]
 agent = "gap-analyst"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "design-author"
-provider = "local-litellm"
+provider = "local-coder"
 session = "acp"
 
 [[rigs.patches]]
 agent = "design-implementation-reviewer"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "design-test-risk-reviewer"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "issue-triager"
-provider = "local-litellm"
+provider = "local-fast"
 session = "acp"
 
 [[rigs.patches]]
 agent = "publisher"
-provider = "local-litellm"
+provider = "local-fast"
 session = "acp"
 
 [[rigs.patches]]
 agent = "requirements-planner"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs]]
@@ -159,62 +187,62 @@ version = "sha:556effb4b2c5275063d145b783271f6608d09e42"
 
 [[rigs.patches]]
 agent = "implementation-worker"
-provider = "local-litellm"
+provider = "local-coder"
 session = "acp"
 
 [[rigs.patches]]
 agent = "implementation-reviewer"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "task-decomposer"
-provider = "local-litellm"
+provider = "local-fast"
 session = "acp"
 
 [[rigs.patches]]
 agent = "review-synthesizer"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "run-operator"
-provider = "local-litellm"
+provider = "local-fast"
 session = "acp"
 
 [[rigs.patches]]
 agent = "gap-analyst"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "design-author"
-provider = "local-litellm"
+provider = "local-coder"
 session = "acp"
 
 [[rigs.patches]]
 agent = "design-implementation-reviewer"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "design-test-risk-reviewer"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "issue-triager"
-provider = "local-litellm"
+provider = "local-fast"
 session = "acp"
 
 [[rigs.patches]]
 agent = "publisher"
-provider = "local-litellm"
+provider = "local-fast"
 session = "acp"
 
 [[rigs.patches]]
 agent = "requirements-planner"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs]]
@@ -231,62 +259,62 @@ version = "sha:556effb4b2c5275063d145b783271f6608d09e42"
 
 [[rigs.patches]]
 agent = "implementation-worker"
-provider = "local-litellm"
+provider = "local-coder"
 session = "acp"
 
 [[rigs.patches]]
 agent = "implementation-reviewer"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "task-decomposer"
-provider = "local-litellm"
+provider = "local-fast"
 session = "acp"
 
 [[rigs.patches]]
 agent = "review-synthesizer"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "run-operator"
-provider = "local-litellm"
+provider = "local-fast"
 session = "acp"
 
 [[rigs.patches]]
 agent = "gap-analyst"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "design-author"
-provider = "local-litellm"
+provider = "local-coder"
 session = "acp"
 
 [[rigs.patches]]
 agent = "design-implementation-reviewer"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "design-test-risk-reviewer"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "issue-triager"
-provider = "local-litellm"
+provider = "local-fast"
 session = "acp"
 
 [[rigs.patches]]
 agent = "publisher"
-provider = "local-litellm"
+provider = "local-fast"
 session = "acp"
 
 [[rigs.patches]]
 agent = "requirements-planner"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 
@@ -313,64 +341,64 @@ version = "sha:556effb4b2c5275063d145b783271f6608d09e42"
 
 [[rigs.patches]]
 agent = "implementation-worker"
-provider = "local-litellm"
+provider = "local-coder"
 session = "acp"
 max_active_sessions = 3
 
 [[rigs.patches]]
 agent = "implementation-reviewer"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "task-decomposer"
-provider = "local-litellm"
+provider = "local-fast"
 session = "acp"
 
 [[rigs.patches]]
 agent = "review-synthesizer"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "run-operator"
-provider = "local-litellm"
+provider = "local-fast"
 session = "acp"
 max_active_sessions = 2
 
 [[rigs.patches]]
 agent = "gap-analyst"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "design-author"
-provider = "local-litellm"
+provider = "local-coder"
 session = "acp"
 
 [[rigs.patches]]
 agent = "design-implementation-reviewer"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "design-test-risk-reviewer"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "issue-triager"
-provider = "local-litellm"
+provider = "local-fast"
 session = "acp"
 
 [[rigs.patches]]
 agent = "publisher"
-provider = "local-litellm"
+provider = "local-fast"
 session = "acp"
 
 [[rigs.patches]]
 agent = "requirements-planner"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs]]
@@ -387,62 +415,62 @@ version = "sha:556effb4b2c5275063d145b783271f6608d09e42"
 
 [[rigs.patches]]
 agent = "implementation-worker"
-provider = "local-litellm"
+provider = "local-coder"
 session = "acp"
 
 [[rigs.patches]]
 agent = "implementation-reviewer"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "task-decomposer"
-provider = "local-litellm"
+provider = "local-fast"
 session = "acp"
 
 [[rigs.patches]]
 agent = "review-synthesizer"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "run-operator"
-provider = "local-litellm"
+provider = "local-fast"
 session = "acp"
 
 [[rigs.patches]]
 agent = "gap-analyst"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "design-author"
-provider = "local-litellm"
+provider = "local-coder"
 session = "acp"
 
 [[rigs.patches]]
 agent = "design-implementation-reviewer"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "design-test-risk-reviewer"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [[rigs.patches]]
 agent = "issue-triager"
-provider = "local-litellm"
+provider = "local-fast"
 session = "acp"
 
 [[rigs.patches]]
 agent = "publisher"
-provider = "local-litellm"
+provider = "local-fast"
 session = "acp"
 
 [[rigs.patches]]
 agent = "requirements-planner"
-provider = "local-litellm"
+provider = "local-general"
 session = "acp"
 
 [beads]
