@@ -241,6 +241,64 @@ Following deployment of the tiered architecture, all production software enginee
 
 ---
 
+### 5.2 E2E Workload Telemetry & Tokens per Line of Code Analysis
+
+To measure real-world software engineering productivity, unit economics, and token intensity across autonomous agent pipelines on bare-metal silicon, comprehensive telemetry was recorded across all 13 end-to-end deliverables (12 upstream Gas City issue resolutions and 1 Colt Utils core library).
+
+#### 5.2.1 Aggregate End-to-End Metrics
+
+```
++-----------------------------------------------------------------------------------+
+| Aggregate Production Engineering Pipeline Telemetry (13 Deliverables)             |
++-----------------------------------------------------------------------------------+
+| Total Production Deliverables:     | 13 tasks (12 gascity issues + 1 colt-utils)  |
+| Total Files Modified / Authored:   | 38 files                                     |
+| Code Additions:                    | 1,187 lines                                  |
+| Code Deletions:                    | 96 lines                                     |
+| Total Code Volume Changed:         | 1,283 lines (1,187 additions / 96 deletions) |
+| Net Code Volume Added:             | 1,091 lines                                  |
+| Total Generation Tokens:           | 1,169,736 tokens                             |
+| Total Prefill Tokens Ingested:     | 32,749,126 tokens                            |
+| Total Aggregate Token Volume:      | 33,918,862 tokens                            |
+| Cumulative Requests Serviced:      | 13,046 inference requests                    |
+| Cumulative Active Inference Time:  | 8,863.12 seconds (147.72 minutes / ~2.46 h)  |
+| Sovereign Execution Integrity:     | 100% bare-metal GB10; $0.00 cloud; 0 human LOC|
++-----------------------------------------------------------------------------------+
+```
+
+#### 5.2.2 Tokens Per Line of Code (LOC) Telemetry & Unit Economics
+
+A key empirical benchmark for autonomous coding agents is the token cost required to deliver and verify functional, human-grade source code:
+
+- **Generation Tokens per Added LOC**: **985.46 gen tok/LOC** ($1{,}169{,}736 / 1{,}187$)
+- **Generation Tokens per Changed LOC**: **911.72 gen tok/LOC** ($1{,}169{,}736 / 1{,}283$)
+- **Generation Tokens per Net LOC**: **1,072.17 gen tok/LOC** ($1{,}169{,}736 / 1{,}091$)
+- **All-In Tokens (Prefill + Generation) per Changed LOC**: **26,437.15 total tok/LOC** ($33{,}918{,}862 / 1{,}283$)
+- **Operational Bandwidth Observations**:
+  - **Feature and Multi-File Refactoring**: Substantial feature additions and architectural fixes operate in the range of **508 to 1,642 generation tokens per changed LOC**. Deliverables like Issue #6873 (5 files, 181 lines changed) and Issue #6892 (4 files, 201 lines changed) demonstrate high token efficiency (508.3 and 463.5 gen tok/LOC).
+  - **Surgical Root-Cause Defect Isolation**: Highly localized bug fixes (such as Issue #6807, a 4-line surgical patch across 2 files) exhibit a higher ratio of **22,690.0 gen tok/LOC**. In localized defects, the agent investment is dominated by diagnostic deliberation, regression suite analysis, and test harness validation rather than raw line emission.
+
+#### 5.2.3 Per-Task Empirical Breakdown Table
+
+| Task Identifier       | Tracking Bead | Commit Hash | Files  |   Add / Del (Changed)    |  Gen Tokens   | Gen Tok / Changed LOC |  Requests  | Active Time (s) |
+| :-------------------- | :------------ | :---------- | :----: | :----------------------: | :-----------: | :-------------------: | :--------: | :-------------: |
+| **Issue #6807**       | `gcs-mgo`     | `0a630e35c` |   2    |       +4 / -0 (4)        |    90,760     |       22,690.0        |    926     |    685.11 s     |
+| **Issue #6822**       | `gcs-38w`     | `c8b2ac515` |   3    |     +117 / -2 (119)      |    90,216     |         758.1         |    918     |    696.76 s     |
+| **Issue #6850**       | `gcs-tw3`     | `46e5a4c16` |   4    |      +60 / -1 (61)       |    64,606     |        1,059.1        |    782     |    514.56 s     |
+| **Issue #6858**       | `gcs-utp`     | `2e795ffcf` |   3    |      +73 / -6 (79)       |    91,464     |        1,157.8        |    940     |    620.40 s     |
+| **Issue #6864**       | `gcs-4jz`     | `d8d73a9e3` |   3    |      +71 / -10 (81)      |    93,736     |        1,157.2        |   1,092    |    715.26 s     |
+| **Issue #6866**       | `gcs-mjt`     | `8142ddc34` |   2    |      +32 / -1 (33)       |    93,448     |        2,831.8        |   1,084    |    717.61 s     |
+| **Issue #6873**       | `gcs-eai`     | `c7a878784` |   5    |     +148 / -33 (181)     |    92,008     |         508.3         |   1,004    |    702.92 s     |
+| **Issue #6886**       | `gcs-vw1`     | `4c51cb6e3` |   3    |      +55 / -2 (57)       |    93,640     |        1,642.8        |   1,106    |    726.64 s     |
+| **Issue #6891**       | `gcs-m30`     | `7b3842355` |   2    |      +44 / -1 (45)       |    93,064     |        2,068.1        |   1,070    |    718.70 s     |
+| **Issue #6892**       | `gcs-2z2`     | `c8855f289` |   4    |     +173 / -28 (201)     |    93,160     |         463.5         |   1,076    |    720.04 s     |
+| **Issue #6895**       | `gcs-rky`     | `b8e4a2f0b` |   2    |     +126 / -3 (129)      |    92,680     |         718.4         |   1,046    |    713.14 s     |
+| **Issue #6906**       | `gcs-79u`     | `1d14bcee0` |   3    |     +128 / -9 (137)      |    92,776     |         677.2         |   1,052    |    714.48 s     |
+| **Library `cu-60m`**  | `cu-60m`      | `d114bb3`   |   3    |     +156 / -0 (156)      |    88,178     |         565.2         |    950     |    617.50 s     |
+| **Total / Aggregate** | **13 Tasks**  | —           | **38** | **+1,187 / -96 (1,283)** | **1,169,736** |      **911.72**       | **13,046** | **8,863.12 s**  |
+
+---
+
 ## 6. Determinism, Quality Gate & Error Resilience
 
 A frequent counterargument against suppressing reasoning on operational billets is the risk of introducing syntax or structural errors. Our empirical evaluation invalidates this concern when paired with greedy decoding:
