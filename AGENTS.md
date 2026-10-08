@@ -33,6 +33,8 @@ All operations, orders, task beads, and missions across Camp Colt are strictly g
 ### 3. Ephemeral Tactical Workers (Polecats)
 
 - Rig-scoped workers dispatched via `gc sling` against single beads; terminate upon test verification and PR submission.
+- **Test Scoping & Execution Discipline:** Tactical workers must adhere to target repository testing doctrine (e.g. fast unit baselines like `make test` or targeted package tests) rather than launching unconstrained monolithic test sweeps (such as `go test ./...`).
+- **Tool Timeout Parameterization:** When executing legitimately long-running builds, integration test suites, or heavy verification gates expected to exceed default tool timeouts (120s), workers must explicitly pass the tool's `timeout` parameter (e.g. `timeout: 300000` / 5 minutes in tool call arguments) rather than relying on ambient shell defaults or attempting global environment mutations.
 
 ## Doctrinal Asset Ownership
 
@@ -49,3 +51,4 @@ All operations, orders, task beads, and missions across Camp Colt are strictly g
 4. Completed Staff Work (MCTP 3-30A): Staff submissions must include empirical test verification evidence and simple, reproducible instructions (e.g. curl command or direct verification link) for Command to immediately inspect results.
 5. Communications Hygiene: Use `gc mail ... --notify` for all active operational orders, directives, and blocker escalations to immediately wake the recipient. Omit `--notify` for informational, future-planning, or retrospective traffic (e.g. `AAR item: ...`, `Next week: ...`).
 6. Operational Planning Horizons & 14-Day Gate: Operations follow scaled planning horizons (Campaign Plan 30–90d, OPORD 3–14d, FRAGO 1–24h) per [`SOP_OPERATIONAL_CADENCE_AND_PLANNING_HORIZONS.md`](file:///home/camp-colt-mayor-agent/colony/rigs/a-staff/directives/SOP_OPERATIONAL_CADENCE_AND_PLANNING_HORIZONS.md). Any OPORD, Epic, or Convoy uncompleted after 14 calendar days automatically expires, freezing work until an S-3 terrain review and Command re-baselining.
+7. Locality of Remediation & Binary Immutability: Task friction must be resolved at the most localized layer possible (task bead parameters, rig documentation, or formula templates). Third-party binaries are strictly immutable; never apply global environment dilations or patch package binaries to bypass localized tool limits. Fail-fast execution timeouts are safety guards against runaway compute burn.
