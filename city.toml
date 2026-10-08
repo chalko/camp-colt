@@ -92,6 +92,11 @@ name = "s4-logistics"
 template = "s4-logistics"
 mode = "always"
 
+[[named_session]]
+name = "s1-personnel"
+template = "s1-personnel"
+mode = "always"
+
 
 [[named_session]]
 name = "colt-utils-worker"
