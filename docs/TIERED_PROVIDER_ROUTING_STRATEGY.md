@@ -2,7 +2,7 @@
 
 ```text
 Document ID:     STRAT-COLT-TIERED-ROUTING
-Classification:  CAMP COLT MUNICIPAL INFRASTRUCTURE STRATEGY
+Document Type:   Municipal Infrastructure Strategy
 Author:          Chief of Staff (colt-cos), Camp Colt
 Approved by:     Commander (Nick Chalko)
 Strategic Ref:   Commander's Planning Guidance (CPG) & Strategic Plans Tiered LiteLLM Plan

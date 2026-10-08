@@ -1,11 +1,11 @@
 # Camp Colt LiteLLM Gateway Architecture & Local Model Proxy Specification
 
-```
+```text
 Document ID:     ARCH-COLT-LITELLM-GATEWAY
-Classification:  BATTALION STAFF / S-3 OPERATIONS & S-4 LOGISTICS SPECIFICATION
-Author:          S-3 Operations Officer (s3-operations), Camp Colt
-Reviewing Gates: Platform Chief (colt-sysadmin), S-6 Signal & Cyber Officer (s6-signal), S-4 Logistics
-Reference:       Epic cc-32m.2 / OPLAN-COLT-2026-09-01-LOCAL-MODELS
+Document Type:   System Architecture & Local Model Proxy Specification
+Author / Billet: S-3 Operations Officer (s3-operations), Camp Colt
+Reviewing Gates: Platform Chief (colt-sysadmin), S-6 Signal (s6-signal), S-4 Logistics (s4-logistics)
+Reference:       Epic cc-32m.2 (Local Model Integration)
 Date:            2026-09-22
 ```
 

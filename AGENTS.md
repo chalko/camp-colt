@@ -20,7 +20,7 @@ All operations, orders, task beads, and missions across Camp Colt are strictly g
 
 - **Chief of Staff (Operational Lead):** `colt-cos` (Theater coordination, strategic continuity, reviewing & approving staff work)
 - **Mayor (Headquarters Commandant):** `mayor` (Municipal lead; maintains continuous presence to fulfill Gas City supervisor expectations, workspace plumbing, and session hygiene)
-- **S-3 Operations (Tactical Lead):** `s3-operations` (Swarm coordination, polecat dispatch, virtual COC watch officer)
+- **S-3 Operations (Tactical Lead):** `s3-operations` (Swarm coordination, polecat dispatch, operations watch officer)
 - **S-6 Signal (Communications Watch):** `s6-signal` (Gateway routing, proxy sanitization, radio/comms watchstander; maintains net watch even without active task backlog)
 
 ### 2. On-Demand Staff (Event-Driven / Mission-Bound)
@@ -36,6 +36,7 @@ All operations, orders, task beads, and missions across Camp Colt are strictly g
 
 ## Doctrinal Asset Ownership
 
+- **Administrative Doctrine & Staff Process (S-1):** S-1 (Personnel & Administration) is the doctrinal custodian and owner of `rigs/a-staff`. S-1 owns the publication, formatting, records management, and style compliance of staff processes, directives, the battlebook, and references.
 - **Repositories as Logistics (S-4):** Git repositories are supply depots (Class IX/VII digital material). S-4 Logistics manages repo creation, storage quotas, and inventory in Gitea.
 - **Platform Infrastructure (`colt-sysadmin`):** Platform SRE maintains the underlying Gitea K8s pod, database, and storage class.
 - **Municipal Plumbing & Rig Lifecycle (`mayor`):** Mayor holds sole authority over Gas City-wide operations, city configuration (`city.toml`), workspace plumbing, and rig-level lifecycle changes (`gc rig suspend`, `gc rig resume`, `gc rig restart`, `gc reload`). Other staff billets (including CoS and S-3) must **NEVER directly invoke city or rig lifecycle commands (`gc stop`, `gc start`, `gc rig ...`)**; they must task the Mayor via `gc mail`.

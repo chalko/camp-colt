@@ -52,8 +52,8 @@ To preserve host memory (targeting the 4.5 GB baseline for `colt-hq`), prevent c
 
 3. **S-3 Operations (`s3-operations`):**
 
-   - **Doctrinal Role:** Tactical Lead & Combat Operations Center (COC) Watch Officer.
-   - **Cognizance:** Translates operational directives into rig-scoped task beads (`sa-*`, `gtr-*`, `cc-*`), manages the virtual COC, monitors worker progress, clears blockers, and sequences ongoing tasks.
+   - **Doctrinal Role:** Tactical Lead & Operations Watch Officer.
+   - **Cognizance:** Translates operational directives into rig-scoped task beads (`sa-*`, `gtr-*`, `cc-*`), manages the operations watch, monitors worker progress, clears blockers, and sequences ongoing tasks.
    - **Watch State:** Continuous presence. Primary operational engine driving execution.
 
 4. **S-6 Signal (`s6-signal`):**
