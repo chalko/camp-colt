@@ -97,6 +97,11 @@ name = "s1-personnel"
 template = "s1-personnel"
 mode = "always"
 
+[[named_session]]
+name = "s2-intel"
+template = "s2-intel"
+mode = "on_demand"
+
 
 [[named_session]]
 name = "colt-utils-worker"
