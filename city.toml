@@ -20,7 +20,7 @@ base = "builtin:opencode"
 ready_delay_ms = 100
 [providers.local-litellm.env]
 OPENAI_API_BASE = "http://10.82.0.3:8000/v1"
-OPENAI_MODEL = "nvidia/llama-3.3-nemotron-super-49b-v1.5"
+OPENAI_MODEL = "mistralai/Mistral-Small-4-119B-2603"
 OPENAI_API_KEY = "none"
 
 [providers.local-nemotron]
@@ -28,7 +28,7 @@ base = "builtin:opencode"
 ready_delay_ms = 100
 [providers.local-nemotron.env]
 OPENAI_API_BASE = "http://10.82.0.3:8000/v1"
-OPENAI_MODEL = "nvidia/llama-3.3-nemotron-super-49b-v1.5"
+OPENAI_MODEL = "mistralai/Mistral-Small-4-119B-2603"
 OPENAI_API_KEY = "none"
 
 [providers.local-fast]
@@ -36,7 +36,7 @@ base = "builtin:opencode"
 ready_delay_ms = 50
 [providers.local-fast.env]
 OPENAI_API_BASE = "http://10.82.0.3:8000/v1"
-OPENAI_MODEL = "nvidia/llama-3.3-nemotron-super-49b-v1.5"
+OPENAI_MODEL = "mistralai/Mistral-Small-4-119B-2603"
 OPENAI_API_KEY = "none"
 OPENCODE_REASONING_EFFORT = "none"
 
@@ -45,7 +45,7 @@ base = "builtin:opencode"
 ready_delay_ms = 100
 [providers.local-general.env]
 OPENAI_API_BASE = "http://10.82.0.3:8000/v1"
-OPENAI_MODEL = "nvidia/llama-3.3-nemotron-super-49b-v1.5"
+OPENAI_MODEL = "mistralai/Mistral-Small-4-119B-2603"
 OPENAI_API_KEY = "none"
 OPENCODE_REASONING_EFFORT = "medium"
 
@@ -54,7 +54,7 @@ base = "builtin:opencode"
 ready_delay_ms = 100
 [providers.local-coder.env]
 OPENAI_API_BASE = "http://10.82.0.3:8000/v1"
-OPENAI_MODEL = "nvidia/llama-3.3-nemotron-super-49b-v1.5"
+OPENAI_MODEL = "mistralai/Mistral-Small-4-119B-2603"
 OPENAI_API_KEY = "none"
 OPENCODE_REASONING_EFFORT = "high"
 
