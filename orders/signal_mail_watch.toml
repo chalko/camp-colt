@@ -1,0 +1,11 @@
+# orders/signal_mail_watch.toml
+# Signal Mail Watchdog & Priority Nudge Engine
+# Managed under SOP_SIGNAL_COMMUNICATIONS_WATCH_AND_PRIORITY_DELIVERY.md
+# Maintained by S-6 Signal & Cyber Officer
+# Cadence: 5 minutes ("*/5 * * * *")
+
+[order]
+description = "Signal Mail Watchdog: 5-minute automated mail scan, graduated priority nudge, and failure escalation"
+exec = "commands/signal_mail_watch.sh"
+trigger = "cron"
+schedule = "*/5 * * * *"
