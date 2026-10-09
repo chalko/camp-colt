@@ -40,7 +40,7 @@ class TestOperationsWatchScript(unittest.TestCase):
     def tearDown(self):
         shutil.rmtree(self.test_dir, ignore_errors=True)
 
-    def _setup_mock_gc(self, inbox_data=None, sessions_data=None, city_beads=None, gascity_beads=None, suitcase_beads=None, mail_send_id="msg-ops-err-01"):
+    def _setup_mock_gc(self, inbox_data=None, sessions_data=None, city_beads=None, gascity_beads=None, suitcase_beads=None, convoys_data=None, mail_send_id="msg-ops-err-01"):
         inbox_file = os.path.join(self.test_dir, "inbox.json")
         with open(inbox_file, "w") as f:
             json.dump(inbox_data or {"messages": []}, f)
@@ -48,6 +48,10 @@ class TestOperationsWatchScript(unittest.TestCase):
         sessions_file = os.path.join(self.test_dir, "sessions.json")
         with open(sessions_file, "w") as f:
             json.dump(sessions_data or {"sessions": []}, f)
+
+        convoys_file = os.path.join(self.test_dir, "convoys.json")
+        with open(convoys_file, "w") as f:
+            json.dump(convoys_data or {"convoys": []}, f)
 
         city_file = os.path.join(self.test_dir, "city_beads.json")
         with open(city_file, "w") as f:
@@ -71,6 +75,10 @@ if [ "$1" = "mail" ] && [ "$2" = "inbox" ]; then
 fi
 if [ "$1" = "session" ] && [ "$2" = "list" ]; then
     cat "{sessions_file}"
+    exit 0
+fi
+if [ "$1" = "convoy" ] && [ "$2" = "list" ]; then
+    cat "{convoys_file}"
     exit 0
 fi
 if [ "$1" = "session" ] && [ "$2" = "nudge" ]; then
@@ -256,6 +264,71 @@ exit 0
         self.assertIn("mail send s3-operations --notify", logs)
         self.assertIn("[P1] ALERT: operations_watch.sh Execution Failure", logs)
         self.assertIn("bd update msg-trap-99 -p P1", logs)
+
+    def test_convoy_tracking_and_stagnation_escalation(self):
+        """
+        Verify Convoy & OPORD Tracking:
+        - Active convoys and child beads are rendered into operations_watch_summary.md.
+        - Convoy without progress over 4 ticks triggers [P1 ESCALATION] to CoS.
+        """
+        sessions = {
+            "sessions": [
+                {"id": "session-s3", "alias": "s3-operations", "state": "active", "closed": False},
+                {"id": "session-worker", "alias": "worker-01", "template": "gascity/gc.run-operator", "state": "active", "closed": False}
+            ]
+        }
+        convoys = {
+            "convoys": [
+                {
+                    "id": "gcs-convoy-01",
+                    "title": "Priority Campaign OPORD",
+                    "status": "open",
+                    "progress": {"closed": 0, "total": 2},
+                    "fields": {"owner": "s3-operations"},
+                    "child_ids": ["gcs-lead-01"]
+                }
+            ]
+        }
+        gascity_beads = [
+            {
+                "id": "gcs-lead-01",
+                "title": "Lead Task",
+                "status": "in_progress",
+                "issue_type": "feature",
+                "assignee": "worker-01",
+                "updated_at": "2026-10-09T04:00:00Z"
+            }
+        ]
+
+        self._setup_mock_gc(sessions_data=sessions, convoys_data=convoys, gascity_beads=gascity_beads)
+
+        # Tick 1: Initial observation
+        res1 = self._run_script()
+        self.assertEqual(res1.returncode, 0)
+        summary_file = os.path.join(self.test_dir, ".gc", "runtime", "watch", "operations_watch_summary.md")
+        with open(summary_file, "r") as f:
+            summary = f.read()
+        self.assertIn("## Active Convoys & OPORDs", summary)
+        self.assertIn("`gcs-convoy-01`", summary)
+        self.assertIn("Priority Campaign OPORD", summary)
+        self.assertIn("## Active Tactical Workers", summary)
+        self.assertIn("`session-worker`", summary)
+
+        # Ticks 2-4: unchanged
+        for _ in range(3):
+            os.remove(self.mock_log)
+            res = self._run_script()
+            self.assertEqual(res.returncode, 0)
+
+        # Tick 5: 4 stagnant intervals -> CoS Escalation
+        os.remove(self.mock_log)
+        res5 = self._run_script()
+        self.assertEqual(res5.returncode, 0)
+        with open(self.mock_log, "r") as f:
+            log5 = f.read()
+
+        self.assertIn("mail send cos --notify", log5)
+        self.assertIn("[P1 ESCALATION] Convoy Stagnation: gcs-convoy-01", log5)
 
 
 if __name__ == "__main__":
