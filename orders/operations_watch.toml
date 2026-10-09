@@ -1,0 +1,10 @@
+# orders/operations_watch.toml
+# Generic Operations Watch Order for Camp Colt
+# Managed under SOP_OPERATIONS_WATCH_AND_STAGNATION_DETECTION.md
+# Cadence adjustable: "*/15 * * * *" (15m), "0 * * * *" (1h), "0 */8 * * *" (8h)
+
+[order]
+description = "Generic Operations Watch: Audit active beads, detect stagnation, peek workers, and escalate"
+exec = "commands/operations_watch.sh"
+trigger = "cron"
+schedule = "*/15 * * * *"
