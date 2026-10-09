@@ -240,6 +240,42 @@ exit 0
             logs = f.read()
         self.assertNotIn("NUDGED:", logs)
 
+    def test_already_read_messages_ignored(self):
+        """Assert messages marked as read via metadata or label are not nudged."""
+        now = datetime.datetime.now(datetime.timezone.utc)
+        # Bead with mail.read == true
+        bead_read_meta = {
+            "id": "msg-read-meta",
+            "title": "Old read message",
+            "assignee": "mayor",
+            "sender": "cos",
+            "priority": 0,
+            "created_at": (now - datetime.timedelta(hours=2)).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "metadata": {"mail.read": "true"},
+            "labels": ["read"]
+        }
+        # Bead with label 'read'
+        bead_read_label = {
+            "id": "msg-read-label",
+            "title": "Old read message 2",
+            "assignee": "mayor",
+            "sender": "cos",
+            "priority": 0,
+            "created_at": (now - datetime.timedelta(hours=2)).strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "labels": ["read"]
+        }
+        sessions = {
+            "sessions": [
+                {"id": "session-mayor-01", "alias": "mayor", "state": "active", "closed": False}
+            ]
+        }
+        self._setup_mock_gc(sessions, [bead_read_meta, bead_read_label])
+        res = self._run_script()
+        self.assertEqual(res.returncode, 0)
+        with open(self.mock_log, "r") as f:
+            logs = f.read()
+        self.assertNotIn("NUDGED:", logs)
+
     def test_error_trap_and_p1_alert(self):
         """
         Verify Command Directive cc-wisp-0yzzy:

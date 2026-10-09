@@ -109,6 +109,8 @@ log "Signal Mail Watch scan started. Scanning unread messages."
 # Filter breached messages and output JSON lines:
 BREACHED_JSONL=$(echo "${MESSAGES_JSON}" | jq -c --argjson now "${NOW_SEC}" '
   .[] |
+  # Exclude messages already marked as read
+  select((.metadata["mail.read"] // "") != "true" and ((.labels // []) | index("read") | not)) |
   # Detect priority (native field takes precedence, then bracketed tags, then keywords)
   (
     if (.priority != null and (.priority | tostring | test("^[0-4]$"))) then
