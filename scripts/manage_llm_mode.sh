@@ -52,7 +52,7 @@ check_gateway_health() {
 get_active_connections() {
     local conn_count
     conn_count=$(ssh -o BatchMode=yes -o ConnectTimeout=3 "${PRIMARY_HOST}" \
-        "ss -tn sport = :${PRIMARY_PORT} | grep -v 'Local Address' | grep -v 'State' | wc -l" 2>/dev/null || echo "0")
+        "ss -tn state established sport = :${PRIMARY_PORT} | grep -v 'Local Address' | grep -v 'State' | grep -v '10.82.0.14' | wc -l" 2>/dev/null || echo "0")
     echo "${conn_count// /}"
 }
 
