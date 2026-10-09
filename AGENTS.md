@@ -26,7 +26,7 @@ All operations, orders, task beads, and missions across Camp Colt are strictly g
 ### 2. On-Demand Staff (Event-Driven / Mission-Bound)
 
 - **S-1 Personnel:** Permissions, RBAC, access policies (activated for access requests & credential audits)
-- **S-2 Intel:** Codebase indexing, terrain analysis, threat evaluation (activated for recon & research sprints)
+- **S-2 Intel (`s2-intel`):** Upstream pipeline scouting (`gastownhall/gascity/issues`), terrain analysis, codebase indexing, threat evaluation (activated on_demand for recon sprints & backlog priming; template: `agents/s2-intel/prompt.template.md`, provider: Antigravity)
 - **S-4 Logistics:** Token draw tracking, thermal/power monitoring, repository provisioning, supply depots, storage quotas (activated for repo provisioning & periodic telemetry rollups)
 - **Platform Chief (Platform SRE):** `colt-sysadmin` (Hypervisors, K8s cluster, metal; activated for infrastructure tasks and high-severity platform alerts)
 
