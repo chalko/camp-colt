@@ -23,16 +23,22 @@ ACTIVE_GASCITY_BEADS=$(gc bd --rig gascity list --json 2>/dev/null || echo '[]')
 ACTIVE_SUITCASE_BEADS=$(gc bd --rig suitcase-ai list --json 2>/dev/null || echo '[]')
 ACTIVE_SESSIONS=$(gc session list --json 2>/dev/null || echo '{"sessions":[]}')
 
+UNREAD_COUNT=$(echo "${INBOUND_MAIL}" | jq '.messages | length' 2>/dev/null || echo '0')
+SESSION_COUNT=$(echo "${ACTIVE_SESSIONS}" | jq '.sessions | length' 2>/dev/null || echo '0')
+
 # 3. Phase 2: Update markdown summary file for instant human visibility
 cat << EOF > "${SUMMARY_FILE}"
 # Camp Colt Operations Watch Summary
 - **Last Watch Tick**: ${NOW}
-- **Inbound Unread Mail**: $(echo "${INBOUND_MAIL}" | jq '.messages | length' 2>/dev/null || echo '0')
-- **Active Sessions**: $(echo "${ACTIVE_SESSIONS}" | jq '.sessions | length' 2>/dev/null || echo '0')
+- **Inbound Unread Mail**: ${UNREAD_COUNT}
+- **Active Sessions**: ${SESSION_COUNT}
 - **Tracked Active Workstreams**:
   * \`gcs-y9q\` [gascity]: Prepare clean upstream contribution branch (Phase 1 Tactical Hold)
   * \`mistral-small-4-benchmark\` [suitcase-ai]: Official 32k Spark Arena benchmark actively executing (Task 3 Run 3 passed clean)
 EOF
 
+# 4. Notify Watch Officer (S-3 Operations session) to evaluate results
+gc session nudge s3-operations "Operations Watch Patrol tick (${NOW}): Data gathered (${UNREAD_COUNT} unread mail, ${SESSION_COUNT} active sessions). Watch Officer review required." 2>/dev/null || true
+
 # Log execution checkpoint
-echo "[${NOW}] Operations Watch Patrol executed. Summary written to ${SUMMARY_FILE}." >> "${STATE_DIR}/watch.log"
+echo "[${NOW}] Operations Watch Patrol executed. Summary written to ${SUMMARY_FILE} and S-3 Watch Officer notified." >> "${STATE_DIR}/watch.log"
