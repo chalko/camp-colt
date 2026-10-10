@@ -7,4 +7,4 @@
 description = "Generic Operations Watch: Audit active beads, detect stagnation, peek workers, and escalate"
 exec = "commands/operations_watch.sh"
 trigger = "cron"
-schedule = "*/15 * * * *"
+schedule = "0 */4 * * *"
