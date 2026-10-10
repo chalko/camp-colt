@@ -13,6 +13,7 @@ All operations, orders, task beads, and missions across Camp Colt are strictly g
   2. _Strict Cost Containment_: Measure, budget, and transparently report all compute, token, and power spend.
   3. _Continuous Staff Evolution_: Expand organizational capability iteratively alongside workloads; enforce the YAGNI / Rule of Three gate before formalizing SOPs.
   4. _Homelab & Personal Security_: Zero plaintext secrets on disk, unprivileged execution, uncompromised security.
+  5. _Sovereign Model Provenance_: Never recommend, evaluate, deploy, or utilize foundation models of Chinese state/corporate provenance (e.g. Qwen, DeepSeek, Yi, ChatGLM, Kimi, GLM). All inference workloads, staff recommendations, and agent billets are strictly restricted to sovereign US/NATO-aligned foundation models (e.g. Anthropic Claude, Google Gemini, OpenAI, Mistral, Meta Llama, NVIDIA Nemotron).
 
 ## Command Billets & Watch Posture
 
@@ -52,3 +53,4 @@ All operations, orders, task beads, and missions across Camp Colt are strictly g
 5. Communications Hygiene: Use `gc mail ... --notify` for all active operational orders, directives, and blocker escalations to immediately wake the recipient. Omit `--notify` for informational, future-planning, or retrospective traffic (e.g. `AAR item: ...`, `Next week: ...`).
 6. Operational Planning Horizons & 14-Day Gate: Operations follow scaled planning horizons (Campaign Plan 30–90d, OPORD 3–14d, FRAGO 1–24h) per [`SOP_OPERATIONAL_CADENCE_AND_PLANNING_HORIZONS.md`](file:///home/camp-colt-mayor-agent/colony/rigs/a-staff/directives/SOP_OPERATIONAL_CADENCE_AND_PLANNING_HORIZONS.md). Any OPORD, Epic, or Convoy uncompleted after 14 calendar days automatically expires, freezing work until an S-3 terrain review and Command re-baselining.
 7. Locality of Remediation & Binary Immutability: Task friction must be resolved at the most localized layer possible (task bead parameters, rig documentation, or formula templates). Third-party binaries are strictly immutable; never apply global environment dilations or patch package binaries to bypass localized tool limits. Fail-fast execution timeouts are safety guards against runaway compute burn.
+8. Sovereign Model Provenance: Never recommend, benchmark, or deploy Chinese-origin models (Qwen, DeepSeek, etc.). Maintain strict adherence to sovereign Western/NATO-aligned models across all rigs, reports, and recommendations.
