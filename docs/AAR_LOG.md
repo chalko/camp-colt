@@ -112,3 +112,18 @@
      - **Tier 4 (Watch Cadence & Shift Handoff Discipline):** Certify garrison git cleanliness in shift handoffs, 06:00 CUB documents, and weekly Friday retrospectives.
   2. **Hard Stop Condition:** No task bead may be transitioned to `CLOSED` (`status=closed`) if `git status --porcelain` returns any output.
 - **References:** [`rigs/a-staff/battlebook/SOP_GIT_WORKTREE_CLEANLINESS.md`](file:///home/camp-colt-mayor-agent/colony/rigs/a-staff/battlebook/SOP_GIT_WORKTREE_CLEANLINESS.md), [`scripts/audit_git_cleanliness.sh`](file:///home/camp-colt-mayor-agent/colony/scripts/audit_git_cleanliness.sh), and [`rigs/a-staff/plans/AAR_FIRST_COMPLETED_STAFF_ACTION_CC32M.md`](file:///home/camp-colt-mayor-agent/colony/rigs/a-staff/plans/AAR_FIRST_COMPLETED_STAFF_ACTION_CC32M.md).
+
+---
+
+### Entry 008: Platform Hand-off Silence & S-3 Operational Tracking Breakdown
+
+- **Date:** October 10, 2026
+- **Originator:** Commander (`human`) / Chief of Staff (`colt-cos`)
+- **Context:** Staging and deployment of `devstral-small-2-24b` on the ASUS Ascent GX10 (`colt-gpu-01`).
+- **Observation:** Platform Chief (`colt-sysadmin`) completed the deployment task and successfully brought pod `devstral-small-2-24b-54bd856f67-dpl85` into 1/1 Running status on `colt-gpu-01`. However, `colt-sysadmin` dispatched no completion notification to Mayor, S-3, or CoS. Concurrently, S-3 Operations failed to track or follow up on the active operational order for over 11 hours, resulting in an extended operational stall where live serving capacity sat completely idle while tactical work remained paused.
+- **Analysis:**
+  1. _Platform Handoff Failure:_ Platform engineers/workers must never consider an operational task complete merely because a container reaches `Running`. Completed Staff Work (MCTP 3-30A) requires active hand-off notification (`gc mail send ... --notify`) with empirical receipts to the downstream consumer.
+  2. _S-3 Operational Tracking Breakdown:_ The primary doctrinal mission of S-3 Operations is to **track operations**, monitor active taskers, enforce progress, and eliminate stalled transitions. Dropping operational awareness because a task was delegated to a peer staff section violates fundamental watch doctrine. S-3 cannot passively wait in silence when an operational dependency is blocked.
+- **Doctrinal Decision & Remedy:**
+  1. **Enforce Outbound Completion Dispatch Requirement:** All staff and platform billets must issue immediate completion mail with empirical verification receipts upon finishing infrastructure or platform deployments.
+  2. **Active Operations Tracking by S-3 (Follow-Up Gate):** S-3 Operations must actively track delegated operational dependencies. If a platform or staff handoff exceeds its expected window without a completion dispatch, S-3 watch officers must proactively ping (`gc mail ... --notify`) the assigned billet rather than allowing operations to drift.
