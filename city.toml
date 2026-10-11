@@ -20,7 +20,14 @@ base = "builtin:opencode"
 ready_delay_ms = 100
 [providers.local-litellm.env]
 OPENAI_API_BASE = "https://litellm.colt.chalko.com/v1"
-OPENAI_MODEL = "mistralai/Mistral-Small-4-119B-2603"
+OPENAI_MODEL = "mistralai/Devstral-Small-2-24B-Instruct-2512"
+
+[providers.local-devstral]
+base = "builtin:opencode"
+ready_delay_ms = 100
+[providers.local-devstral.env]
+OPENAI_API_BASE = "https://litellm.colt.chalko.com/v1"
+OPENAI_MODEL = "mistralai/Devstral-Small-2-24B-Instruct-2512"
 
 [providers.local-nemotron]
 base = "builtin:opencode"
@@ -34,7 +41,7 @@ base = "builtin:opencode"
 ready_delay_ms = 50
 [providers.local-fast.env]
 OPENAI_API_BASE = "https://litellm.colt.chalko.com/v1"
-OPENAI_MODEL = "mistralai/Mistral-Small-4-119B-2603"
+OPENAI_MODEL = "mistralai/Devstral-Small-2-24B-Instruct-2512"
 OPENCODE_REASONING_EFFORT = "none"
 
 [providers.local-general]
@@ -42,7 +49,7 @@ base = "builtin:opencode"
 ready_delay_ms = 100
 [providers.local-general.env]
 OPENAI_API_BASE = "https://litellm.colt.chalko.com/v1"
-OPENAI_MODEL = "mistralai/Mistral-Small-4-119B-2603"
+OPENAI_MODEL = "mistralai/Devstral-Small-2-24B-Instruct-2512"
 OPENCODE_REASONING_EFFORT = "medium"
 
 [providers.local-coder]
@@ -50,7 +57,7 @@ base = "builtin:opencode"
 ready_delay_ms = 100
 [providers.local-coder.env]
 OPENAI_API_BASE = "https://litellm.colt.chalko.com/v1"
-OPENAI_MODEL = "mistralai/Mistral-Small-4-119B-2603"
+OPENAI_MODEL = "mistralai/Devstral-Small-2-24B-Instruct-2512"
 OPENCODE_REASONING_EFFORT = "high"
 
 
