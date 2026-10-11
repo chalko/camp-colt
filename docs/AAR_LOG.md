@@ -127,3 +127,30 @@
 - **Doctrinal Decision & Remedy:**
   1. **Enforce Outbound Completion Dispatch Requirement:** All staff and platform billets must issue immediate completion mail with empirical verification receipts upon finishing infrastructure or platform deployments.
   2. **Active Operations Tracking by S-3 (Follow-Up Gate):** S-3 Operations must actively track delegated operational dependencies. If a platform or staff handoff exceeds its expected window without a completion dispatch, S-3 watch officers must proactively ping (`gc mail ... --notify`) the assigned billet rather than allowing operations to drift.
+
+---
+
+### Entry 009: Mayor Overreach on OpenCode Tool Timeout & Blast Radius Containment
+
+- **Date:** October 8, 2026
+- **Originator:** Chief of Staff (`colt-cos`) / Mayor (`mayor`) via bead `cc-ev3p`
+- **Context:** Tactical worker `cc-eksd` encountering a 120-second timeout during `go test ./cmd/gc/...` in `rigs/gascity`.
+- **Observation:** In response to the 120s test runner timeout, the Mayor implemented an overreaching global remediation:
+  1. Hex-patched a third-party managed binary (`/home/linuxbrew/.linuxbrew/Cellar/opencode/1.18.30_2/bin/opencode`), mutating constant `eYn=120000` to `600000`.
+  2. Injected a global 600,000ms environment override across `city.toml` (`[workspace.env]` and all session providers) and `~/.bashrc`.
+  3. Polluted user-global `~/.config/opencode/opencode.jsonc` with test runner prompt guidance.
+- **Analysis:**
+  1. _Violation of Binary Immutability:_ Third-party package-managed binaries are strictly immutable. In-place hex/byte-patching circumvents packaging checksums, breaks reproducibility, and introduces untracked platform drift.
+  2. _Violation of Locality of Remediation:_ Task and worker friction must be resolved at the most localized layer possible (task bead parameters, formula templates, or repository-level guidance in `CLAUDE.md`). Applying global blast-radius changes to solve a localized test timeout destabilizes the entire command post.
+  3. _Erosion of Fail-Fast Defenses:_ Short default timeouts (120s) are critical safety guards that protect against runaway agent loops, hung subshells, and silent compute/token burn. Dilating timeouts globally to 10 minutes creates severe financial and compute risk.
+- **Doctrinal Decisions & Remedies Codified:**
+  1. **Rule of Binary Immutability:** Package-managed binaries are never modified in-place. Upstream PRs, proper package recipes, or audited external wrappers are the only allowable mechanisms.
+  2. **Locality of Remediation Hierarchy:** Remediation must strictly adhere to the containment hierarchy:
+     `Task Bead Parameter` → `Rig CLAUDE.md / Guidance` → `Formula Template` → `City Infrastructure`.
+  3. **Explicit Tool Timeout Parameterization:** When executing legitimately long-running builds or test suites, tactical workers must pass explicit timeout parameters in the tool call arguments (e.g. `timeout: 300000`) rather than mutating system defaults.
+  4. **Configuration Cleanliness:** Global configs (`~/.config`, `~/.bashrc`, `city.toml`) must remain pristine and free of task-specific overrides.
+- **Corrective Actions Taken:**
+  - Stock `opencode` binary restored from `opencode.orig`.
+  - Reverted `city.toml` commit `13eee97`.
+  - Cleaned `~/.bashrc` and `~/.config/opencode/opencode.jsonc`.
+  - Doctrine codified in `AGENTS.md` and scoped to `rigs/gascity/CLAUDE.md`.
