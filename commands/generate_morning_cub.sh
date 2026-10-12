@@ -17,7 +17,7 @@ echo "=== [$(date)] Generating Commander's Update Brief (${CUB_FILE}) ==="
 
 # Gather live status
 BEAD_SUMMARY="$(gc bd list 2>/dev/null || echo "Unable to query beads")"
-RECENT_COMMITS="$(git log -n 5 --oneline 2>/dev/null || echo "No recent commits")"
+RECENT_COMMITS="$(git log --since="24 hours ago" --oneline 2>/dev/null || git log -n 5 --oneline 2>/dev/null || echo "No recent commits")"
 UNREAD_MAIL="$(gc mail inbox 2>/dev/null || echo "No unread mail")"
 
 cat << EOF > "${CUB_FILE}"
@@ -31,26 +31,31 @@ cat << EOF > "${CUB_FILE}"
 
 ---
 
-## 1. Main Effort: Local Model Capabilities & Sovereign Inference (\`cc-32m\`) — P0
+## 1. Major Deliverables Completed (Past 24 Hours / Since Last Brief)
+
+* **Gas City Upstream Contribution PRs Prepared & Decoupled (#5732 & gcs-97u):**
+  * Decoupled features onto isolated feature branches rooted directly on \`upstream/main\` (\`09db13c5a\`), authored under Commander's authentic git identity (\`Nick Chalko <nick@chalko.com>\`).
+  * **PR 1 (\`feat/prompt-suffix-kv-cache-reuse\`):** Inverted temporal/beacon headers to prompt suffix (\`cmd/gc/cmd_prime.go\`, \`cmd/gc/cmd_nudge.go\`), boosting RadixAttention prefix cache hit rates to 78.75% on local LLMs. Tests verified; branch pushed to origin.
+  * **PR 2 (\`feat/mail-send-priority-flag\`):** Implemented \`mail.PrioritySender\` capability and \`-p/--priority\` flag in \`gc mail send\` adhering to Dolt schema (*int pointer). 23/23 tests verified; branch pushed to origin.
+  * Complete turnkey submission dossiers published at \`rigs/a-staff/plans/DOSSIER_GASCITY_UPSTREAM_PRS_GH5732_GCS97U.md\`.
+* **Hardware Documentation Realignment (\`sa-7gs\` & \`sa-a8a\`):**
+  * \`rigs/suitcase-ai/docs/HARDWARE.md\` aligned to 100% current production reality (mini-rack elevation, thermals, Package B relegated to exploratory note).
+  * Codified Proxmox VE hypervisor CPU/memory allocation split (\`colt-hq\` vs platform services).
+* **Devstral Small 2 24B Coding Evaluation Published:**
+  * Comprehensive benchmark telemetry and evaluation analysis archived in \`colt-results\`.
+
+---
+
+## 2. Active Operations & Main Effort: Local Model Capabilities (\`cc-32m\`) — P0
 
 * **Strategic Objective:** Preserve computational sovereignty and offline resilience via on-premise neural inference on Grace Blackwell GB10 (\`colt-gpu-01\` @ \`10.82.0.3:8000\`).
-* **Operational Milestones Achieved:**
+* **Operational Status:**
   * **Phase 4 SOP Complete (\`cc-32m.4\`):** S-3 authored and published comprehensive Standard Operating Procedure in \`docs/LOCAL_MODELS.md\` (commit \`ac6dbac\`). Covers \`city.toml\` provider overrides, LiteLLM gateway topology (\`10.82.50.10:80\`), memory-backed \`/dev/shm\` zero-plaintext credential hygiene, \`gc doctor\` integration, and failover runbooks. Bead closed.
   * **Gateway Performance Validated:** Direct-to-proxy overhead empirically benchmarked at nominal +9.5 ms with Radix cache nonces; cold/warm testing doctrine codified.
   * **Mistral 64K FP8 Upgrade Complete (\`cc-4acg\`):** Deployed and validated high-context local serving on GB10.
 * **Next Steps:**
   * De-quarantine / pilot tactical worker on \`rigs/colt-utils\` (\`cc-32m.3\`) under local inference provider.
   * Archive model evaluation and benchmark dossiers in \`battlebook/models/\`.
-
----
-
-## 2. Active Operations: Upstream Gas City Contributions (gh-5732 & gcs-97u)
-
-* **Strategic Objective:** Upstream Camp Colt inference efficiency and operational tooling enhancements to Gas City core (\`gastownhall/gascity\`).
-* **Operational Milestones Achieved:**
-  * **PR 1: Prefix KV Cache Suffix Relocation (Issue #5732):** Inverted temporal/beacon headers to prompt suffix (\`cmd/gc/cmd_prime.go\`, \`cmd/gc/cmd_nudge.go\`), boosting RadixAttention prefix cache hit rates to 78.75% on local LLMs. Tests verified; branch \`feat/prompt-suffix-kv-cache-reuse\` pushed to origin.
-  * **PR 2: Mail Send Priority Flag (gcs-97u):** Implemented \`mail.PrioritySender\` capability and \`-p/--priority\` flag in \`gc mail send\` adhering to Dolt schema (*int pointer). 23/23 tests verified; branch \`feat/mail-send-priority-flag\` pushed to origin.
-  * **Turnkey PR Dossiers Published:** Complete Conventional submission dossiers and receipts ready in \`rigs/a-staff/plans/DOSSIER_GASCITY_UPSTREAM_PRS_GH5732_GCS97U.md\`.
 
 ---
 

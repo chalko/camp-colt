@@ -157,21 +157,25 @@
 
 ---
 
-### Entry 010: Executive Briefing Hygiene & Elimination of Stale Operational Milestones
+### Entry 010: Executive Briefing Hygiene: 24-Hour Completed Milestones & Elimination of Stale Operations
 
 - **Date:** October 12, 2026
 - **Originator:** Commander (`human`) / Chief of Staff (`colt-cos`)
 - **Context:** Automated morning generation of Commander's Update Briefs (CUB) at 05:15 PDT via `commands/generate_morning_cub.sh`.
 - **Observation:** The CUB generation script repeatedly hardcoded "Section 1: Main Effort: Command Post Relocation to VM 9100 (`cc-56d`) — COMPLETE" weeks after physical cutover, state convergence, and operational stabilization were finished. Despite relocation being fully concluded, daily executive briefings continued to elevate settled historical milestones to Section 1 Main Effort.
 - **Analysis:**
-  1. _Briefing Drift & Dilution of Command Attention:_ Executive command briefs (MCTP 3-30A) must focus ruthlessly on active operations, immediate friction, pending decisions, and near-term horizons (24–72h). Elevating completed, historical migrations to the primary agenda item wastes executive bandwidth and obscures genuine active priorities (such as sovereign local inference engineering, model evaluation, and upstream PR delivery).
-  2. _Stale Hardcoding in Automation Scripts:_ Autonomous report scripts must not treat ephemeral operational milestones as permanent document scaffolding. Hardcoding past achievements into generation scripts turns daily briefings into stale victory laps rather than live tactical instruments.
-  3. _Failure to Archive Resolved Epics:_ When an operational epic achieves its objective and stabilizes in steady-state operations, it must transition immediately to archival status. Lingering "COMPLETE" milestones clutter operational tracking.
+  1. _Briefing Drift & Dilution of Command Attention:_ Executive command briefs (MCTP 3-30A) must focus ruthlessly on active operations, immediate friction, pending decisions, and near-term horizons (24–72h). Elevating long-completed, historical migrations to the primary agenda item wastes executive bandwidth and obscures genuine active priorities (such as sovereign local inference engineering, model evaluation, and upstream PR delivery).
+  2. _The 24-Hour Horizon / Delta Standard:_ Completed work _must_ be included in the CUB if it is important enough or represents significant progress achieved **in the last 24 hours / since the last brief**. The error was not reporting completed work, but repeating settled historical accomplishments indefinitely after their 24-hour cycle had elapsed.
+  3. _Stale Hardcoding in Automation Scripts:_ Autonomous report scripts must not treat ephemeral operational milestones as permanent document scaffolding. Hardcoding past achievements into generation scripts turns daily briefings into stale victory laps rather than live tactical instruments.
 - **Doctrinal Decisions & Remedies Codified:**
-  1. **Immediate Purge of Settled Operations:** Completed operational migrations, relocations, and baseline setups are removed immediately from the "Main Effort" sections of all executive briefs upon stabilization. Settled history belongs in repository runbooks and archives, not the CUB.
-  2. **Rule of Executive Brevity (MCTP 3-30A):** Every section of the Commander's Update Brief must represent active operational efforts, unresolved friction/blockers, or decisions requiring Command guidance. Zero space for settled history.
-  3. **Script Maintenance Gate:** Automation scripts (`commands/generate_morning_cub.sh`) are dynamically aligned to current active operational directives and must never retain static, outdated milestone text.
+  1. **The 24-Hour Horizon & Significance Rule for Completed Work:**
+     - The CUB is a delta-oriented tactical brief covering progress **since the last brief (past 24 hours)**.
+     - Completed deliverables and major milestones **must be included** if they are important enough and were completed within that 24-hour window (e.g. upstream PR delivery, major model upgrades, critical platform deployments).
+     - Significant progress achieved in the past 24 hours must be explicitly highlighted with empirical receipts.
+     - Once a completed milestone has been reported in its 24-hour briefing cycle, it rolls off into steady-state telemetry or archival runbooks; it must **never linger as a recurring static item** across subsequent daily briefs.
+  2. **Rule of Executive Brevity (MCTP 3-30A):** Every section of the Commander's Update Brief must represent active operational efforts, major deliverables completed within the last 24 hours, unresolved friction/blockers, or decisions requiring Command guidance. Zero space for settled history.
+  3. **Script Maintenance & Dynamic Delta Ingestion:** Automation scripts (`commands/generate_morning_cub.sh`) must dynamically query the past 24 hours of git activity (`git log --since="24 hours ago"`) and closed beads (`gc bd list --closed-after`) rather than carrying static milestone boilerplate.
 - **Corrective Actions Taken:**
-  - `commands/generate_morning_cub.sh` updated to eliminate the stale HQ Relocation section and align Section 1 directly to Active Operations & Main Effort (Local Model Capabilities `cc-32m` & Upstream Gas City Contributions).
-  - Purged stale Section 1 from `docs/CUB_2026-10-12_0600.md`.
+  - `commands/generate_morning_cub.sh` restructured into explicit 24-Hour Completed Deliverables, Active Operations / Main Effort, and 24–72h Horizon sections with dynamic 24h git and bead ingestion.
+  - Purged stale Section 1 from `docs/CUB_2026-10-12_0600.md` and realigned it to highlight genuine deliverables completed in the last 24 hours (Gas City Upstream PRs, Mistral 64K FP8 cutover, Local Models SOP).
   - Added Entry 010 to `docs/AAR_LOG.md`.
