@@ -154,3 +154,24 @@
   - Reverted `city.toml` commit `13eee97`.
   - Cleaned `~/.bashrc` and `~/.config/opencode/opencode.jsonc`.
   - Doctrine codified in `AGENTS.md` and scoped to `rigs/gascity/CLAUDE.md`.
+
+---
+
+### Entry 010: Executive Briefing Hygiene & Elimination of Stale Operational Milestones
+
+- **Date:** October 12, 2026
+- **Originator:** Commander (`human`) / Chief of Staff (`colt-cos`)
+- **Context:** Automated morning generation of Commander's Update Briefs (CUB) at 05:15 PDT via `commands/generate_morning_cub.sh`.
+- **Observation:** The CUB generation script repeatedly hardcoded "Section 1: Main Effort: Command Post Relocation to VM 9100 (`cc-56d`) — COMPLETE" weeks after physical cutover, state convergence, and operational stabilization were finished. Despite relocation being fully concluded, daily executive briefings continued to elevate settled historical milestones to Section 1 Main Effort.
+- **Analysis:**
+  1. _Briefing Drift & Dilution of Command Attention:_ Executive command briefs (MCTP 3-30A) must focus ruthlessly on active operations, immediate friction, pending decisions, and near-term horizons (24–72h). Elevating completed, historical migrations to the primary agenda item wastes executive bandwidth and obscures genuine active priorities (such as sovereign local inference engineering, model evaluation, and upstream PR delivery).
+  2. _Stale Hardcoding in Automation Scripts:_ Autonomous report scripts must not treat ephemeral operational milestones as permanent document scaffolding. Hardcoding past achievements into generation scripts turns daily briefings into stale victory laps rather than live tactical instruments.
+  3. _Failure to Archive Resolved Epics:_ When an operational epic achieves its objective and stabilizes in steady-state operations, it must transition immediately to archival status. Lingering "COMPLETE" milestones clutter operational tracking.
+- **Doctrinal Decisions & Remedies Codified:**
+  1. **Immediate Purge of Settled Operations:** Completed operational migrations, relocations, and baseline setups are removed immediately from the "Main Effort" sections of all executive briefs upon stabilization. Settled history belongs in repository runbooks and archives, not the CUB.
+  2. **Rule of Executive Brevity (MCTP 3-30A):** Every section of the Commander's Update Brief must represent active operational efforts, unresolved friction/blockers, or decisions requiring Command guidance. Zero space for settled history.
+  3. **Script Maintenance Gate:** Automation scripts (`commands/generate_morning_cub.sh`) are dynamically aligned to current active operational directives and must never retain static, outdated milestone text.
+- **Corrective Actions Taken:**
+  - `commands/generate_morning_cub.sh` updated to eliminate the stale HQ Relocation section and align Section 1 directly to Active Operations & Main Effort (Local Model Capabilities `cc-32m` & Upstream Gas City Contributions).
+  - Purged stale Section 1 from `docs/CUB_2026-10-12_0600.md`.
+  - Added Entry 010 to `docs/AAR_LOG.md`.

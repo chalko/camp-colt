@@ -31,54 +31,48 @@ cat << EOF > "${CUB_FILE}"
 
 ---
 
-## 1. Main Effort / Operational Status: Command Post Relocation to VM 9100 (\`cc-56d\`) — COMPLETE
-
-* **Strategic Objective:** Eliminate laptop dependencies; establish 24/7 continuous command post operations on dedicated hypervisor VM (\`colt-hq\` @ \`10.82.0.20\`, VM 9100 on \`colt-cp-01\`).
-* **Operational Milestones Achieved:**
-  * **Relocation & State Cutover Complete (\`cc-56d.3\`):** Verified active execution on \`colt-hq\` (8 AMD Zen 4 vCPUs, 10 GB dedicated RAM with \`balloon = 0\`, host CPU passthrough). Supervisor (PID 604), Dolt store (:38052), and session hygiene validated. Chief of Staff concurrence granted and bead closed.
-  * **Platform Convergence Shipped:**
-    * \`cc-56d.6\` (P2): DNS records configured for \`colt-hq.colt.chalko.com\` and \`hq.colt.chalko.com\`.
-    * \`cc-56d.7\` (P2): Trusted TLS certificate issued and active for \`pve.colt.chalko.com\`.
-    * \`cc-dcd\` (P2): Google OAuth SSO for Grafana staged with ExternalSecrets via HashiCorp Vault.
-  * **Automated Runbook Archived:** \`rigs/suitcase-ai/plans/hq_migration_runbook.md\` updated to COMPLETED & ARCHIVED; reconciled via Git and Flux.
-* **Remaining Relocation Item:**
-  * \`cc-56d.8\` (P2): Provision administrator account for Nick on Proxmox VE (\`pve.colt.chalko.com\`).
-
----
-
-## 2. Active Operations & Main Effort: Local Model Capabilities (\`cc-32m\`) — P0
+## 1. Main Effort: Local Model Capabilities & Sovereign Inference (\`cc-32m\`) — P0
 
 * **Strategic Objective:** Preserve computational sovereignty and offline resilience via on-premise neural inference on Grace Blackwell GB10 (\`colt-gpu-01\` @ \`10.82.0.3:8000\`).
-* **Progress:**
+* **Operational Milestones Achieved:**
   * **Phase 4 SOP Complete (\`cc-32m.4\`):** S-3 authored and published comprehensive Standard Operating Procedure in \`docs/LOCAL_MODELS.md\` (commit \`ac6dbac\`). Covers \`city.toml\` provider overrides, LiteLLM gateway topology (\`10.82.50.10:80\`), memory-backed \`/dev/shm\` zero-plaintext credential hygiene, \`gc doctor\` integration, and failover runbooks. Bead closed.
   * **Gateway Performance Validated:** Direct-to-proxy overhead empirically benchmarked at nominal +9.5 ms with Radix cache nonces; cold/warm testing doctrine codified.
+  * **Mistral 64K FP8 Upgrade Complete (\`cc-4acg\`):** Deployed and validated high-context local serving on GB10.
 * **Next Steps:**
-  * De-quarantine / pilot tactical worker on \`rigs/colt-utils\` (\`cc-32m.3\`) under local inference provider once local endpoint warming is complete.
-  * Publish Sparkleader evaluation dossier into \`battlebook/models/\`.
+  * De-quarantine / pilot tactical worker on \`rigs/colt-utils\` (\`cc-32m.3\`) under local inference provider.
+  * Archive model evaluation and benchmark dossiers in \`battlebook/models/\`.
 
 ---
 
-## 3. Municipal Hygiene & Code Validation Backlog
+## 2. Active Operations: Upstream Gas City Contributions (gh-5732 & gcs-97u)
+
+* **Strategic Objective:** Upstream Camp Colt inference efficiency and operational tooling enhancements to Gas City core (\`gastownhall/gascity\`).
+* **Operational Milestones Achieved:**
+  * **PR 1: Prefix KV Cache Suffix Relocation (Issue #5732):** Inverted temporal/beacon headers to prompt suffix (\`cmd/gc/cmd_prime.go\`, \`cmd/gc/cmd_nudge.go\`), boosting RadixAttention prefix cache hit rates to 78.75% on local LLMs. Tests verified; branch \`feat/prompt-suffix-kv-cache-reuse\` pushed to origin.
+  * **PR 2: Mail Send Priority Flag (gcs-97u):** Implemented \`mail.PrioritySender\` capability and \`-p/--priority\` flag in \`gc mail send\` adhering to Dolt schema (*int pointer). 23/23 tests verified; branch \`feat/mail-send-priority-flag\` pushed to origin.
+  * **Turnkey PR Dossiers Published:** Complete Conventional submission dossiers and receipts ready in \`rigs/a-staff/plans/DOSSIER_GASCITY_UPSTREAM_PRS_GH5732_GCS97U.md\`.
+
+---
+
+## 3. Municipal Diagnostics & Working Tree Hygiene
 
 1. **Municipal Diagnostics (\`gc doctor\`):**
    * 129 passed, 0 failures, 4 accounted-for warnings (upstream formula contract deprecation, local-only JSONL archive on new VM, advisory fork rate).
 2. **Git Working Tree Hygiene:**
    * Working trees clean across colony root and all mounted rigs (\`suitcase-ai\`, \`go_template_rule\`, \`colt-utils\`, \`colt-results\`, \`a-staff\`).
-   * Mayor reconciled untracked/modified beads metadata in \`rigs/go_template_rule\` (commit \`12fe473\`, \`cc-kw0\`).
-3. **S-6 Signal Code Validation Backlog Shipped:**
-   * S-6 executed full Stan/Eval quality control, test coverage verification, and zero-secret hygiene audits across all 6 target backlog beads, closing \`cc-988\`, \`cc-pvc\`, \`cc-dci\`, \`cc-3u7\`, \`cc-5rs\`, and \`cc-bxx\`.
+   * Regular municipal audits enforced via \`scripts/audit_git_cleanliness.sh\`.
 
 ---
 
 ## 4. Garrison Staffing & Horizon (Next 24–72 Hours)
 
-1. **Establish On-Demand Staff Sections:**
+1. **Upstream PR Submission:**
+   * Commander review and submission of turnkey PRs to \`gastownhall/gascity\` using prepared dossiers.
+2. **Establish On-Demand Staff Sections:**
    * Activate and template S-1 Personnel and S-4 Logistics per London Fog specification (\`rigs/a-staff/\`).
    * S-4 Logistics to assume repository supply depot management (\`docs/SOP_S4_REPOSITORY_PROVISIONING.md\`).
-2. **Complete Remaining Epic cc-56d Tasks:**
-   * Execute \`cc-56d.8\` (Proxmox admin account provisioning for Nick) and formally close Epic \`cc-56d\`.
-3. **Conduct Staff After-Action Review (\`cc-3eq\` / \`cc-0s6\`):**
-   * Finalize AAR incorporating Proxmox memory ballooning (\`balloon = 0\`), CPU instruction set requirements (\`pclmulqdq\`), and graceful workspace cutover sequences.
+3. **Local Worker Pilot:**
+   * Sling tactical test worker on \`rigs/colt-utils\` backed by local Grace Blackwell GB10 inference.
 
 ---
 
