@@ -20,6 +20,37 @@ BEAD_SUMMARY="$(gc bd list 2>/dev/null || echo "Unable to query beads")"
 RECENT_COMMITS="$(git log --since="24 hours ago" --oneline 2>/dev/null || git log -n 5 --oneline 2>/dev/null || echo "No recent commits")"
 UNREAD_MAIL="$(gc mail inbox 2>/dev/null || echo "No unread mail")"
 
+# Dynamic 24-hour completed deliverables
+HIGHLIGHTS_FILE="docs/cub_highlights.md"
+if [[ -f "${HIGHLIGHTS_FILE}" && -s "${HIGHLIGHTS_FILE}" ]]; then
+  DELIVERABLES_CONTENT="$(cat "${HIGHLIGHTS_FILE}")"
+  mkdir -p docs/archive
+  mv "${HIGHLIGHTS_FILE}" "docs/archive/cub_highlights_${DATE_STR}.md" 2>/dev/null || rm -f "${HIGHLIGHTS_FILE}"
+else
+  YESTERDAY="$(date -d '24 hours ago' +'%Y-%m-%d')"
+  CLOSED_BEADS="$(gc bd list --closed-after "${YESTERDAY}" --tree=false -n 20 2>/dev/null || true)"
+  COMMITS_24H="$(git log --since="24 hours ago" --oneline 2>/dev/null || true)"
+
+  DELIVERABLES_CONTENT=""
+  if [[ -n "${CLOSED_BEADS}" && "${CLOSED_BEADS}" != *"No issues found"* ]]; then
+    DELIVERABLES_CONTENT+="* **Task Beads Completed in Last 24 Hours:**"$'\n'
+    while IFS= read -r line; do
+      [[ -n "${line}" ]] && DELIVERABLES_CONTENT+="  - ${line}"$'\n'
+    done <<< "${CLOSED_BEADS}"
+  fi
+
+  if [[ -n "${COMMITS_24H}" ]]; then
+    DELIVERABLES_CONTENT+="* **Key Repository Commits (Last 24 Hours):**"$'\n'
+    while IFS= read -r line; do
+      [[ -n "${line}" ]] && DELIVERABLES_CONTENT+="  - \`${line}\`"$'\n'
+    done <<< "${COMMITS_24H}"
+  fi
+
+  if [[ -z "${DELIVERABLES_CONTENT}" ]]; then
+    DELIVERABLES_CONTENT="* No major milestone beads closed in the past 24 hours. Steady-state operational posture maintained."
+  fi
+fi
+
 cat << EOF > "${CUB_FILE}"
 # Commander's Update Brief (CUB) — Camp Colt
 
@@ -33,16 +64,7 @@ cat << EOF > "${CUB_FILE}"
 
 ## 1. Major Deliverables Completed (Past 24 Hours / Since Last Brief)
 
-* **Gas City Upstream Contribution PRs Prepared & Decoupled (#5732 & gcs-97u):**
-  * Decoupled features onto isolated feature branches rooted directly on \`upstream/main\` (\`09db13c5a\`), authored under Commander's authentic git identity (\`Nick Chalko <nick@chalko.com>\`).
-  * **PR 1 (\`feat/prompt-suffix-kv-cache-reuse\`):** Inverted temporal/beacon headers to prompt suffix (\`cmd/gc/cmd_prime.go\`, \`cmd/gc/cmd_nudge.go\`), boosting RadixAttention prefix cache hit rates to 78.75% on local LLMs. Tests verified; branch pushed to origin.
-  * **PR 2 (\`feat/mail-send-priority-flag\`):** Implemented \`mail.PrioritySender\` capability and \`-p/--priority\` flag in \`gc mail send\` adhering to Dolt schema (*int pointer). 23/23 tests verified; branch pushed to origin.
-  * Complete turnkey submission dossiers published at \`rigs/a-staff/plans/DOSSIER_GASCITY_UPSTREAM_PRS_GH5732_GCS97U.md\`.
-* **Hardware Documentation Realignment (\`sa-7gs\` & \`sa-a8a\`):**
-  * \`rigs/suitcase-ai/docs/HARDWARE.md\` aligned to 100% current production reality (mini-rack elevation, thermals, Package B relegated to exploratory note).
-  * Codified Proxmox VE hypervisor CPU/memory allocation split (\`colt-hq\` vs platform services).
-* **Devstral Small 2 24B Coding Evaluation Published:**
-  * Comprehensive benchmark telemetry and evaluation analysis archived in \`colt-results\`.
+${DELIVERABLES_CONTENT}
 
 ---
 
