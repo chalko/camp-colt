@@ -1,4 +1,4 @@
-# Standard Operating Procedure: Command Post Watch Posture & Staff Battle Rhythm
+# Standard Operating Procedure: Command Post Watch Posture & Staff Cadence
 
 **Document ID:** `SOP-0.2-WATCH-POSTURE`
 **Effective Date:** September 22, 2026
@@ -101,7 +101,7 @@ Formula execution ensures deterministic worker behavior, structured sub-phases, 
 To avoid friction between platform administration and municipal operations:
 
 1. **Git Repositories are Logistics Assets (S-4):**
-   - Repositories are virtual supply depots (Class IX/VII digital material).
+   - Repositories are managed in Gitea under S-4 custody.
    - `s4-logistics` holds scoped Gitea API credentials (`repo:*`, `org:read`) to provision new repositories, manage quotas, configure upstream mirrors, and set branch protections.
 2. **Platform Infrastructure is SRE Cognizance (`colt-sysadmin`):**
    - Platform SRE maintains the physical/hypervisor nodes, Kubernetes pods, Gitea database storage classes, and system daemon health.
@@ -140,9 +140,9 @@ To maintain operational tempo while respecting agent context boundaries, all sta
 
 ---
 
-## 6. Garrison Battle Rhythm & Operational Reviews
+## 6. Garrison Staff Cadence & Operational Reviews
 
-To ensure predictive synchronization, eliminate manual worker polling, and maintain command tempo, Camp Colt operates on a strict doctrinal battle rhythm:
+To ensure predictive synchronization, eliminate manual worker polling, and maintain command tempo, Camp Colt operates on a strict doctrinal staff cadence:
 
 ### A. Daily Morning Standup / Commander's Update Brief (CUB) — 0600 PDT
 
@@ -158,4 +158,4 @@ To ensure predictive synchronization, eliminate manual worker polling, and maint
   1. **Bead Bottleneck & Dwell-Time Audit:** Systemic review of all closed, stalled, deferred, or remediated beads across rigs (`cc-*`, `cr-*`, `sa-*`, `cu-*`, `as-*`, `gtr-*`) to diagnose worker hold-ups.
   2. **Platform & Tooling Hardening:** Identify and resolve environmental friction (SSHFS behaviors, Gitea credentials, networking, schema parse slips).
   3. **Gas City Watchdog Calibration:** Tune native watchdog timeouts, auto-reclaim rules, and patrol configurations so stuck sessions are automatically recovered without human or supervisor polling.
-  4. **Battlebook Codification:** Direct incorporation of hard-learned lessons and runbooks into `rigs/a-staff/battlebook/` and SOPs.
+  4. **Playbook Codification:** Direct incorporation of hard-learned lessons and runbooks into `rigs/a-staff/playbooks/` and SOPs.

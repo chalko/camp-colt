@@ -16,7 +16,7 @@
 - **Observation:** S-3 tasked Mayor to create `colt/a-staff.git` on Gitea as well as clone and mount it in `city.toml`. Mayor lacked Gitea administrative credentials and correctly noted that municipal platform operations do not hold infrastructure admin rights.
 - **Analysis:** Unclear division of labor caused task ping-pong between Mayor, S-3, and Platform Chief (`colt-sysadmin`). Repositories were treated ambiguously as platform admin or municipal items.
 - **Doctrinal Decision & Remedy:**
-  - Repositories are designated as **S-4 Logistics supply depots** (Class IX/VII digital material).
+  - Repositories are designated as **S-4 Logistics supply depots** and managed in Gitea under S-4 custody.
   - S-4 will manage Gitea repository creation, quotas, and inventory issuance using scoped tokens.
   - Platform SRE (`colt-sysadmin`) maintains the underlying Gitea K8s container/DB facility only.
   - Mayor receives repository coordinates from S-4 and mounts them into town workspaces.
@@ -111,7 +111,7 @@
      - **Tier 3 (Turnkey Municipal Audit Tooling):** Deploy [`scripts/audit_git_cleanliness.sh`](file:///home/camp-colt-mayor-agent/colony/scripts/audit_git_cleanliness.sh) to audit the colony root and all mounted rigs (`a-staff`, `colt-results`, `colt-utils`, `go_template_rule`, `suitcase-ai`), returning exit 0 on clean state or exit 1 on uncommitted/orphaned files.
      - **Tier 4 (Watch Cadence & Shift Handoff Discipline):** Certify garrison git cleanliness in shift handoffs, 06:00 CUB documents, and weekly Friday retrospectives.
   2. **Hard Stop Condition:** No task bead may be transitioned to `CLOSED` (`status=closed`) if `git status --porcelain` returns any output.
-- **References:** [`rigs/a-staff/battlebook/SOP_GIT_WORKTREE_CLEANLINESS.md`](file:///home/camp-colt-mayor-agent/colony/rigs/a-staff/battlebook/SOP_GIT_WORKTREE_CLEANLINESS.md), [`scripts/audit_git_cleanliness.sh`](file:///home/camp-colt-mayor-agent/colony/scripts/audit_git_cleanliness.sh), and [`rigs/a-staff/plans/AAR_FIRST_COMPLETED_STAFF_ACTION_CC32M.md`](file:///home/camp-colt-mayor-agent/colony/rigs/a-staff/plans/AAR_FIRST_COMPLETED_STAFF_ACTION_CC32M.md).
+- **References:** [`rigs/a-staff/playbooks/SOP_GIT_WORKTREE_CLEANLINESS.md`](file:///home/camp-colt-mayor-agent/colony/rigs/a-staff/playbooks/SOP_GIT_WORKTREE_CLEANLINESS.md), [`scripts/audit_git_cleanliness.sh`](file:///home/camp-colt-mayor-agent/colony/scripts/audit_git_cleanliness.sh), and [`rigs/a-staff/plans/AAR_FIRST_COMPLETED_STAFF_ACTION_CC32M.md`](file:///home/camp-colt-mayor-agent/colony/rigs/a-staff/plans/AAR_FIRST_COMPLETED_STAFF_ACTION_CC32M.md).
 
 ---
 
