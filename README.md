@@ -25,6 +25,7 @@ camp-colt/
 ├── commands/                  # Helper scripts and commands
 ├── docs/                      # Technical notes and architecture runbooks
 ├── orders/                    # Scheduled recurring jobs
+├── plans/                     # Operational plans and completed runbooks
 └── scripts/                   # System maintenance scripts
 ```
 
@@ -36,5 +37,5 @@ camp-colt/
 
 ## License
 
-Copyright © 2026 Nick Chalko / Suitcase AI.
+Copyright © 2026 Nick Chalko.
 Licensed under the [Apache License, Version 2.0](LICENSE).
