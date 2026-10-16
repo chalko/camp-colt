@@ -37,10 +37,10 @@ All operations, orders, task beads, and missions across Camp Colt are strictly g
 - **Test Scoping & Execution Discipline:** Tactical workers must adhere to target repository testing doctrine (e.g. fast unit baselines like `make test` or targeted package tests) rather than launching unconstrained monolithic test sweeps (such as `go test ./...`).
 - **Tool Timeout Parameterization:** When executing legitimately long-running builds, integration test suites, or heavy verification gates expected to exceed default tool timeouts (120s), workers must explicitly pass the tool's `timeout` parameter (e.g. `timeout: 300000` / 5 minutes in tool call arguments) rather than relying on ambient shell defaults or attempting global environment mutations.
 
-## Doctrinal Asset Ownership
+## Asset Ownership & Responsibilities
 
-- **Administrative Doctrine & Staff Process (S-1):** S-1 (Personnel & Administration) is the doctrinal custodian and owner of `rigs/a-staff`. S-1 owns the publication, formatting, records management, and style compliance of staff processes, directives, the battlebook, and references.
-- **Repositories as Logistics (S-4):** Git repositories are supply depots (Class IX/VII digital material). S-4 Logistics manages repo creation, storage quotas, and inventory in Gitea.
+- **Administrative Process & Documentation (S-1):** S-1 (Personnel & Administration) is the custodian of `rigs/a-staff`. S-1 maintains the documentation, formatting, records management, and style compliance of staff processes, directives, playbooks, and references.
+- **Repository Logistics (S-4):** S-4 Logistics manages repository creation, storage quotas, and access configuration in Gitea.
 - **Platform Infrastructure (`colt-sysadmin`):** Platform SRE maintains the underlying Gitea K8s pod, database, and storage class.
 - **Municipal Plumbing & Rig Lifecycle (`mayor`):** Mayor holds sole authority over Gas City-wide operations, city configuration (`city.toml`), workspace plumbing, and rig-level lifecycle changes (`gc rig suspend`, `gc rig resume`, `gc rig restart`, `gc reload`). Other staff billets (including CoS and S-3) must **NEVER directly invoke city or rig lifecycle commands (`gc stop`, `gc start`, `gc rig ...`)**; they must task the Mayor via `gc mail`.
 
